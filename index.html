@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Stack Engineer | Production Systems & Compliance-Driven Platforms</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #151b3d;
+            --accent: #00ff88;
+            --accent-dim: #00cc6a;
+            --text-primary: #e8edf4;
+            --text-secondary: #98a5ba;
+            --border: #1f2847;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 102, 255, 0.05) 0%, transparent 50%);
+            animation: gradientShift 20s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, -20px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            padding: 3rem 0 2rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 4rem;
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+        }
+
+        .title-section {
+            flex: 1;
+        }
+
+        h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent) 0%, #00ccff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            font-family: 'Space Mono', monospace;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .contact-links a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Section styling */
+        section {
+            margin-bottom: 5rem;
+            animation: fadeInUp 0.8s ease;
+            animation-fill-mode: both;
+        }
+
+        section:nth-child(2) { animation-delay: 0.1s; }
+        section:nth-child(3) { animation-delay: 0.2s; }
+        section:nth-child(4) { animation-delay: 0.3s; }
+        section:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60%;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        /* About section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .bio {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .bio p {
+            margin-bottom: 1.2rem;
+        }
+
+        .highlights {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .highlights h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .highlights ul {
+            list-style: none;
+        }
+
+        .highlights li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .highlights li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Project cards */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.1);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .project-card h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-date {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: rgba(0, 255, 136, 0.05);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--accent);
+            border-radius: 4px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .project-highlights {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .project-highlights li {
+            padding: 0.4rem 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .project-highlights li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* Skills section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: var(--accent);
+        }
+
+        .skill-category h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-item {
+            font-size: 0.9rem;
+            padding: 0.4rem 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            color: var(--text-secondary);
+        }
+
+        /* Certifications */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .cert-item {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .cert-item:hover {
+            transform: translateX(4px);
+            box-shadow: -4px 0 0 var(--accent);
+        }
+
+        .cert-item h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .cert-issuer {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .cert-date {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 6rem;
+        }
+
+        footer p {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cert-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="title-section">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--accent); margin-bottom: 0.5rem; letter-spacing: 2px;">AHMED ALI QADIR</div>
+                    <h1>Full-Stack Engineer</h1>
+                    <p class="tagline">Building production-grade systems for compliance-driven environments</p>
+                    <div class="status">
+                        <span class="status-dot"></span>
+                        <span>Open to opportunities</span>
+                    </div>
+                </div>
+                <div class="contact-links">
+                    <a href="https://www.linkedin.com/in/ahmedaliqadir" target="_blank">LinkedIn</a>
+                    <a href="https://github.com/AhmedAliQadir" target="_blank">GitHub</a>
+                    <a href="/cdn-cgi/l/email-protection#f99891949c9d98959088989d908bc0ccb99e94989095d79a9694">Email</a>
+                </div>
+            </div>
+        </header>
+
+        <section id="about">
+            <h2>About</h2>
+            <div class="about-content">
+                <div class="bio">
+                    <p>I'm a Full-Stack Engineer with a strong background in building and supporting production-grade digital platforms for regulated and compliance-driven environments, including social housing and operational service organizations.</p>
+                    
+                    <p>My work focuses on designing and developing secure, scalable web applications that streamline complex workflows, improve data integrity, and support decision-making in real-world operational settings.</p>
+                    
+                    <p>I currently contribute to the development of an internal social housing management platform, working across the full stack using React, Node.js, PostgreSQL, Prisma, and AWS. My responsibilities include translating operational requirements into technical solutions, improving documentation and data workflows, and supporting system reliability in day-to-day use.</p>
+                </div>
+                <div class="highlights">
+                    <h3>Core Expertise</h3>
+                    <ul>
+                        <li>Full-stack development</li>
+                        <li>Multi-tenant architectures</li>
+                        <li>Compliance & data security</li>
+                        <li>Cloud infrastructure (AWS)</li>
+                        <li>API design & integration</li>
+                        <li>DevOps workflows</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <h3>AccommodateME</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.3rem;">Enterprise Social Housing Platform</p>
+                        </div>
+                        <span class="project-date">2024 - Present</span>
+                    </div>
+                    <p class="project-description">
+                        A full-stack housing operations platform built using React, Express, Prisma, PostgreSQL and AWS S3. The system includes secure tenant onboarding, role-based access control (RBAC), document verification, room allocation and compliance workflows.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">Prisma</span>
+                        <span class="tech-tag">AWS S3</span>
+                        <span class="tech-tag">JWT Auth</span>
+                        <span class="tech-tag">RBAC</span>
+                    </div>
+                    <ul class="project-highlights">
+                        <li>JWT Authentication with multi-level RBAC (Platform Admin, Org Admin, Staff)</li>
+                        <li>Multi-tenant architecture with strict database-level tenant isolation</li>
+                        <li>Secure AWS S3 file uploads with pre-signed URLs for documents</li>
+                        <li>Comprehensive audit logging for compliance</li>
+                        <li>Real-time dashboard and analytics</li>
+                    </ul>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <h3>Tourista</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.3rem;">MERN Stack Tour Booking System</p>
+                        </div>
+                        <span class="project-date">2024</span>
+                    </div>
+                    <p class="project-description">
+                        Developed a full-stack tour booking application enabling browsing, account creation, and booking management.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Express</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                    </div>
+                    <ul class="project-highlights">
+                        <li>User authentication/authorization using JWT and Express middleware</li>
+                        <li>Modular REST APIs for tours, reviews, bookings, and user profiles</li>
+                        <li>Responsive React interface with optimized state management</li>
+                        <li>CRUD operations with MongoDB + Mongoose for fast & reliable queries</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Programming Languages</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Python</span>
+                        <span class="skill-item">Java</span>
+                        <span class="skill-item">JavaScript</span>
+                        <span class="skill-item">Node.js</span>
+                        <span class="skill-item">SQL</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Frontend Development</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">React.js</span>
+                        <span class="skill-item">HTML/CSS</span>
+                        <span class="skill-item">Tailwind CSS</span>
+                        <span class="skill-item">Express.js</span>
+                        <span class="skill-item">Vite</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Backend & Databases</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">PostgreSQL</span>
+                        <span class="skill-item">MySQL</span>
+                        <span class="skill-item">MongoDB</span>
+                        <span class="skill-item">Prisma ORM</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Cloud & DevOps</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">AWS (EC2, S3, Lambda)</span>
+                        <span class="skill-item">Kubernetes</span>
+                        <span class="skill-item">Docker</span>
+                        <span class="skill-item">Jenkins</span>
+                        <span class="skill-item">Ansible</span>
+                        <span class="skill-item">CI/CD</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Tools & Systems</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Git/GitHub</span>
+                        <span class="skill-item">Atlassian Suite</span>
+                        <span class="skill-item">Windows/Linux</span>
+                        <span class="skill-item">Azure DevOps</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications">
+            <h2>Recent Certifications</h2>
+            <div class="cert-grid">
+                <div class="cert-item">
+                    <h3>Atlassian Certified - Forge Fundamentals</h3>
+                    <p class="cert-issuer">Atlassian</p>
+                    <p class="cert-date">January 2026</p>
+                </div>
+                <div class="cert-item">
+                    <h3>Introduction to Model Context Protocol</h3>
+                    <p class="cert-issuer">Anthropic</p>
+                    <p class="cert-date">December 2025</p>
+                </div>
+                <div class="cert-item">
+                    <h3>Introduction to DevOps</h3>
+                    <p class="cert-issuer">Microsoft</p>
+                    <p class="cert-date">November 2025</p>
+                </div>
+                <div class="cert-item">
+                    <h3>Plan Agile with GitHub Projects and Azure Boards</h3>
+                    <p class="cert-issuer">Microsoft</p>
+                    <p class="cert-date">November 2025</p>
+                </div>
+                <div class="cert-item">
+                    <h3>Google Generative AI</h3>
+                    <p class="cert-issuer">Google</p>
+                    <p class="cert-date">2025</p>
+                </div>
+                <div class="cert-item">
+                    <h3>AWS Cloud Fundamentals</h3>
+                    <p class="cert-issuer">Amazon Web Services</p>
+                    <p class="cert-date">April 2024</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Built with passion for clean code and great user experiences</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">© 2026 - Available for opportunities</p>
+        </footer>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add intersection observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+ 
