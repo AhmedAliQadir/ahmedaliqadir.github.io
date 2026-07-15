@@ -174,9 +174,9 @@
       padding: 2rem; background: rgba(5,5,6,0.92); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
     }
     .lightbox.open { display: flex; }
-    .lb-img { max-width: min(1100px, 92vw); max-height: 82vh; border-radius: 0.5rem; border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+    .lb-img { max-width: min(1100px, calc(100vw - 7rem)); max-height: 82vh; border-radius: 0.5rem; border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
     .lightbox-cap { position: absolute; bottom: 1.25rem; left: 50%; transform: translateX(-50%); max-width: 90vw; text-align: center; color: var(--muted); font-size: 0.875rem; }
-    .lb-btn { position: absolute; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(20,20,22,0.8); border: 1px solid var(--border); color: var(--text); cursor: pointer; transition: all 0.2s; }
+    .lb-btn { position: absolute; z-index: 10; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(20,20,22,0.8); border: 1px solid var(--border); color: var(--text); cursor: pointer; transition: all 0.2s; }
     .lb-btn:hover { border-color: var(--accent); color: var(--accent); }
     .lb-btn svg { width: 20px; height: 20px; }
     .lb-close { top: 1.25rem; right: 1.25rem; }
@@ -254,7 +254,7 @@
         Available for opportunities
       </div>
       <div class="badge badge-accent">Anthropic MCP Certified</div>
-      <div class="badge badge-accent">SC Clearance (previously held)</div>
+      <div class="badge badge-accent">CTC Clearance (previously held)</div>
     </div>
     <div class="hero-buttons">
       <a href="#projects" class="btn btn-primary">View My Work</a>
@@ -298,7 +298,7 @@
           <div class="fact-icon">&#128274;</div>
           <div>
             <div class="fact-label">Clearance</div>
-            <div class="fact-value">SC Security Clearance (previously held)</div>
+            <div class="fact-value">CTC Clearance (previously held)</div>
           </div>
         </div>
       </div>
@@ -615,7 +615,7 @@
         <p class="cert-date">April 2024</p>
       </div>
       <div class="cert-item">
-        <h3>SC Security Clearance</h3>
+        <h3>CTC Clearance (Counter Terrorist Check)</h3>
         <p class="cert-issuer">UK Government</p>
         <p class="cert-date">Previously held</p>
       </div>
