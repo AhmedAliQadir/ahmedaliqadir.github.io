@@ -151,6 +151,38 @@
     .project-links a { font-size: 0.8125rem; font-weight: 500; color: var(--muted); }
     .project-links a:hover { color: var(--accent); }
 
+    /* Project screenshots + lightbox */
+    .project-thumb {
+      position: relative; display: block; width: 100%; padding: 0; margin-bottom: 1.25rem;
+      border: 1px solid var(--border); border-radius: 0.5rem; overflow: hidden;
+      background: var(--bg); aspect-ratio: 16 / 10; line-height: 0; cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .project-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.4s ease; }
+    .project-thumb:hover { border-color: var(--accent); }
+    .project-thumb:hover img { transform: scale(1.04); }
+    .thumb-overlay {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+      background: rgba(10,10,11,0.55); color: #fff; font-size: 0.8125rem; font-weight: 600; line-height: 1;
+      opacity: 0; transition: opacity 0.25s ease;
+    }
+    .thumb-overlay svg { width: 16px; height: 16px; }
+    .project-thumb:hover .thumb-overlay, .project-thumb:focus-visible .thumb-overlay { opacity: 1; }
+
+    .lightbox {
+      position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center;
+      padding: 2rem; background: rgba(5,5,6,0.92); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+    }
+    .lightbox.open { display: flex; }
+    .lb-img { max-width: min(1100px, 92vw); max-height: 82vh; border-radius: 0.5rem; border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+    .lightbox-cap { position: absolute; bottom: 1.25rem; left: 50%; transform: translateX(-50%); max-width: 90vw; text-align: center; color: var(--muted); font-size: 0.875rem; }
+    .lb-btn { position: absolute; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(20,20,22,0.8); border: 1px solid var(--border); color: var(--text); cursor: pointer; transition: all 0.2s; }
+    .lb-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .lb-btn svg { width: 20px; height: 20px; }
+    .lb-close { top: 1.25rem; right: 1.25rem; }
+    .lb-prev { left: 1.25rem; top: 50%; transform: translateY(-50%); }
+    .lb-next { right: 1.25rem; top: 50%; transform: translateY(-50%); }
+
     /* Certifications */
     .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1.25rem; }
     .cert-item { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0.5rem; padding: 1.25rem 1.5rem; transition: transform 0.2s; }
@@ -373,6 +405,10 @@
 
     <div class="featured-grid">
       <article class="project-card">
+        <button class="project-thumb" aria-label="View screens · 4" data-gallery='[{"src":"assets/screenshots/accompro-dashboard.webp","cap":"AccomPro &mdash; organisation dashboard with live occupancy, tenant and compliance stats"},{"src":"assets/screenshots/accompro-tenants.webp","cap":"AccomPro &mdash; tenant management with onboarding status workflow"},{"src":"assets/screenshots/accompro-compliance.webp","cap":"AccomPro &mdash; compliance and audits tracker (CQC inspections, scores, evidence)"},{"src":"assets/screenshots/accompro-login.webp","cap":"AccomPro &mdash; secure multi-tenant sign-in"}]'>
+          <img src="assets/screenshots/accompro-dashboard.webp" alt="AccomPro dashboard showing tenant, property, room and occupancy statistics" loading="lazy" width="1440" height="900">
+          <span class="thumb-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg> View screens · 4</span>
+        </button>
         <div class="project-header">
           <h3>AccomPro</h3>
           <span class="project-date">2024 &mdash; Present</span>
@@ -390,6 +426,30 @@
         </div>
         <div class="project-links">
           <a href="https://github.com/AhmedAliQadir/AccomPro" target="_blank" rel="noopener noreferrer">GitHub &rarr;</a>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <button class="project-thumb" aria-label="View screen" data-gallery='[{"src":"assets/screenshots/tourista-home.webp","cap":"Tourista by Orbixio &mdash; AI-powered travel planner landing page"}]'>
+          <img src="assets/screenshots/tourista-home.webp" alt="Tourista home page with hero heading The world awaits and a Plan My Trip with AI call to action" loading="lazy" width="1440" height="900">
+          <span class="thumb-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg> View screen</span>
+        </button>
+        <div class="project-header">
+          <h3>Tourista</h3>
+          <span class="project-date">2025</span>
+        </div>
+        <p class="project-subtitle">AI-Powered Travel Platform &mdash; Orbixio</p>
+        <p>A full-stack travel product where an AI planner turns a single sentence into a booked itinerary &mdash; searching real flights, stays, cars and curated tours via the Duffel API and Claude.</p>
+        <ul class="project-highlights">
+          <li>React 19 + Vite frontend with a dark, editorial UI</li>
+          <li>Node/Express + MongoDB API with JWT auth and Stripe payments</li>
+          <li>Streaming Claude planner with live tool-call pills</li>
+        </ul>
+        <div class="project-tags">
+          <span>React</span><span>TypeScript</span><span>Node.js</span><span>MongoDB</span><span>Stripe</span><span>Duffel API</span><span>Claude API</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/AhmedAliQadir/Tourista" target="_blank" rel="noopener noreferrer">GitHub &rarr;</a>
         </div>
       </article>
 
@@ -449,6 +509,10 @@
       </article>
 
       <article class="project-card">
+        <button class="project-thumb" aria-label="View screen" data-gallery='[{"src":"assets/screenshots/hmrc-analyser.webp","cap":"HMRC Tax Analyser &mdash; upload HMRC payment data (screenshots, PDFs, Excel or CSV) for automated analysis"}]'>
+          <img src="assets/screenshots/hmrc-analyser.webp" alt="HMRC Tax Analyser upload screen with a drop zone for payment data files" loading="lazy" width="1440" height="900">
+          <span class="thumb-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg> View screen</span>
+        </button>
         <div class="project-header">
           <h3>HMRC Tax Analyser</h3>
         </div>
@@ -477,6 +541,10 @@
       </article>
 
       <article class="project-card">
+        <button class="project-thumb" aria-label="View screen" data-gallery='[{"src":"assets/screenshots/support-portal.webp","cap":"Support Portal &mdash; secure work-email sign-in for supported-housing staff forms"}]'>
+          <img src="assets/screenshots/support-portal.webp" alt="Support Portal sign-in card reading Log in with your work email to access forms" loading="lazy" width="1440" height="900">
+          <span class="thumb-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg> View screen</span>
+        </button>
         <div class="project-header">
           <h3>Support Portal</h3>
         </div>
@@ -487,6 +555,21 @@
         </div>
         <div class="project-links">
           <a href="https://github.com/AhmedAliQadir/support-portal" target="_blank" rel="noopener noreferrer">GitHub &rarr;</a>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <button class="project-thumb" aria-label="View screen" data-gallery='[{"src":"assets/screenshots/omnidogs-home.webp","cap":"Omnidogs &mdash; landing page for a St Ives dog training and walking business"}]'>
+          <img src="assets/screenshots/omnidogs-home.webp" alt="Omnidogs dog training website home page headed St Ives most trusted dog training and walking service" loading="lazy" width="1440" height="900">
+          <span class="thumb-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg> View screen</span>
+        </button>
+        <div class="project-header">
+          <h3>Omnidogs</h3>
+        </div>
+        <p class="project-subtitle">Client Website</p>
+        <p>A marketing website for a dog training and walking business &mdash; services, testimonials and a booking call-to-action. Designed and delivered as a client project via Orbixio.</p>
+        <div class="project-tags">
+          <span>HTML</span><span>CSS</span><span>JavaScript</span>
         </div>
       </article>
     </div>
@@ -556,6 +639,47 @@
   <footer>
     <p>&copy; 2026 Ahmed Ali Qadir &mdash; Built with clean code and care.</p>
   </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Project screenshot viewer">
+    <button class="lb-btn lb-close" aria-label="Close viewer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg></button>
+    <button class="lb-btn lb-prev" aria-label="Previous screenshot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <img class="lb-img" src="" alt="">
+    <button class="lb-btn lb-next" aria-label="Next screenshot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+    <p class="lightbox-cap"></p>
+  </div>
+
+  <script>
+    (function () {
+      var lb = document.getElementById('lightbox');
+      var img = lb.querySelector('.lb-img'), cap = lb.querySelector('.lightbox-cap');
+      var prev = lb.querySelector('.lb-prev'), next = lb.querySelector('.lb-next'), closeBtn = lb.querySelector('.lb-close');
+      var gallery = [], idx = 0, lastFocus = null;
+      var decode = function (s) { var t = document.createElement('textarea'); t.innerHTML = s; return t.value; };
+      function render() {
+        var item = gallery[idx];
+        img.src = item.src; img.alt = decode(item.cap);
+        cap.textContent = decode(item.cap) + (gallery.length > 1 ? '  (' + (idx + 1) + ' / ' + gallery.length + ')' : '');
+        var multi = gallery.length > 1; prev.style.display = next.style.display = multi ? 'flex' : 'none';
+      }
+      function open(g, i) { gallery = g; idx = i || 0; lastFocus = document.activeElement; lb.classList.add('open'); document.body.style.overflow = 'hidden'; render(); closeBtn.focus(); }
+      function close() { lb.classList.remove('open'); document.body.style.overflow = ''; img.src = ''; if (lastFocus) lastFocus.focus(); }
+      function move(d) { idx = (idx + d + gallery.length) % gallery.length; render(); }
+      document.querySelectorAll('.project-thumb').forEach(function (btn) {
+        btn.addEventListener('click', function () { try { open(JSON.parse(btn.getAttribute('data-gallery')), 0); } catch (e) {} });
+      });
+      closeBtn.addEventListener('click', close);
+      prev.addEventListener('click', function () { move(-1); });
+      next.addEventListener('click', function () { move(1); });
+      lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+      document.addEventListener('keydown', function (e) {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        else if (e.key === 'ArrowLeft' && gallery.length > 1) move(-1);
+        else if (e.key === 'ArrowRight' && gallery.length > 1) move(1);
+      });
+    })();
+  </script>
 
 </body>
 </html>
