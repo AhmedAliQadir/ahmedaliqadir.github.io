@@ -269,26 +269,34 @@ code { font-family: var(--font-mono); font-size: 0.9em; }
   inset: 0;
   z-index: 2;
   background:
+    /* left: hard cover behind the type, then a long fade into the plate */
     linear-gradient(to right,
       var(--colour-bg) 0%,
-      var(--colour-bg) 22%,
-      rgba(11, 10, 18, 0.72) 38%,
-      rgba(11, 10, 18, 0) 62%),
+      var(--colour-bg) 26%,
+      rgba(11, 10, 18, 0.94) 34%,
+      rgba(11, 10, 18, 0.55) 46%,
+      rgba(11, 10, 18, 0) 68%),
+    /* top and bottom into the page */
     linear-gradient(to bottom,
       var(--colour-bg) 0%,
-      rgba(11, 10, 18, 0) 22%,
-      rgba(11, 10, 18, 0) 68%,
-      var(--colour-bg) 97%),
-    linear-gradient(to left,
-      var(--colour-bg) 0%,
-      rgba(11, 10, 18, 0) 14%);
+      rgba(11, 10, 18, 0.6) 10%,
+      rgba(11, 10, 18, 0) 30%,
+      rgba(11, 10, 18, 0) 62%,
+      rgba(11, 10, 18, 0.72) 88%,
+      var(--colour-bg) 100%),
+    /* a scrim so the plate sits in shadow with the rest of the page */
+    linear-gradient(rgba(11, 10, 18, 0.28), rgba(11, 10, 18, 0.28));
 }
 .scene-stage {
   position: absolute;
   top: 50%;
-  right: -6%;
-  width: min(54vw, 800px);
-  aspect-ratio: 4 / 3;
+  right: -8%;
+  /* Wide enough that a 16:9 plate is not cropped to a square. The left third
+     runs under the gradient and the type, which is why it can be this wide. */
+  width: min(92vw, 1460px);
+  /* taller than the hero so the plate's own top and bottom edges are never
+     in frame — only the gradient decides where it ends */
+  height: 116%;
   transform-style: preserve-3d;
   transform:
     translateY(-50%)
@@ -296,23 +304,54 @@ code { font-family: var(--font-mono); font-size: 0.9em; }
     rotateY(var(--scene-ry, 0deg));
   transition: transform 600ms var(--easing);
 }
-.scene-layer {
+/* The drone plate. Overscaled so turning the stage never exposes an edge. */
+.scene-plate {
   position: absolute;
   inset: 0;
-  transform-style: preserve-3d;
-  transform: translateZ(var(--z, 0px)) scale(var(--s, 1));
+  transform: scale(1.1);
+  overflow: hidden;
+  border-radius: 2px;
 }
-.scene-layer svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.scene-plate video,
+.scene-plate img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* bias the crop right, so the monitors — the light source — stay in frame
+     rather than being trimmed off with the rest of the desk */
+  object-position: 62% center;
+  display: block;
+}
+/* Poster carries the frame until the video can paint, and is the whole
+   picture under reduced motion. */
+.scene-poster { position: absolute; inset: 0; }
+.scene-plate video { position: relative; z-index: 1; }
 
-/* Depth ladder. --s is (1100 - z) / 1100, so every layer covers the same
-   area when the stage is square-on and only separates as it turns. */
-.layer-shell   { --z: -260px; --s: 1.236; }
-.layer-window  { --z: -230px; --s: 1.209; }
-.layer-shelf   { --z: -150px; --s: 1.136; }
-.layer-screens { --z:  -90px; --s: 1.082; }
-.layer-desk    { --z:  -20px; --s: 1.018; }
-.layer-chair   { --z:   70px; --s: 0.936; }
-.layer-fore    { --z:  150px; --s: 0.864; }
+.sound-toggle {
+  position: absolute;
+  right: var(--space-6);
+  bottom: var(--space-6);
+  z-index: 3;
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 36px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-control);
+  border: 1px solid var(--colour-border-interactive);
+  background: rgba(20, 18, 31, 0.72);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--colour-text-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color var(--duration-base) var(--easing),
+              color var(--duration-base) var(--easing);
+}
+.sound-toggle:hover { border-color: var(--colour-accent); color: var(--colour-text-primary); }
 
 /* The hero gradient stays as the ambient wash the room sits inside. */
 .hero-inner { position: relative; z-index: 1; }
