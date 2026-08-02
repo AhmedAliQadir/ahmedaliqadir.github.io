@@ -1,683 +1,642 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ahmed Ali Qadir — Full-Stack Engineer & AI Integration</title>
-  <meta name="description" content="Ahmed Ali Qadir — Full-Stack Software Developer specialising in AI & automation, MCP, RAG, SaaS. Founder of Orbixio Ltd. Based in Huntingdon, UK.">
-  <meta property="og:title" content="Ahmed Ali Qadir — Full-Stack Engineer & AI Integration">
-  <meta property="og:description" content="Full-Stack Software Developer specialising in AI & automation. Anthropic MCP certified. Co-Founder at Orbixio Ltd.">
+  <title>Ahmed Ali Qadir — Full-Stack Engineer &amp; AI Integration</title>
+  <meta name="description" content="Ahmed Ali Qadir — full-stack engineer building multi-tenant SaaS and agentic AI systems. Anthropic MCP certified, CTC cleared (2024). Founder of Orbixio Ltd. Huntingdon, UK.">
+
+  <meta property="og:title" content="Ahmed Ali Qadir — Full-Stack Engineer &amp; AI Integration">
+  <meta property="og:description" content="Full-stack engineer building multi-tenant SaaS and agentic AI systems. Anthropic MCP certified. Founder at Orbixio Ltd.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ahmedaliqadir.github.io">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Ahmed Ali Qadir — Full-Stack Engineer &amp; AI Integration">
+  <meta name="twitter:description" content="Full-stack engineer building multi-tenant SaaS and agentic AI systems. Anthropic MCP certified. Founder at Orbixio Ltd.">
+  <meta name="theme-color" content="#0B0A12">
 
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --bg: #0a0a0b;
-      --surface: #141416;
-      --border: #23232a;
-      --text: #e4e4e7;
-      --muted: #8b8b94;
-      --accent: #6d5aed;
-      --accent-hover: #8070f0;
-      --accent-glow: rgba(109, 90, 237, 0.1);
-      --green: #22c55e;
-      --font: "Segoe UI", system-ui, -apple-system, sans-serif;
-      --mono: "Cascadia Code", "Fira Code", ui-monospace, monospace;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
-    a:hover { color: var(--accent-hover); }
-
-    /* Nav */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.25rem 2rem;
-      background: rgba(10, 10, 11, 0.88);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .logo { font-weight: 700; font-size: 1.125rem; color: var(--text); letter-spacing: -0.02em; }
-    .logo span { color: var(--accent); }
-    nav ul { list-style: none; display: flex; gap: 2rem; }
-    nav ul a { color: var(--muted); font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
-    nav ul a:hover { color: var(--text); }
-
-    /* Sections */
-    section { max-width: 64rem; margin: 0 auto; padding: 6rem 2rem; }
-    .section-label {
-      font-family: var(--mono); font-size: 0.75rem; color: var(--accent);
-      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;
-    }
-    .section-title { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 2.5rem; }
-
-    /* Hero */
-    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-top: 5rem; }
-    .hero h1 { font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.5rem; }
-    .hero h1 span { background: linear-gradient(135deg, var(--accent), #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero p { font-size: 1.25rem; color: var(--muted); max-width: 42rem; margin-bottom: 1.5rem; }
-
-    .status-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
-    .badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.4rem 1rem;
-      border-radius: 0.375rem;
-      font-family: var(--mono); font-size: 0.8125rem;
-    }
-    .badge-accent { background: var(--accent-glow); border: 1px solid var(--accent); color: var(--accent); }
-    .badge-green { background: rgba(34,197,94,0.08); border: 1px solid var(--green); color: var(--green); }
-    .status-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-    .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-    /* Buttons */
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.75rem 1.75rem; border-radius: 0.5rem;
-      font-size: 0.9375rem; font-weight: 600; transition: all 0.2s; border: none; cursor: pointer;
-    }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent-hover); color: #fff; transform: translateY(-1px); }
-    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
-
-    /* About */
-    .about-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: start; }
-    .about-text { color: var(--muted); font-size: 1.0625rem; }
-    .about-text p + p { margin-top: 1rem; }
-    .quick-facts { display: flex; flex-direction: column; gap: 0.75rem; }
-    .fact { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.875rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 0.5rem; }
-    .fact-icon { font-size: 1rem; margin-top: 0.1rem; }
-    .fact-label { font-family: var(--mono); font-size: 0.6875rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
-    .fact-value { font-size: 0.875rem; color: var(--text); margin-top: 0.1rem; }
-
-    /* Experience */
-    .exp-list { display: flex; flex-direction: column; gap: 1.5rem; }
-    .exp-item {
-      background: var(--surface); border: 1px solid var(--border);
-      border-left: 3px solid var(--accent); border-radius: 0.5rem; padding: 1.5rem;
-      transition: transform 0.2s;
-    }
-    .exp-item:hover { transform: translateX(4px); }
-    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.375rem; }
-    .exp-role { font-size: 1rem; font-weight: 700; }
-    .exp-period { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); white-space: nowrap; }
-    .exp-company { font-size: 0.875rem; color: var(--muted); margin-bottom: 0.875rem; }
-    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.375rem; }
-    .exp-bullets li { font-size: 0.875rem; color: var(--muted); padding-left: 1.25rem; position: relative; }
-    .exp-bullets li::before { content: "\2192"; position: absolute; left: 0; color: var(--accent); }
-
-    /* Skills */
-    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 1.5rem; }
-    .skill-category { background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: border-color 0.2s; }
-    .skill-category:hover { border-color: var(--accent); }
-    .skill-category h3 { font-family: var(--mono); font-size: 0.875rem; color: var(--accent); margin-bottom: 1rem; }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .skill-tags span { font-size: 0.8125rem; padding: 0.375rem 0.75rem; background: rgba(255,255,255,0.04); border-radius: 0.375rem; color: var(--muted); }
-
-    /* Projects */
-    .featured-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1.5rem; }
-    .project-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem;
-      padding: 1.75rem; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s;
-    }
-    .project-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .featured-grid .project-card { border-top: 2px solid var(--accent); }
-    .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
-    .project-card h3 { font-size: 1.125rem; font-weight: 700; }
-    .project-date { font-family: var(--mono); font-size: 0.6875rem; color: var(--muted); white-space: nowrap; }
-    .project-subtitle { font-size: 0.8125rem; color: var(--accent); margin-bottom: 0.75rem; }
-    .project-card p { color: var(--muted); font-size: 0.875rem; flex: 1; margin-bottom: 1rem; }
-    .project-highlights { list-style: none; margin-bottom: 1.25rem; }
-    .project-highlights li { font-size: 0.8125rem; color: var(--muted); padding: 0.25rem 0 0.25rem 1.25rem; position: relative; }
-    .project-highlights li::before { content: "\2192"; position: absolute; left: 0; color: var(--accent); }
-    .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .project-tags span { font-family: var(--mono); font-size: 0.6875rem; color: var(--accent); background: var(--accent-glow); padding: 0.25rem 0.625rem; border-radius: 9999px; }
-    .project-links { display: flex; gap: 1rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
-    .project-links a { font-size: 0.8125rem; font-weight: 500; color: var(--muted); }
-    .project-links a:hover { color: var(--accent); }
-
-    /* Project screenshots + lightbox */
-    .project-thumb {
-      position: relative; display: block; width: 100%; padding: 0; margin-bottom: 1.25rem;
-      border: 1px solid var(--border); border-radius: 0.5rem; overflow: hidden;
-      background: var(--bg); aspect-ratio: 16 / 10; line-height: 0; cursor: pointer;
-      transition: border-color 0.2s;
-    }
-    .project-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.4s ease; }
-    .project-thumb:hover { border-color: var(--accent); }
-    .project-thumb:hover img { transform: scale(1.04); }
-    .thumb-overlay {
-      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 0.4rem;
-      background: rgba(10,10,11,0.55); color: #fff; font-size: 0.8125rem; font-weight: 600; line-height: 1;
-      opacity: 0; transition: opacity 0.25s ease;
-    }
-    .thumb-overlay svg { width: 16px; height: 16px; }
-    .project-thumb:hover .thumb-overlay, .project-thumb:focus-visible .thumb-overlay { opacity: 1; }
-
-    .lightbox {
-      position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center;
-      padding: 2rem; background: rgba(5,5,6,0.92); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
-    }
-    .lightbox.open { display: flex; }
-    .lb-img { max-width: min(1100px, calc(100vw - 7rem)); max-height: 82vh; border-radius: 0.5rem; border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
-    .lightbox-cap { position: absolute; bottom: 1.25rem; left: 50%; transform: translateX(-50%); max-width: 90vw; text-align: center; color: var(--muted); font-size: 0.875rem; }
-    .lb-btn { position: absolute; z-index: 10; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(20,20,22,0.8); border: 1px solid var(--border); color: var(--text); cursor: pointer; transition: all 0.2s; }
-    .lb-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .lb-btn svg { width: 20px; height: 20px; }
-    .lb-close { top: 1.25rem; right: 1.25rem; }
-    .lb-prev { left: 1.25rem; top: 50%; transform: translateY(-50%); }
-    .lb-next { right: 1.25rem; top: 50%; transform: translateY(-50%); }
-
-    /* Certifications */
-    .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1.25rem; }
-    .cert-item { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0.5rem; padding: 1.25rem 1.5rem; transition: transform 0.2s; }
-    .cert-item:hover { transform: translateX(4px); }
-    .cert-item h3 { font-size: 0.9375rem; font-weight: 600; margin-bottom: 0.25rem; }
-    .cert-issuer { color: var(--muted); font-size: 0.8125rem; }
-    .cert-date { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); margin-top: 0.375rem; }
-
-    /* Contact */
-    .contact-content { text-align: center; max-width: 32rem; margin: 0 auto; }
-    .contact-content p { color: var(--muted); font-size: 1.0625rem; margin-bottom: 2rem; }
-    .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-    .contact-links a {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      color: var(--muted); font-size: 0.9375rem; font-weight: 500;
-      padding: 0.625rem 1.25rem; border: 1px solid var(--border); border-radius: 0.5rem; transition: all 0.2s;
-    }
-    .contact-links a:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
-
-    footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.8125rem; border-top: 1px solid var(--border); }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav ul { gap: 1.25rem; }
-      section { padding: 4rem 1.25rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .featured-grid { grid-template-columns: 1fr; }
-      .projects-grid { grid-template-columns: 1fr; }
-      .skills-grid { grid-template-columns: 1fr 1fr; }
-      .cert-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 480px) {
-      nav { padding: 1rem 1.25rem; }
-      nav ul { gap: 1rem; }
-      nav ul a { font-size: 0.8125rem; }
-      .hero-buttons { flex-direction: column; }
-      .btn { justify-content: center; }
-      .skills-grid { grid-template-columns: 1fr; }
-    }
-    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    :focus:not(:focus-visible) { outline: none; }
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 
-  <nav>
-    <div class="logo">Ahmed<span>.</span></div>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#certifications">Certs</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Hero -->
-  <section class="hero" id="hero">
-    <h1>Ahmed Ali Qadir<br><span>Full-Stack Engineer &amp; AI Integration</span></h1>
-    <p>Full-stack software developer specialising in AI and automation &mdash; RAG pipelines, MCP servers, and production SaaS. Anthropic MCP certified. Co-Founder of Orbixio Ltd. Based in Huntingdon, UK.</p>
-    <div class="status-row">
-      <div class="badge badge-green">
-        <span class="status-dot"></span>
-        Available for opportunities
-      </div>
-      <div class="badge badge-accent">Anthropic MCP Certified</div>
-      <div class="badge badge-accent">CTC Clearance (previously held)</div>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="#main">Ahmed Ali Qadir<span class="dot">.</span></a>
+      <nav aria-label="Sections">
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#design">Design</a></li>
+          <li><a href="#toolkit">Toolkit</a></li>
+          <li><a href="#certifications">Certifications</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
     </div>
-    <div class="hero-buttons">
-      <a href="#projects" class="btn btn-primary">View My Work</a>
-      <a href="mailto:ahmedaliqadir95@gmail.com" class="btn btn-outline">Get in Touch</a>
-    </div>
-  </section>
+  </header>
 
-  <!-- About -->
-  <section id="about">
-    <p class="section-label">01 / About</p>
-    <h2 class="section-title">A bit about me</h2>
-    <div class="about-grid">
-      <div class="about-text">
-        <p>I'm a full-stack software developer with a strong specialism in AI and automation. I combine hands-on engineering across React, TypeScript, Node.js and Python with practical IT service management experience in a 24/7 telecom Network Operations Centre.</p>
-        <p>Anthropic-certified in the Model Context Protocol (MCP), with demonstrable delivery of production RAG systems, MCP servers and multi-tenant SaaS. I'm comfortable owning the full software lifecycle &mdash; architecture, build, deployment and stakeholder communication &mdash; while applying ITIL discipline to keep services reliable.</p>
-        <p>As Founder of <strong>Orbixio Ltd</strong>, I deliver full-stack and AI solutions to small and medium-sized businesses, building end-to-end automation workflows and integrating large language models with real-world data sources.</p>
-      </div>
-      <div class="quick-facts">
-        <div class="fact">
-          <div class="fact-icon">&#128205;</div>
-          <div>
-            <div class="fact-label">Location</div>
-            <div class="fact-value">Huntingdon, Cambridgeshire, UK</div>
-          </div>
-        </div>
-        <div class="fact">
-          <div class="fact-icon">&#127891;</div>
-          <div>
-            <div class="fact-label">Education</div>
-            <div class="fact-value">BSc (Hons) Computing &mdash; 2:1, Glasgow Caledonian University</div>
-          </div>
-        </div>
-        <div class="fact">
-          <div class="fact-icon">&#127970;</div>
-          <div>
-            <div class="fact-label">Company</div>
-            <div class="fact-value">Orbixio Ltd &mdash; Founder &amp; Lead Developer</div>
-          </div>
-        </div>
-        <div class="fact">
-          <div class="fact-icon">&#128274;</div>
-          <div>
-            <div class="fact-label">Clearance</div>
-            <div class="fact-value">CTC Clearance (previously held)</div>
+  <main id="main">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="aperture" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="hero-eyebrow">Full-Stack Engineer · Huntingdon, UK</p>
+          <h1>Ahmed Ali Qadir</h1>
+          <p class="hero-statement">
+            I build and ship production systems — <strong>multi-tenant SaaS</strong>,
+            <strong>agentic AI against real data</strong>, and the service-management
+            discipline to keep them running once they are live.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">See the work</a>
+            <a class="btn btn-secondary" href="#contact">Get in touch</a>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+      <p class="scroll-cue" aria-hidden="true">Scroll ↓</p>
+    </section>
 
-  <!-- Experience -->
-  <section id="experience">
-    <p class="section-label">02 / Experience</p>
-    <h2 class="section-title">Where I've worked</h2>
-    <div class="exp-list">
-
-      <div class="exp-item">
-        <div class="exp-header">
-          <span class="exp-role">Service Management Specialist</span>
-          <span class="exp-period">Apr 2026 &mdash; Sep 2026</span>
-        </div>
-        <div class="exp-company">Magdalene Ltd (M Group Services) &middot; Stevenage</div>
-        <ul class="exp-bullets">
-          <li>First-line support and incident management in a 24/7 telecom Network Operations Centre, resolving service-affecting events to ITIL standards.</li>
-          <li>Managed incidents, service requests and escalations across ServiceNow, Salesforce, Jira and PagerDuty, maintaining SLA adherence.</li>
-          <li>Designed a structured NOC daily logging system, improving shift-handover continuity and incident traceability.</li>
-          <li>Scoped an ITIL-aligned process improvement to eliminate duplicate manual re-entry between Salesforce and Excel.</li>
+    <!-- Credentials -->
+    <section class="credentials" aria-label="Credentials">
+      <div class="container">
+        <ul class="credentials-list">
+          <li>CTC cleared (2024)</li>
+          <li>Anthropic MCP Certified</li>
+          <li>Atlassian Forge Certified</li>
+          <li>BSc (Hons) Computing 2:1, Glasgow Caledonian University</li>
         </ul>
       </div>
+    </section>
 
-      <div class="exp-item">
-        <div class="exp-header">
-          <span class="exp-role">Founder &amp; Lead Developer</span>
-          <span class="exp-period">2025 &mdash; Present</span>
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="container">
+        <p class="section-label">01 / About</p>
+        <h2 class="section-title">Engineer first, operator second</h2>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>I'm a full-stack engineer with a specialism in AI integration. Most of my work sits where a
+              product has to be <strong>correct as well as clever</strong> — multi-tenant data isolation,
+              encrypted document handling, audit trails, and language models wired to real inventory rather
+              than to their own imagination.</p>
+            <p>I've also run first-line incident management in a 24/7 telecom Network Operations Centre, which
+              is where I learned that shipping is the easy half. That experience shows up in how I build:
+              logging you can actually read at 3am, failure paths that degrade rather than disappear, and a
+              written trail behind every change.</p>
+            <p>As Founder of <strong>Orbixio Ltd</strong> I deliver full-stack and AI work to small and
+              medium-sized businesses — end-to-end automation, Claude API integrations, and Model Context
+              Protocol tool layers that connect models to systems that already exist.</p>
+          </div>
+          <dl class="facts">
+            <div class="fact">
+              <dt>Location</dt>
+              <dd>Huntingdon, Cambridgeshire, UK</dd>
+            </div>
+            <div class="fact">
+              <dt>Education</dt>
+              <dd>BSc (Hons) Computing — 2:1, Glasgow Caledonian University</dd>
+            </div>
+            <div class="fact">
+              <dt>Company</dt>
+              <dd>Orbixio Ltd — Founder &amp; Lead Developer</dd>
+            </div>
+            <div class="fact">
+              <dt>Clearance</dt>
+              <dd>CTC cleared (2024)</dd>
+            </div>
+          </dl>
         </div>
-        <div class="exp-company">Orbixio Ltd &middot; UK</div>
-        <ul class="exp-bullets">
-          <li>Founded and run a UK AI automation agency delivering full-stack and AI solutions to SMBs.</li>
-          <li>Design and build client-facing applications with React, TypeScript, Node.js and PostgreSQL, integrating the Claude API for AI-driven features.</li>
-          <li>Engineer RAG pipelines and MCP servers to connect large language models with external data sources and tools.</li>
-          <li>Build end-to-end automation workflows (n8n) integrating multiple third-party APIs, owning the full delivery lifecycle.</li>
-        </ul>
       </div>
+    </section>
 
-      <div class="exp-item">
-        <div class="exp-header">
-          <span class="exp-role">IT &amp; Web Application Support</span>
-          <span class="exp-period">2024 &mdash; 2025</span>
+    <!-- Experience -->
+    <section class="section" id="experience">
+      <div class="container">
+        <p class="section-label">02 / Experience</p>
+        <h2 class="section-title">Where I've worked</h2>
+
+        <div class="exp-list">
+
+          <article class="exp-item">
+            <div class="exp-head">
+              <h3 class="exp-role">Service Management Specialist</h3>
+              <p class="exp-period">Apr 2026 — Sep 2026</p>
+            </div>
+            <p class="exp-company">Magdalene Ltd (M Group Services) · Stevenage</p>
+            <ul class="exp-bullets">
+              <li>First-line support and incident management in a 24/7 telecom Network Operations Centre,
+                resolving service-affecting events to ITIL standards.</li>
+              <li>Managed incidents, service requests and escalations across ServiceNow, Salesforce, Jira and
+                PagerDuty, maintaining SLA adherence.</li>
+              <li>Designed a structured NOC daily logging system, improving shift-handover continuity and
+                incident traceability.</li>
+              <li><strong>Found and fixed a duplicate-case defect during the Salesforce Field Service
+                migration</strong> that was blocking engineers from resolving tickets — raised it formally,
+                had it confirmed, and wrote the technical analysis that went to the Operations and
+                Performance Managers.</li>
+            </ul>
+            <p class="exp-callout">
+              <a href="case-studies/salesforce-duplicate-cases.html">Read the case study: the duplicate-case defect →</a>
+            </p>
+          </article>
+
+          <article class="exp-item">
+            <div class="exp-head">
+              <h3 class="exp-role">Founder &amp; Lead Developer</h3>
+              <p class="exp-period">2025 — Present</p>
+            </div>
+            <p class="exp-company">Orbixio Ltd · UK</p>
+            <ul class="exp-bullets">
+              <li>Founded and run a UK AI automation company delivering full-stack and AI solutions to
+                small and medium-sized businesses.</li>
+              <li>Design and build client-facing applications with React, TypeScript, Node.js and PostgreSQL,
+                integrating the Claude API for AI-driven features.</li>
+              <li>Engineer RAG pipelines and Model Context Protocol servers to connect large language models
+                with external data sources and tools.</li>
+              <li>Build end-to-end automation workflows (n8n) across multiple third-party APIs, owning the
+                full delivery lifecycle from scoping to handover.</li>
+            </ul>
+          </article>
+
+          <article class="exp-item">
+            <div class="exp-head">
+              <h3 class="exp-role">IT &amp; Web Application Support</h3>
+              <p class="exp-period">2024 — 2025</p>
+            </div>
+            <p class="exp-company">Saif Social Care and Homes Ltd</p>
+            <ul class="exp-bullets">
+              <li>Provided IT and web application support for internal business systems, resolving
+                user-reported issues and maintaining service availability.</li>
+              <li>Supported web-based applications — troubleshooting, data integrity and user access
+                management.</li>
+            </ul>
+          </article>
+
         </div>
-        <div class="exp-company">Saif Social Care and Homes Ltd</div>
-        <ul class="exp-bullets">
-          <li>Provided IT and web application support for internal business systems, resolving user-reported issues and maintaining service availability.</li>
-          <li>Supported web-based applications, assisting with troubleshooting, data integrity and user access management.</li>
-        </ul>
       </div>
+    </section>
 
+    <!-- Projects -->
+    <section class="section" id="projects">
+      <div class="container">
+        <p class="section-label">03 / Projects</p>
+        <h2 class="section-title">Things I've built</h2>
+        <p class="section-intro">Three systems I'd defend line by line, then the smaller work that fills in
+          the range. Every claim below is one you can check.</p>
+
+        <div class="feature-rows">
+
+          <!-- AccomPro -->
+          <article class="feature-row light-leak">
+            <div>
+              <p class="feature-kicker">Flagship · Multi-tenant SaaS</p>
+              <h3><a href="case-studies/accompro.html">AccomPro</a></h3>
+              <p class="feature-meta"><span>2024 — Present</span><span>Solo build</span><span>In demonstration discussions</span></p>
+              <p>A multi-tenant compliance platform for UK supported housing and social care — residents,
+                properties, incidents, encrypted documents and CQC compliance tracking inside isolated
+                per-organisation workspaces. Built solo, end to end.</p>
+              <ul class="tags">
+                <li>TypeScript</li><li>React</li><li>Node.js</li><li>PostgreSQL</li><li>Prisma</li><li>Claude API</li>
+              </ul>
+              <p class="links">
+                <a href="case-studies/accompro.html">Case study →</a>
+                <a href="https://github.com/AhmedAliQadir/AccomPro" target="_blank" rel="noopener noreferrer">GitHub →</a>
+              </p>
+            </div>
+            <div class="feature-media">
+              <button class="frame frame-16-10" aria-label="AccomPro — view 4 screenshots" data-gallery='[
+                {"src":"assets/screenshots/accompro-dashboard.webp","cap":"AccomPro — organisation dashboard with live occupancy, tenant and compliance statistics"},
+                {"src":"assets/screenshots/accompro-tenants.webp","cap":"AccomPro — tenant management with onboarding status workflow"},
+                {"src":"assets/screenshots/accompro-compliance.webp","cap":"AccomPro — compliance and audits tracker covering CQC inspections, scores and evidence"},
+                {"src":"assets/screenshots/accompro-login.webp","cap":"AccomPro — secure multi-tenant sign-in"}]'>
+                <img src="assets/screenshots/accompro-dashboard.webp" width="1440" height="900" loading="lazy"
+                     alt="AccomPro dashboard showing tenant, property, room and occupancy statistics">
+                <span class="frame-hint">View 4 screens</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Tourista -->
+          <article class="feature-row light-leak">
+            <div>
+              <p class="feature-kicker">Flagship · Agentic AI</p>
+              <h3><a href="case-studies/tourista.html">Tourista</a></h3>
+              <p class="feature-meta"><span>2025 — 2026</span><span>Orbixio Ltd</span><span>Working MVP</span></p>
+              <p>A travel platform where one plain-English sentence becomes a costed itinerary. A Claude
+                tool-calling agent searches live flights, stays and hire cars through the Duffel API plus
+                Tourista's own tours, and streams the assembled trip back as it works. The Duffel tool layer
+                is written once and consumed twice — by the web backend and by a standalone MCP server.</p>
+              <ul class="tags">
+                <li>React 19</li><li>TypeScript</li><li>Node.js</li><li>MongoDB</li><li>Stripe</li><li>Duffel API</li><li>Claude API</li><li>MCP</li>
+              </ul>
+              <p class="links">
+                <a href="case-studies/tourista.html">Case study →</a>
+                <a href="https://github.com/AhmedAliQadir/Tourista" target="_blank" rel="noopener noreferrer">GitHub →</a>
+              </p>
+            </div>
+            <div class="feature-media">
+              <button class="frame frame-16-10" aria-label="Tourista — view screenshot" data-gallery='[
+                {"src":"assets/screenshots/tourista-home.webp","cap":"Tourista by Orbixio — AI travel planner landing page"}]'>
+                <img src="assets/screenshots/tourista-home.webp" width="1440" height="900" loading="lazy"
+                     alt="Tourista home page with the heading The world awaits and a Plan My Trip with AI call to action">
+                <span class="frame-hint">View screen</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Orbixio Studio -->
+          <article class="feature-row light-leak">
+            <div>
+              <p class="feature-kicker">Flagship · MCP-native platform</p>
+              <h3><a href="case-studies/orbixio-studio.html">Orbixio Studio</a></h3>
+              <p class="feature-meta"><span>2025</span><span>TypeScript monorepo</span><span>v0</span></p>
+              <p>A script generation platform with no user interface of its own — Claude Desktop is the
+                client. Six MCP tools over stdio, zod-validated structured output, and an approval gate that
+                is enforced at protocol level rather than by convention. Nothing moves downstream until a
+                human approves it.</p>
+              <ul class="tags">
+                <li>TypeScript</li><li>MCP SDK</li><li>Anthropic SDK</li><li>Prisma</li><li>PostgreSQL</li><li>zod</li><li>pnpm workspaces</li>
+              </ul>
+              <p class="links">
+                <a href="case-studies/orbixio-studio.html">Case study →</a>
+                <a href="https://github.com/AhmedAliQadir/orbixio-studio" target="_blank" rel="noopener noreferrer">GitHub →</a>
+              </p>
+            </div>
+            <div class="feature-media">
+              <div class="frame frame-code">
+                <pre><span class="c-accent">// MCP tools exposed over stdio</span>
+list_channels
+get_channel
+generate_script
+review_script
+approve_script   <span class="c-gate">← human gate</span>
+reject_script    <span class="c-gate">← human gate</span></pre>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <h3 class="section-label" id="other-work">Also built</h3>
+        <div class="card-grid" aria-labelledby="other-work">
+
+          <article class="card light-leak">
+            <h3>Tour Booking Platform</h3>
+            <p class="card-kicker">Honours project · 2024</p>
+            <p>A secure tour booking web application built as my final-year honours project, taken through
+              the university's research ethics approval process. Originally also named Tourista — unrelated
+              to the Orbixio platform above.</p>
+            <ul class="tags"><li>Web application</li><li>Secure booking</li><li>Academic</li></ul>
+            <p class="links"><span class="provenance">Academic project — Glasgow Caledonian University</span></p>
+          </article>
+
+          <article class="card light-leak">
+            <h3>RAG Document Assistant</h3>
+            <p class="card-kicker">LangChain + Claude API</p>
+            <p>Document-querying assistant using LangChain, ChromaDB and HuggingFace embeddings for grounded
+              question answering over private documents.</p>
+            <ul class="tags"><li>Python</li><li>LangChain</li><li>ChromaDB</li><li>Claude API</li><li>RAG</li></ul>
+          </article>
+
+          <article class="card light-leak">
+            <h3>AI Content Automation Pipeline</h3>
+            <p class="card-kicker">n8n workflow</p>
+            <p>End-to-end automation across the Claude API, ElevenLabs, Creatomate and the YouTube Data API,
+              taking video content from script to publish.</p>
+            <ul class="tags"><li>n8n</li><li>Claude API</li><li>ElevenLabs</li><li>YouTube API</li></ul>
+          </article>
+
+          <article class="card light-leak">
+            <button class="frame frame-4-3" aria-label="HMRC Tax Analyser — view screenshot" data-gallery='[
+              {"src":"assets/screenshots/hmrc-analyser.webp","cap":"HMRC Tax Analyser — upload HMRC payment data (screenshots, PDFs, Excel or CSV) for automated analysis"}]'>
+              <img src="assets/screenshots/hmrc-analyser.webp" width="1440" height="900" loading="lazy"
+                   alt="HMRC Tax Analyser upload screen with a drop zone for payment data files">
+              <span class="frame-hint">View screen</span>
+            </button>
+            <h3>HMRC Tax Analyser</h3>
+            <p class="card-kicker">Full-stack TypeScript</p>
+            <p>UK income tax, National Insurance and take-home pay calculator under current HMRC rules, with
+              a clean client/server split.</p>
+            <ul class="tags"><li>TypeScript</li><li>Node.js</li><li>Finance</li></ul>
+            <p class="links"><a href="https://github.com/AhmedAliQadir/hmrc-tax-analyser" target="_blank" rel="noopener noreferrer">GitHub →</a></p>
+          </article>
+
+          <article class="card light-leak">
+            <button class="frame frame-4-3" aria-label="Support Portal — view screenshot" data-gallery='[
+              {"src":"assets/screenshots/support-portal.webp","cap":"Support Portal — secure work-email sign-in for supported-housing staff forms"}]'>
+              <img src="assets/screenshots/support-portal.webp" width="1440" height="900" loading="lazy"
+                   alt="Support Portal sign-in card reading Log in with your work email to access forms">
+              <span class="frame-hint">View screen</span>
+            </button>
+            <h3>Support Portal</h3>
+            <p class="card-kicker">Next.js · NextAuth · Prisma</p>
+            <p>Staff login portal for supported-housing workers — authenticated online forms with PDF
+              export.</p>
+            <ul class="tags"><li>Next.js</li><li>Prisma</li><li>Tailwind</li><li>PDF</li></ul>
+            <p class="links"><a href="https://github.com/AhmedAliQadir/support-portal" target="_blank" rel="noopener noreferrer">GitHub →</a></p>
+          </article>
+
+          <article class="card light-leak">
+            <button class="frame frame-4-3" aria-label="Omnidogs — view screenshot" data-gallery='[
+              {"src":"assets/screenshots/omnidogs-home.webp","cap":"Omnidogs — landing page for a St Ives dog training and walking business"}]'>
+              <img src="assets/screenshots/omnidogs-home.webp" width="1440" height="900" loading="lazy"
+                   alt="Omnidogs dog training website home page headed St Ives most trusted dog training and walking service">
+              <span class="frame-hint">View screen</span>
+            </button>
+            <h3>Omnidogs</h3>
+            <p class="card-kicker">Client website · Orbixio</p>
+            <p>Marketing site for a dog training and walking business — services, testimonials and a booking
+              call-to-action. Designed and delivered as a client project.</p>
+            <ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+            <p class="links"><a href="https://github.com/AhmedAliQadir/omnidogs-website" target="_blank" rel="noopener noreferrer">GitHub →</a></p>
+          </article>
+
+          <article class="card light-leak">
+            <h3>Jarvis Finance</h3>
+            <p class="card-kicker">Python CLI</p>
+            <p>Personal finance CLI — bank statement ingestion, AI transaction categorisation, UK tax
+              calculations and a conversational interface.</p>
+            <ul class="tags"><li>Python</li><li>CLI</li><li>Finance</li></ul>
+            <p class="links"><a href="https://github.com/AhmedAliQadir/jarvis-finance" target="_blank" rel="noopener noreferrer">GitHub →</a></p>
+          </article>
+
+          <article class="card light-leak">
+            <h3>DevOps Reference Stack</h3>
+            <p class="card-kicker">Infrastructure</p>
+            <p>A Node.js API deployed through Docker and Kubernetes with Terraform provisioning and a
+              Prometheus/Grafana observability stack.</p>
+            <ul class="tags"><li>Docker</li><li>Kubernetes</li><li>Terraform</li><li>Prometheus</li><li>Grafana</li></ul>
+            <p class="links"><a href="https://github.com/AhmedAliQadir/DevOps" target="_blank" rel="noopener noreferrer">GitHub →</a></p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Design -->
+    <section class="section" id="design">
+      <div class="container">
+        <p class="section-label">04 / Design</p>
+        <h2 class="section-title">I design the thing before I build it</h2>
+        <p class="section-intro">Interfaces don't survive contact with a compliance audit unless someone has
+          thought about them first. These are the design artefacts behind the systems above — written, not
+          improvised.</p>
+
+        <div class="design-grid">
+
+          <article class="design-item light-leak">
+            <h3>AccomPro design system</h3>
+            <p>A written design specification that precedes the code: a Material Design 3–derived approach
+              chosen deliberately for data-dense enterprise screens, with a documented light and dark palette
+              in HSL, a nine-step type scale, spacing primitives and component patterns for tables, modals
+              and multi-step forms.</p>
+            <p>Four stated principles govern it — information hierarchy, workflow efficiency, trust and
+              professionalism, and scalable complexity — and every subsequent screen is checked against them.</p>
+            <span class="provenance">Shipped product — AccomPro</span>
+          </article>
+
+          <article class="design-item light-leak">
+            <h3>Tourista motion &amp; component library</h3>
+            <p>A shared motion module defining easings and animation variants, plus nine reusable animated
+              components — Aurora, Marquee, TextReveal, MagneticButton, Spotlight, BentoGrid, CountUp,
+              Skeleton and ScrollProgress — so that every page inherits the same behaviour instead of
+              reinventing it.</p>
+            <p>The whole system respects <code>prefers-reduced-motion</code>: the motion is a layer, never a
+              dependency.</p>
+            <span class="provenance">Shipped product — Tourista</span>
+          </article>
+
+          <article class="design-item light-leak">
+            <h3>Onboarding wizard pattern</h3>
+            <p>An eleven-step resident onboarding flow documented as a reusable interaction pattern —
+              autosave, per-step validation, resumable progress and error recovery — written up so the same
+              pattern can be applied to the next long form rather than redesigned from scratch.</p>
+            <span class="provenance">Shipped product — AccomPro</span>
+          </article>
+
+        </div>
+
+        <p class="note">Wireframes, prototypes and the pre-redesign/redesign comparison from my Glasgow
+          Caledonian University design work are being prepared for publication here. They are dated from
+          source records rather than from file timestamps, so they go up when the dates are confirmed —
+          not before.</p>
+      </div>
+    </section>
+
+    <!-- Toolkit -->
+    <section class="section" id="toolkit">
+      <div class="container">
+        <p class="section-label">05 / Toolkit</p>
+        <h2 class="section-title">What I work with</h2>
+        <p class="section-intro">No percentages. Everything listed here appears in a project on this page.</p>
+
+        <div class="design-grid">
+          <article class="design-item">
+            <h3>Languages</h3>
+            <p>TypeScript · JavaScript · Python · SQL</p>
+          </article>
+          <article class="design-item">
+            <h3>Frontend</h3>
+            <p>React · Next.js · Vite · Tailwind CSS · shadcn/ui · Framer Motion</p>
+          </article>
+          <article class="design-item">
+            <h3>Backend &amp; data</h3>
+            <p>Node.js · Express · PostgreSQL · Prisma · MongoDB · Mongoose · SQLite</p>
+          </article>
+          <article class="design-item">
+            <h3>AI &amp; automation</h3>
+            <p>Anthropic Claude API · Model Context Protocol · agentic tool-use · RAG · LangChain · ChromaDB · n8n</p>
+          </article>
+          <article class="design-item">
+            <h3>Service management</h3>
+            <p>ITIL · ServiceNow · Salesforce · Salesforce Field Service · Jira · PagerDuty · NOC operations</p>
+          </article>
+          <article class="design-item">
+            <h3>Platform &amp; security</h3>
+            <p>Docker · Kubernetes · Terraform · AWS · CI/CD · AES-256-GCM · RBAC · JWT</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="section" id="certifications">
+      <div class="container">
+        <p class="section-label">06 / Certifications</p>
+        <h2 class="section-title">Certifications &amp; clearance</h2>
+        <div class="cert-grid">
+
+          <div class="cert cert-clearance">
+            <h3>CTC — Counter Terrorist Check</h3>
+            <p>UK Government</p>
+            <p class="cert-date">Cleared 2024</p>
+          </div>
+          <div class="cert">
+            <h3>Model Context Protocol (MCP)</h3>
+            <p>Anthropic</p>
+            <p class="cert-date">December 2025</p>
+          </div>
+          <div class="cert">
+            <h3>Atlassian Certified — Forge Developer</h3>
+            <p>Atlassian</p>
+            <p class="cert-date">January 2026</p>
+          </div>
+          <div class="cert">
+            <h3>ITOL Certified (IT Operations)</h3>
+            <p>ITOL</p>
+          </div>
+          <div class="cert">
+            <h3>Introduction to DevOps</h3>
+            <p>Microsoft</p>
+            <p class="cert-date">November 2025</p>
+          </div>
+          <div class="cert">
+            <h3>Plan Agile with GitHub Projects &amp; Azure Boards</h3>
+            <p>Microsoft</p>
+            <p class="cert-date">November 2025</p>
+          </div>
+          <div class="cert">
+            <h3>Google Generative AI</h3>
+            <p>Google</p>
+            <p class="cert-date">2025</p>
+          </div>
+          <div class="cert">
+            <h3>AWS Cloud Fundamentals</h3>
+            <p>Amazon Web Services</p>
+            <p class="cert-date">April 2024</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+      <div class="container">
+        <p class="section-label">07 / Contact</p>
+        <h2 class="section-title">Let's talk</h2>
+        <p class="prose">I'm open to Solutions Architect and Forward Deployed Engineer roles in the UK,
+          and to Orbixio work for small and medium-sized businesses. The fastest way to reach me is email.</p>
+        <div class="contact-actions">
+          <a class="btn btn-primary" href="mailto:ahmedaliqadir95@gmail.com">Email me</a>
+          <a class="btn btn-secondary" href="https://www.linkedin.com/in/ahmedaliqadir/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="btn btn-secondary" href="https://github.com/AhmedAliQadir" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Ahmed Ali Qadir</p>
+      <p>Built by hand — no framework, no build step.</p>
     </div>
-  </section>
-
-  <!-- Skills -->
-  <section id="skills">
-    <p class="section-label">03 / Skills</p>
-    <h2 class="section-title">Technical toolkit</h2>
-    <div class="skills-grid">
-      <div class="skill-category">
-        <h3>Languages</h3>
-        <div class="skill-tags">
-          <span>TypeScript</span><span>JavaScript</span><span>Python</span><span>SQL</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <h3>Frontend</h3>
-        <div class="skill-tags">
-          <span>React</span><span>Next.js</span><span>Tailwind CSS</span><span>shadcn/ui</span><span>Vite</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <h3>Backend &amp; Databases</h3>
-        <div class="skill-tags">
-          <span>Node.js</span><span>Express</span><span>PostgreSQL</span><span>Prisma</span><span>SQLite</span><span>LangChain</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <h3>AI &amp; Automation</h3>
-        <div class="skill-tags">
-          <span>Anthropic Claude API</span><span>Model Context Protocol</span><span>RAG</span><span>ChromaDB</span><span>n8n</span><span>Prompt Engineering</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <h3>IT Service Management</h3>
-        <div class="skill-tags">
-          <span>ITIL</span><span>ServiceNow</span><span>Salesforce</span><span>Jira</span><span>PagerDuty</span><span>NOC Operations</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <h3>DevOps &amp; Security</h3>
-        <div class="skill-tags">
-          <span>Docker</span><span>Kubernetes</span><span>Terraform</span><span>AWS</span><span>CI/CD</span><span>AES-256-GCM</span><span>RBAC</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects">
-    <p class="section-label">04 / Projects</p>
-    <h2 class="section-title">Things I've built</h2>
-
-    <div class="featured-grid">
-      <article class="project-card">
-        <button class="project-thumb" aria-label="View screens · 4" data-gallery='[{"src":"assets/screenshots/accompro-dashboard.webp","cap":"AccomPro &mdash; organisation dashboard with live occupancy, tenant and compliance stats"},{"src":"assets/screenshots/accompro-tenants.webp","cap":"AccomPro &mdash; tenant management with onboarding status workflow"},{"src":"assets/screenshots/accompro-compliance.webp","cap":"AccomPro &mdash; compliance and audits tracker (CQC inspections, scores, evidence)"},{"src":"assets/screenshots/accompro-login.webp","cap":"AccomPro &mdash; secure multi-tenant sign-in"}]'>
-          <img src="assets/screenshots/accompro-dashboard.webp" alt="AccomPro dashboard showing tenant, property, room and occupancy statistics" loading="lazy" width="1440" height="900">
-          <span class="thumb-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg> View screens · 4</span>
-        </button>
-        <div class="project-header">
-          <h3>AccomPro</h3>
-          <span class="project-date">2024 &mdash; Present</span>
-        </div>
-        <p class="project-subtitle">Multi-Tenant CQC Compliance SaaS</p>
-        <p>Architected and built solo &mdash; 249 commits &mdash; a multi-tenant SaaS platform for CQC compliance management in UK supported housing. Currently in demonstration discussions with a supported housing provider.</p>
-        <ul class="project-highlights">
-          <li>AES-256-GCM encryption, four-tier RBAC, full audit logging</li>
-          <li>Multi-tenant architecture with database-level isolation</li>
-          <li>Claude AI layer: compliance chat, risk alerts, policy review</li>
-          <li>UK GDPR compliant with ITIL-informed service design</li>
-        </ul>
-        <div class="project-tags">
-          <span>TypeScript</span><span>React</span><span>Node.js</span><span>PostgreSQL</span><span>Prisma</span><span>Claude API</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/AhmedAliQadir/AccomPro" target="_blank" rel="noopener noreferrer">GitHub &rarr;</a>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <button class="project-thumb" aria-label="View screen" data-gallery='[{"src":"assets/screenshots/tourista-home.webp","cap":"Tourista by Orbixio &mdash; AI-powered travel planner landing page"}]'>
-          <img src="assets/screenshots/tourista-home.webp" alt="Tourista home page with hero heading The world awaits and a Plan My Trip with AI call to action" loading="lazy" width="1440" height="900">
-          <span class="thumb-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg> View screen</span>
-        </button>
-        <div class="project-header">
-          <h3>Tourista</h3>
-          <span class="project-date">2025</span>
-        </div>
-        <p class="project-subtitle">AI-Powered Travel Platform &mdash; Orbixio</p>
-        <p>A full-stack travel product where an AI planner turns a single sentence into a booked itinerary &mdash; searching real flights, stays, cars and curated tours via the Duffel API and Claude.</p>
-        <ul class="project-highlights">
-          <li>React 19 + Vite frontend with a dark, editorial UI</li>
-          <li>Node/Express + MongoDB API with JWT auth and Stripe payments</li>
-          <li>Streaming Claude planner with live tool-call pills</li>
-        </ul>
-        <div class="project-tags">
-          <span>React</span><span>TypeScript</span><span>Node.js</span><span>MongoDB</span><span>Stripe</span><span>Duffel API</span><span>Claude API</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/AhmedAliQadir/Tourista" target="_blank" rel="noopener noreferrer">GitHub &rarr;</a>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-header">
-          <h3>Orbixio Studio</h3>
-          <span class="project-date">2025</span>
-        </div>
-        <p class="project-subtitle">MCP-Native Video Script Generation Platform</p>
-        <p>TypeScript monorepo exposing structured MCP tools for YouTube script generation via Claude Desktop. Scripts are reviewed and approved before any downstream work begins &mdash; no runaway automation.</p>
-        <ul class="project-highlights">
-          <li>MCP server with generate, review, approve and reject tools</li>
-          <li>Prisma + PostgreSQL for script and channel management</li>
-          <li>Approve-before-publish workflow enforced at protocol level</li>
-        </ul>
-        <div class="project-tags">
-          <span>TypeScript</span><span>MCP</span><span>Anthropic API</span><span>Prisma</span><span>Monorepo</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/AhmedAliQadir/orbixio-studio" target="_blank" rel="noopener noreferrer">GitHub &rarr;</a>
-        </div>
-      </article>
-    </div>
-
-    <div class="projects-grid">
-      <article class="project-card">
-        <div class="project-header">
-          <h3>MCP Travel Agent</h3>
-        </div>
-        <p class="project-subtitle">TypeScript MCP Server</p>
-        <p>MCP server exposing four tools and integrating the Duffel flights API to power an AI travel-booking agent through Claude Desktop.</p>
-        <div class="project-tags">
-          <span>TypeScript</span><span>MCP</span><span>Duffel API</span><span>Claude</span>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-header">
-          <h3>RAG Document Assistant</h3>
-        </div>
-        <p class="project-subtitle">LangChain + Claude API</p>
-        <p>Document-querying assistant using LangChain, ChromaDB, HuggingFace embeddings and the Claude API for grounded question answering over private documents.</p>
-        <div class="project-tags">
-          <span>Python</span><span>LangChain</span><span>ChromaDB</span><span>Claude API</span><span>RAG</span>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-header">
-          <h3>AI Content Automation Pipeline</h3>
-        </div>
-        <p class="project-subtitle">n8n Workflow</p>
-        <p>End-to-end automation integrating Claude API, ElevenLabs, Creatomate and the YouTube Data API to automate video content production from script to publish.</p>
-        <div class="project-tags">
-          <span>n8n</span><span>Claude API</span><span>ElevenLabs</span><span>YouTube API</span>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <button class="project-thumb" aria-label="View screen" data-gallery='[{"src":"assets/screenshots/hmrc-analyser.webp","cap":"HMRC Tax Analyser &mdash; upload HMRC payment data (screenshots, PDFs, Excel or CSV) for automated analysis"}]'>
-          <img src="assets/screenshots/hmrc-analyser.webp" alt="HMRC Tax Analyser upload screen with a drop zone for payment data files" loading="lazy" width="1440" height="900">
-          <span class="thumb-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg> View screen</span>
-        </button>
-        <div class="project-header">
-          <h3>HMRC Tax Analyser</h3>
-        </div>
-        <p class="project-subtitle">TypeScript, Full-Stack</p>
-        <p>UK income tax, National Insurance and take-home pay calculator under current HMRC rules. Full-stack TypeScript with a clean client/server split.</p>
-        <div class="project-tags">
-          <span>TypeScript</span><span>Node.js</span><span>Finance</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/AhmedAliQadir/hmrc-tax-analyser" target="_blank" rel="noopener noreferrer">GitHub &rarr;</a>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-header">
-          <h3>Jarvis Finance</h3>
-        </div>
-        <p class="project-subtitle">Python CLI</p>
-        <p>Personal finance CLI &mdash; bank statement ingestion, AI-powered transaction categorisation, UK tax calculations and a conversational interface.</p>
-        <div class="project-tags">
-          <span>Python</span><span>CLI</span><span>AI</span><span>Finance</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/AhmedAliQadir/jarvis-finance" target="_blank" rel="noopener noreferrer">GitHub &rarr;</a>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <button class="project-thumb" aria-label="View screen" data-gallery='[{"src":"assets/screenshots/support-portal.webp","cap":"Support Portal &mdash; secure work-email sign-in for supported-housing staff forms"}]'>
-          <img src="assets/screenshots/support-portal.webp" alt="Support Portal sign-in card reading Log in with your work email to access forms" loading="lazy" width="1440" height="900">
-          <span class="thumb-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg> View screen</span>
-        </button>
-        <div class="project-header">
-          <h3>Support Portal</h3>
-        </div>
-        <p class="project-subtitle">Next.js, NextAuth, Prisma</p>
-        <p>Staff login portal for supported-housing workers &mdash; online forms with PDF export. Built for secure, authenticated form submission workflows.</p>
-        <div class="project-tags">
-          <span>Next.js</span><span>Prisma</span><span>Tailwind</span><span>PDF</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/AhmedAliQadir/support-portal" target="_blank" rel="noopener noreferrer">GitHub &rarr;</a>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <button class="project-thumb" aria-label="View screen" data-gallery='[{"src":"assets/screenshots/omnidogs-home.webp","cap":"Omnidogs &mdash; landing page for a St Ives dog training and walking business"}]'>
-          <img src="assets/screenshots/omnidogs-home.webp" alt="Omnidogs dog training website home page headed St Ives most trusted dog training and walking service" loading="lazy" width="1440" height="900">
-          <span class="thumb-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg> View screen</span>
-        </button>
-        <div class="project-header">
-          <h3>Omnidogs</h3>
-        </div>
-        <p class="project-subtitle">Client Website</p>
-        <p>A marketing website for a dog training and walking business &mdash; services, testimonials and a booking call-to-action. Designed and delivered as a client project via Orbixio.</p>
-        <div class="project-tags">
-          <span>HTML</span><span>CSS</span><span>JavaScript</span>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- Certifications -->
-  <section id="certifications">
-    <p class="section-label">05 / Certifications</p>
-    <h2 class="section-title">Certifications &amp; clearance</h2>
-    <div class="cert-grid">
-      <div class="cert-item">
-        <h3>Model Context Protocol (MCP)</h3>
-        <p class="cert-issuer">Anthropic</p>
-        <p class="cert-date">December 2025</p>
-      </div>
-      <div class="cert-item">
-        <h3>Atlassian Certified &mdash; Forge Developer</h3>
-        <p class="cert-issuer">Atlassian</p>
-        <p class="cert-date">January 2026</p>
-      </div>
-      <div class="cert-item">
-        <h3>ITOL Certified (IT Operations)</h3>
-        <p class="cert-issuer">ITOL</p>
-      </div>
-      <div class="cert-item">
-        <h3>Introduction to DevOps</h3>
-        <p class="cert-issuer">Microsoft</p>
-        <p class="cert-date">November 2025</p>
-      </div>
-      <div class="cert-item">
-        <h3>Plan Agile with GitHub Projects &amp; Azure Boards</h3>
-        <p class="cert-issuer">Microsoft</p>
-        <p class="cert-date">November 2025</p>
-      </div>
-      <div class="cert-item">
-        <h3>Google Generative AI</h3>
-        <p class="cert-issuer">Google</p>
-        <p class="cert-date">2025</p>
-      </div>
-      <div class="cert-item">
-        <h3>AWS Cloud Fundamentals</h3>
-        <p class="cert-issuer">Amazon Web Services</p>
-        <p class="cert-date">April 2024</p>
-      </div>
-      <div class="cert-item">
-        <h3>CTC Clearance (Counter Terrorist Check)</h3>
-        <p class="cert-issuer">UK Government</p>
-        <p class="cert-date">Previously held</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact">
-    <p class="section-label">06 / Contact</p>
-    <h2 class="section-title" style="text-align:center;">Let's work together</h2>
-    <div class="contact-content">
-      <p>I'm open to new opportunities, freelance projects and interesting collaborations. Feel free to reach out.</p>
-      <div class="contact-links">
-        <a href="mailto:ahmedaliqadir95@gmail.com">&#9993; Email</a>
-        <a href="https://www.linkedin.com/in/ahmedaliqadir/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="https://github.com/AhmedAliQadir" target="_blank" rel="noopener noreferrer">GitHub</a>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <p>&copy; 2026 Ahmed Ali Qadir &mdash; Built with clean code and care.</p>
   </footer>
 
   <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Project screenshot viewer">
-    <button class="lb-btn lb-close" aria-label="Close viewer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg></button>
-    <button class="lb-btn lb-prev" aria-label="Previous screenshot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
-    <img class="lb-img" src="" alt="">
-    <button class="lb-btn lb-next" aria-label="Next screenshot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
-    <p class="lightbox-cap"></p>
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer" data-open="false">
+    <button class="lb-btn lb-close" type="button" aria-label="Close viewer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg></button>
+    <button class="lb-btn lb-prev" type="button" aria-label="Previous screenshot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <img src="" alt="">
+    <button class="lb-btn lb-next" type="button" aria-label="Next screenshot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+    <p class="lightbox-caption"></p>
   </div>
 
   <script>
+    /* Lightbox — dependency-free, keyboard-complete, focus-trapped. */
     (function () {
       var lb = document.getElementById('lightbox');
-      var img = lb.querySelector('.lb-img'), cap = lb.querySelector('.lightbox-cap');
-      var prev = lb.querySelector('.lb-prev'), next = lb.querySelector('.lb-next'), closeBtn = lb.querySelector('.lb-close');
+      var img = lb.querySelector('img');
+      var cap = lb.querySelector('.lightbox-caption');
+      var prev = lb.querySelector('.lb-prev');
+      var next = lb.querySelector('.lb-next');
+      var closeBtn = lb.querySelector('.lb-close');
       var gallery = [], idx = 0, lastFocus = null;
-      var decode = function (s) { var t = document.createElement('textarea'); t.innerHTML = s; return t.value; };
+
       function render() {
         var item = gallery[idx];
-        img.src = item.src; img.alt = decode(item.cap);
-        cap.textContent = decode(item.cap) + (gallery.length > 1 ? '  (' + (idx + 1) + ' / ' + gallery.length + ')' : '');
-        var multi = gallery.length > 1; prev.style.display = next.style.display = multi ? 'flex' : 'none';
+        img.src = item.src;
+        img.alt = item.cap;
+        cap.textContent = item.cap + (gallery.length > 1 ? '  (' + (idx + 1) + ' / ' + gallery.length + ')' : '');
+        var multi = gallery.length > 1;
+        prev.hidden = next.hidden = !multi;
+        prev.style.display = next.style.display = multi ? 'flex' : 'none';
       }
-      function open(g, i) { gallery = g; idx = i || 0; lastFocus = document.activeElement; lb.classList.add('open'); document.body.style.overflow = 'hidden'; render(); closeBtn.focus(); }
-      function close() { lb.classList.remove('open'); document.body.style.overflow = ''; img.src = ''; if (lastFocus) lastFocus.focus(); }
-      function move(d) { idx = (idx + d + gallery.length) % gallery.length; render(); }
-      document.querySelectorAll('.project-thumb').forEach(function (btn) {
-        btn.addEventListener('click', function () { try { open(JSON.parse(btn.getAttribute('data-gallery')), 0); } catch (e) {} });
+      function open(items) {
+        gallery = items; idx = 0;
+        lastFocus = document.activeElement;
+        lb.dataset.open = 'true';
+        document.body.style.overflow = 'hidden';
+        render();
+        closeBtn.focus();
+      }
+      function close() {
+        lb.dataset.open = 'false';
+        document.body.style.overflow = '';
+        img.src = '';
+        if (lastFocus) { lastFocus.focus(); }
+      }
+      function move(delta) {
+        idx = (idx + delta + gallery.length) % gallery.length;
+        render();
+      }
+
+      document.querySelectorAll('button.frame[data-gallery]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          try { open(JSON.parse(btn.getAttribute('data-gallery'))); } catch (e) {}
+        });
       });
+
       closeBtn.addEventListener('click', close);
       prev.addEventListener('click', function () { move(-1); });
       next.addEventListener('click', function () { move(1); });
-      lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+      lb.addEventListener('click', function (e) { if (e.target === lb) { close(); } });
+
       document.addEventListener('keydown', function (e) {
-        if (!lb.classList.contains('open')) return;
-        if (e.key === 'Escape') close();
-        else if (e.key === 'ArrowLeft' && gallery.length > 1) move(-1);
-        else if (e.key === 'ArrowRight' && gallery.length > 1) move(1);
+        if (lb.dataset.open !== 'true') { return; }
+        if (e.key === 'Escape') { close(); return; }
+        if (gallery.length > 1 && e.key === 'ArrowLeft') { move(-1); return; }
+        if (gallery.length > 1 && e.key === 'ArrowRight') { move(1); return; }
+        if (e.key === 'Tab') {
+          /* keep focus inside the dialog */
+          var focusable = [closeBtn].concat(gallery.length > 1 ? [prev, next] : []);
+          var first = focusable[0], last = focusable[focusable.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+          else if (focusable.indexOf(document.activeElement) === -1) { e.preventDefault(); first.focus(); }
+        }
       });
+    })();
+
+    /* Active-section indicator in the nav — colour AND underline, never colour alone. */
+    (function () {
+      var links = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
+      var sections = links
+        .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+        .filter(Boolean);
+      if (!sections.length || !('IntersectionObserver' in window)) { return; }
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) { return; }
+          links.forEach(function (a) {
+            var on = a.getAttribute('href') === '#' + entry.target.id;
+            if (on) { a.setAttribute('aria-current', 'true'); }
+            else { a.removeAttribute('aria-current'); }
+          });
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+
+      sections.forEach(function (s) { observer.observe(s); });
     })();
   </script>
 

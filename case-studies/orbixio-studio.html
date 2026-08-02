@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orbixio Studio — Ahmed Ali Qadir</title>
+  <meta name="description" content="Case study: Orbixio Studio — an MCP-native platform with no UI of its own, where the approval gate is enforced at protocol level rather than by convention.">
+  <meta property="og:title" content="Orbixio Studio — Ahmed Ali Qadir">
+  <meta property="og:description" content="Case study: an MCP-native platform where the approval gate is enforced at protocol level rather than by convention.">
+  <meta property="og:type" content="article">
+  <meta name="theme-color" content="#F5F2EC">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="paper">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="../index.html">Ahmed Ali Qadir<span class="dot">.</span></a>
+      <nav aria-label="Sections">
+        <ul class="nav-links">
+          <li><a href="../index.html#experience">Experience</a></li>
+          <li><a href="../index.html#projects">Projects</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <div class="container study-header">
+      <p class="study-kicker">Case study · MCP-native platform</p>
+      <h1>Orbixio Studio</h1>
+      <p class="study-standfirst">A content platform with no interface of its own. Claude Desktop is the
+        client, six MCP tools are the API, and nothing reaches production until a human has explicitly
+        approved it — enforced by the protocol surface, not by a convention people are trusted to follow.</p>
+
+      <dl class="study-facts">
+        <div>
+          <dt>Type</dt>
+          <dd>TypeScript monorepo · MCP server</dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd>v0 — MCP server and core pipeline working; web app stubbed, not implemented</dd>
+        </div>
+        <div>
+          <dt>Stack</dt>
+          <dd>TypeScript · MCP SDK · Anthropic SDK · Prisma · PostgreSQL · zod · vitest</dd>
+        </div>
+        <div>
+          <dt>Source</dt>
+          <dd><a href="https://github.com/AhmedAliQadir/orbixio-studio" target="_blank" rel="noopener noreferrer">github.com/AhmedAliQadir/orbixio-studio</a></dd>
+        </div>
+      </dl>
+    </div>
+
+    <article class="container study-body">
+
+      <h2>Context</h2>
+      <p>Orbixio produces video content, and the script stage is the bottleneck: it is the part that has to
+        be right, and the part that is slowest to produce. It is also the part that language models are
+        genuinely good at — provided the output is structured, reviewable, and never automatically acted on.</p>
+      <p>The interesting design question was not "can a model write a script". It was: if the model is going
+        to be the drafting tool, what is the right shape for the software around it?</p>
+
+      <h2>The problem</h2>
+      <p>The default answer is to build a web app: a dashboard, a text editor, a generate button, an approval
+        workflow, user management. That is several weeks of interface for a workflow whose entire content is
+        <em>ask for a script, read it, approve or reject</em>.</p>
+      <p>Meanwhile the person doing the work is already sitting in Claude Desktop. Building a second, worse
+        chat interface next to the good one is work that makes the product harder to use.</p>
+      <p>The real problem was the guarantee. "We always review before publishing" is a promise, and promises
+        decay under deadline. It needed to be structurally impossible for unreviewed content to move
+        downstream.</p>
+
+      <h2>What I built</h2>
+
+      <h3>Six MCP tools over stdio, and no UI</h3>
+      <pre>list_channels      get_channel
+generate_script    review_script
+approve_script     reject_script</pre>
+      <p>The MCP server is the entire product surface. You point Claude Desktop at it and say "list my
+        channels, then generate a script about writing sales emails for the first channel" — Claude calls
+        <code>list_channels</code>, then <code>generate_script</code>, and returns a structured draft.
+        No dashboard was built, because none was needed.</p>
+
+      <h3>Structured output, validated by zod</h3>
+      <p>Scripts are not free text. They are validated structures: hooks, five tool entries each carrying an
+        honest caveat, calls to action, and YouTube metadata. Validation happens at the boundary — if the
+        model returns something that does not fit the schema, it fails there rather than three steps later in
+        something that consumes it.</p>
+      <p>The "honest caveat" field is a product decision expressed in the data model: every tool a script
+        recommends must carry its limitation. Making it a required field means the caveat cannot be quietly
+        dropped when it is inconvenient.</p>
+
+      <h3>The approval gate lives in the protocol</h3>
+      <p>A script exists in a state, and the transition out of draft happens only through
+        <code>approve_script</code> or <code>reject_script</code>. There is no code path from generation to
+        downstream work that skips it. The human-in-the-loop requirement is not a documented process — it is
+        the shape of the API.</p>
+
+      <h3>Multi-tenant from the first migration</h3>
+      <p>Every row is scoped to a <code>userId</code>, even though v0 runs single-user via an environment
+        variable. Retrofitting tenancy onto a schema that never had it is a migration nobody enjoys; adding
+        a column at the start costs nothing.</p>
+
+      <h3>A monorepo shaped like the boundaries</h3>
+      <pre>packages/
+  db/            Prisma schema, client, seed
+  core/          Pipeline logic — LLM provider, script generator, schemas
+  mcp-server/    MCP server wrapping core over stdio
+apps/
+  web/           Stubbed Next.js app (not implemented)</pre>
+      <p>Core knows nothing about MCP. The MCP server is a thin transport wrapper around it. That separation
+        is what lets a second consumer — a web app, a CLI, a scheduled job — attach later without touching
+        the pipeline. It is the same principle behind the shared Duffel tool layer in
+        <a href="tourista.html">Tourista</a>.</p>
+
+      <h2>Decisions I would defend</h2>
+
+      <h3>No microservices, no workflow engine — just functions</h3>
+      <p>The README says this out loud because it is a decision, not an omission. The workload is a handful
+        of operations against one database with one external API call. A workflow engine here would add
+        operational surface, a second failure domain and a deployment story, in exchange for orchestration
+        that a function composition already provides.</p>
+
+      <h3>Shipping v0 with the web app stubbed</h3>
+      <p>The Next.js app exists as an empty package, and I would rather say that plainly than pad the
+        repository. The MCP server delivers the entire workflow today. Building the web UI first would have
+        been building the part nobody needed in order to look more like a product.</p>
+
+      <h3>Making the approval gate a protocol constraint</h3>
+      <p>This is the decision I would most want to be asked about. Enforcing review in the UI means anyone
+        with database access can bypass it. Enforcing it in the tool surface means the only way to move a
+        script forward is to call the tool that records who approved it. In a domain where the AI writes and
+        a human is accountable, that distinction is the whole design.</p>
+
+      <h3>Ten minutes from clone to working</h3>
+      <p>The setup path is documented as a numbered sequence including the exact Claude Desktop config JSON
+        for macOS and Windows, and a first command to try. A reviewer who cannot get an MCP server running in
+        ten minutes concludes the project does not work — which is nearly always a documentation failure
+        rather than a code one.</p>
+
+      <h2>The result</h2>
+      <ul>
+        <li>Six MCP tools over stdio, working in Claude Desktop or any MCP client.</li>
+        <li>Structured, zod-validated script output rather than free text.</li>
+        <li>An approval gate that cannot be routed around, because there is no path that skips it.</li>
+        <li>Unit tests and an end-to-end smoke test, with lint and build across all packages.</li>
+        <li>A tenancy-ready schema from the first migration.</li>
+      </ul>
+
+      <h2>What I would do next</h2>
+      <p>Implement the web app as a second consumer of <code>core</code> — proving the boundary holds — and
+        add real multi-user auth in place of the environment-variable user. Then the downstream half: taking
+        an approved script into production rather than stopping at approval.</p>
+
+      <h2>My role and stack</h2>
+      <p><strong>Role:</strong> Solo engineer — architecture, schema, pipeline, MCP server, tests,
+        documentation. Built under Orbixio Ltd, where I am Founder.</p>
+      <p><strong>Stack:</strong> TypeScript, Prisma, PostgreSQL, <code>@modelcontextprotocol/sdk</code>,
+        <code>@anthropic-ai/sdk</code>, zod, pino, vitest, Biome, pnpm workspaces.</p>
+
+      <nav class="study-nav" aria-label="More">
+        <a href="../index.html#projects">← Back to projects</a>
+        <a href="salesforce-duplicate-cases.html">Next case study: the duplicate-case defect →</a>
+      </nav>
+
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Ahmed Ali Qadir</p>
+      <p><a href="../index.html">ahmedaliqadir.github.io</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>

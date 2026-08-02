@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The duplicate-case defect — Ahmed Ali Qadir</title>
+  <meta name="description" content="Case study: finding, escalating and closing a duplicate-case defect during a Salesforce Field Service migration in a 24/7 telecom NOC.">
+  <meta property="og:title" content="The duplicate-case defect — Ahmed Ali Qadir">
+  <meta property="og:description" content="Case study: finding, escalating and closing a duplicate-case defect during a Salesforce Field Service migration in a 24/7 telecom NOC.">
+  <meta property="og:type" content="article">
+  <meta name="theme-color" content="#F5F2EC">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="paper">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="../index.html">Ahmed Ali Qadir<span class="dot">.</span></a>
+      <nav aria-label="Sections">
+        <ul class="nav-links">
+          <li><a href="../index.html#experience">Experience</a></li>
+          <li><a href="../index.html#projects">Projects</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <div class="container study-header">
+      <p class="study-kicker">Case study · Service management</p>
+      <h1>The cases that could not be closed</h1>
+      <p class="study-standfirst">During a Salesforce Field Service migration in a 24/7 telecom Network
+        Operations Centre, I noticed engineers were being blocked by cases that had been created twice. I
+        raised it, it was confirmed, it was fixed — and the written analysis went to the Operations and
+        Performance Managers.</p>
+
+      <dl class="study-facts">
+        <div>
+          <dt>Where</dt>
+          <dd>Magdalene Ltd (M Group Services), Stevenage</dd>
+        </div>
+        <div>
+          <dt>When</dt>
+          <dd>2026</dd>
+        </div>
+        <div>
+          <dt>My role</dt>
+          <dd>Service Management Specialist — first line, 24/7 NOC</dd>
+        </div>
+        <div>
+          <dt>Systems</dt>
+          <dd>Salesforce Field Service, ServiceNow, Jira, PagerDuty, Excel</dd>
+        </div>
+      </dl>
+    </div>
+
+    <article class="container study-body">
+
+      <h2>Context</h2>
+      <p>Magdalene runs a 24/7 Network Operations Centre for telecom infrastructure. First line takes the
+        service-affecting events as they land, triages them, and either resolves them or gets them to the
+        engineer who can. The measure that matters is not how many tickets you touch — it is whether the
+        engineer at the other end can close the one in front of them.</p>
+      <p>Partway through my time there the business migrated its case management onto Salesforce Field
+        Service. Migrations of that kind are never a clean swap: two systems overlap for a period, process
+        documentation lags the tooling, and the people closest to the work absorb the difference by hand.</p>
+
+      <h2>The problem</h2>
+      <p>Working cases day to day, I started seeing the same job represented more than once. The same
+        underlying piece of work existed as two separate case records, created through different routes into
+        the new system.</p>
+      <p>The consequence was not cosmetic. An engineer would work the job, then find they could not resolve
+        the case cleanly, because the duplicate record was still open and still counted. The work was done;
+        the ticket said otherwise. Queue figures reflected volume that did not exist, and the people closing
+        the work were the ones absorbing the friction.</p>
+      <p>The failure mode that concerned me most was the quiet one. A duplicate that nobody names becomes a
+        local workaround — you learn which record to ignore, you tell the next person on shift, and the
+        knowledge lives in handover notes rather than in the system. That is how a defect becomes permanent.</p>
+
+      <h2>What I did</h2>
+
+      <h3>1. Establish it was real, not anecdotal</h3>
+      <p>The first job was to separate a pattern from a bad shift. I gathered the specific cases where the
+        duplication had occurred, recorded how each record had been created, and identified what the
+        duplicated cases had in common — so that the report would describe a reproducible route into the
+        defect rather than a list of complaints.</p>
+
+      <h3>2. Raise it formally rather than route around it</h3>
+      <p>The tempting move on a busy shift is the workaround: note it in handover, warn the next person, move
+        on. I raised it through the proper channel instead, as a defect against the migration, with the
+        evidence attached. In ITIL terms this is the distinction between an incident and a problem — the
+        individual blocked case is an incident; the mechanism creating duplicates is a problem, and problems
+        need an owner, not a workaround.</p>
+
+      <h3>3. Write the analysis for the people who could act on it</h3>
+      <p>I produced a written technical analysis: what was happening, what triggered it, what it cost the
+        engineers downstream, and what would need to change. It was written for Operations and Performance
+        Managers — people who needed to make a call, not read a debugging log — so the emphasis was on impact
+        and remedy rather than on how clever the investigation had been.</p>
+
+      <h3>4. See it closed</h3>
+      <p>The issue was confirmed and fixed. The analysis went to the Operations and Performance Managers as
+        the written record of what had gone wrong and why.</p>
+
+      <h2>Decisions I would defend</h2>
+
+      <h3>Raising it, rather than absorbing it</h3>
+      <p>Raising a defect against a live migration you did not own, as first line, is not the frictionless
+        option. It was the correct one. A duplicate-case mechanism that persists past the migration window
+        becomes indistinguishable from normal operation, and by then nobody is looking for it.</p>
+
+      <h3>Writing it up, rather than reporting it verbally</h3>
+      <p>A verbal report gets fixed once. A written analysis survives the shift pattern, gets read by people
+        who were not in the room, and can be checked against later. It also makes the finding attributable —
+        which matters when the fix needs to hold.</p>
+
+      <h3>Framing it as an engineer-blocking issue, not a data-quality issue</h3>
+      <p>Described as "duplicate records in Salesforce", this is a housekeeping ticket that waits behind the
+        migration backlog. Described as "engineers cannot resolve completed work", it is a delivery problem.
+        Same defect, and the second framing is both truer and the one that gets it prioritised.</p>
+
+      <h2>The result</h2>
+      <ul>
+        <li>The duplication was confirmed as a genuine defect rather than user error, and fixed.</li>
+        <li>Engineers could resolve cases against the work they had actually completed.</li>
+        <li>A written technical analysis went to the Operations and Performance Managers, giving the issue a
+          permanent record rather than a verbal one.</li>
+        <li>The route into the defect was documented, so the same class of problem was visible for the rest
+          of the migration.</li>
+      </ul>
+      <p>Separately, during the same period, I designed a structured daily logging system for the NOC to
+        improve shift-handover continuity and incident traceability — the same instinct applied to a
+        different gap: if it only exists in someone's memory, it does not exist.</p>
+
+      <h2>Why this is on an engineering portfolio</h2>
+      <p>Because the useful thing here is not Salesforce. It is the habit: notice that the system is lying
+        about the state of the world, prove it, escalate it through the channel that has authority to fix it,
+        and leave a written artefact behind. That is the same discipline I apply to a production incident in
+        my own systems — and it is most of what separates software that runs from software that is
+        <em>operated</em>.</p>
+
+      <h2>My role and stack</h2>
+      <p><strong>Role:</strong> Service Management Specialist — first-line incident management, 24/7 telecom
+        NOC. Sole author of the investigation and the written analysis.</p>
+      <p><strong>Systems:</strong> Salesforce Field Service, ServiceNow, Jira, PagerDuty, Excel.
+        <strong>Framework:</strong> ITIL — incident, problem and change management.</p>
+
+      <nav class="study-nav" aria-label="More">
+        <a href="../index.html#experience">← Back to experience</a>
+        <a href="accompro.html">Next case study: AccomPro →</a>
+      </nav>
+
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Ahmed Ali Qadir</p>
+      <p><a href="../index.html">ahmedaliqadir.github.io</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>

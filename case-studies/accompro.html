@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AccomPro — Ahmed Ali Qadir</title>
+  <meta name="description" content="Case study: AccomPro, a multi-tenant compliance platform for UK supported housing — data isolation, encrypted documents, audit trails and an AI layer that stays advisory.">
+  <meta property="og:title" content="AccomPro — Ahmed Ali Qadir">
+  <meta property="og:description" content="Case study: a multi-tenant compliance platform for UK supported housing, built solo end to end.">
+  <meta property="og:type" content="article">
+  <meta name="theme-color" content="#F5F2EC">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="paper">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="../index.html">Ahmed Ali Qadir<span class="dot">.</span></a>
+      <nav aria-label="Sections">
+        <ul class="nav-links">
+          <li><a href="../index.html#experience">Experience</a></li>
+          <li><a href="../index.html#projects">Projects</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <div class="container study-header">
+      <p class="study-kicker">Case study · Multi-tenant SaaS</p>
+      <h1>AccomPro</h1>
+      <p class="study-standfirst">A compliance platform for UK supported housing and social care, where
+        several organisations share one database and none of them may ever see another's residents. Built
+        solo — architecture, backend, frontend, data model and design system.</p>
+
+      <dl class="study-facts">
+        <div>
+          <dt>Type</dt>
+          <dd>Multi-tenant SaaS, built solo</dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd>In demonstration discussions with a supported housing provider. No paying users.</dd>
+        </div>
+        <div>
+          <dt>Stack</dt>
+          <dd>TypeScript · React · Node/Express · PostgreSQL · Prisma · Claude API</dd>
+        </div>
+        <div>
+          <dt>Source</dt>
+          <dd><a href="https://github.com/AhmedAliQadir/AccomPro" target="_blank" rel="noopener noreferrer">github.com/AhmedAliQadir/AccomPro</a></dd>
+        </div>
+      </dl>
+    </div>
+
+    <article class="container study-body">
+
+      <h2>Context</h2>
+      <p>UK supported housing providers are regulated. They hold sensitive personal data about vulnerable
+        residents, they are inspected against care standards, and they must be able to produce evidence on
+        request — who did what, when, and on whose authority. Most of them run this on a spreadsheet estate:
+        residents in one workbook, incidents in an email thread, compliance evidence in a shared drive that
+        one person understands.</p>
+      <p>I have worked in and around that sector, which is where the problem came from. It is not a market
+        that needs another dashboard. It needs a system that can answer an inspector's question without
+        anyone having to go and look for the file.</p>
+
+      <h2>The problem</h2>
+      <p>Three constraints pull against each other in this domain:</p>
+      <ul>
+        <li><strong>Isolation.</strong> Multiple organisations on one platform, and a cross-tenant data leak
+          in this sector is not a bug report — it is a data protection incident involving vulnerable adults.</li>
+        <li><strong>Evidence.</strong> Compliance is not a status field. It is a trail: the document, its
+          version, who uploaded it, who read it, and when.</li>
+        <li><strong>Usability under pressure.</strong> The people entering this data are support workers at
+          the end of a shift, not analysts. An eleven-step onboarding form that loses your work on a dropped
+          connection will simply not be used.</li>
+      </ul>
+
+      <h2>What I built</h2>
+
+      <h3>Tenancy as a data-model property, not a filter</h3>
+      <p>Every domain row carries an <code>organizationId</code> and access is scoped at that level rather
+        than by filtering in the application layer. One database, logical separation per organisation. The
+        distinction matters: a filter you can forget to apply is not an isolation boundary, it is a
+        convention. Scoping the data model means the wrong query returns nothing rather than returning
+        someone else's residents.</p>
+
+      <h3>Documents encrypted, hashed and time-limited</h3>
+      <p>Documents are encrypted at rest with AES-256-GCM and hashed with SHA-256, and downloads are issued
+        as time-limited tokens rather than as durable URLs. TLS 1.3 covers transit. The design goal was that
+        possession of a link, a database dump, or a stale browser tab should each be insufficient on its own.</p>
+
+      <h3>Four-tier RBAC with an audit trail behind it</h3>
+      <p>Admin, Operations, Support Worker and Viewer — four roles, because a care setting genuinely has four
+        levels of legitimate access and inventing a fifth would just push people into sharing logins. Every
+        user action writes to an audit log. Authentication is JWT in HTTP-only cookies with bcrypt-hashed
+        passwords, Helmet security headers, and rate limiting on the auth paths.</p>
+
+      <h3>The modules that actually get used</h3>
+      <p>Resident management with an eleven-step onboarding wizard (autosave, per-step validation, resumable
+        progress); properties and room allocation; staff management; incident tracking with full audit
+        trails; compliance tracking; weekly support notes with PDF export; and reporting across all of it.</p>
+
+      <h3>An AI layer that stays advisory</h3>
+      <p>Claude is wired in for compliance chat, risk surfacing and policy review. What it is deliberately
+        <em>not</em> wired to do is take an action on a resident record. In a regulated care setting, a model
+        that can silently change a compliance status is a liability dressed as a feature. It reads, it
+        advises, a human decides.</p>
+
+      <h3>A written design system before the screens</h3>
+      <p>The interface is governed by a design specification written before the components: a Material Design
+        3–derived approach chosen deliberately for data-dense enterprise screens, with a documented light and
+        dark palette in HSL, a nine-step type scale, spacing primitives, and patterns for tables, modals and
+        multi-step forms. Four principles govern it — information hierarchy, workflow efficiency, trust and
+        professionalism, and scalable complexity.</p>
+
+      <h2>Decisions I would defend</h2>
+
+      <h3>One database with row-level scoping, not a database per tenant</h3>
+      <p>Database-per-tenant is the reflexive answer and it is the right one at a different scale. At this
+        one it multiplies migration risk by the number of customers, and a schema change that half-applies
+        across twenty databases is a far more likely failure than a scoping bug in a codebase where every
+        query goes through the same access layer. I chose the failure mode I could test.</p>
+
+      <h3>Encrypting documents even though it complicates every read path</h3>
+      <p>It would have been faster to rely on storage-level encryption and call it done. Application-level
+        AES-256-GCM means every read and write goes through the crypto path and every bug there is visible.
+        For files describing vulnerable adults, that is the correct trade: the cost is my time, and the
+        alternative externalises the risk onto residents.</p>
+
+      <h3>Autosave on the onboarding wizard</h3>
+      <p>Eleven steps is a lot of form. The engineering-convenient answer is a single submit at the end. The
+        real-world answer is that the person filling it in is interrupted — that is the nature of the job —
+        so the wizard autosaves and resumes. Documenting it as a reusable interaction pattern rather than a
+        one-off screen means the next long form inherits it.</p>
+
+      <h3>Saying "in demonstration discussions" and nothing more</h3>
+      <p>AccomPro has no paying users. It is in demonstration discussions with a supported housing provider.
+        I state that precisely, on the portfolio and here, because the first thing a technical reviewer does
+        with an inflated traction claim is discount everything next to it.</p>
+
+      <h2>The result</h2>
+      <ul>
+        <li>A working multi-tenant platform covering residents, properties, staff, incidents, documents,
+          compliance, support notes and reporting.</li>
+        <li>Security design that holds together as a set rather than as a feature list: isolation at the data
+          model, encryption at rest and in transit, RBAC, and an audit trail that makes both observable.</li>
+        <li>A UK GDPR–conscious design and an ITIL-informed view of the service around the software, not just
+          the software.</li>
+        <li>A running demonstration environment with seeded data, so a prospective user sees the product
+          rather than an empty state.</li>
+      </ul>
+
+      <h2>What I would do next</h2>
+      <p>Automated cross-tenant isolation tests in CI — the property that matters most is currently
+        guaranteed by design and review, and it should be guaranteed by a test that fails loudly. After that,
+        evidence export: an inspector-ready pack generated from the audit trail rather than assembled by
+        hand, which is the feature the sector would actually pay for.</p>
+
+      <h2>My role and stack</h2>
+      <p><strong>Role:</strong> Solo engineer and designer — architecture, data model, backend, frontend,
+        security design, design system, demo environment.</p>
+      <p><strong>Frontend:</strong> React, TypeScript, TanStack Query, shadcn/ui (Radix + Tailwind), Vite.<br>
+        <strong>Backend:</strong> Node.js, Express, TypeScript, Prisma, PostgreSQL (Neon), JWT, Helmet, Zod.<br>
+        <strong>Security:</strong> AES-256-GCM at rest, TLS 1.3 in transit, SHA-256 document hashing,
+        time-limited download tokens, four-tier RBAC, full audit logging.</p>
+
+      <nav class="study-nav" aria-label="More">
+        <a href="../index.html#projects">← Back to projects</a>
+        <a href="tourista.html">Next case study: Tourista →</a>
+      </nav>
+
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Ahmed Ali Qadir</p>
+      <p><a href="../index.html">ahmedaliqadir.github.io</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>

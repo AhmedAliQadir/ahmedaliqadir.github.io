@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tourista — Ahmed Ali Qadir</title>
+  <meta name="description" content="Case study: Tourista by Orbixio — a Claude tool-calling agent that turns one sentence into a costed itinerary against real, bookable travel inventory.">
+  <meta property="og:title" content="Tourista — Ahmed Ali Qadir">
+  <meta property="og:description" content="Case study: a Claude tool-calling agent that turns one sentence into a costed itinerary against real, bookable travel inventory.">
+  <meta property="og:type" content="article">
+  <meta name="theme-color" content="#F5F2EC">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="paper">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="../index.html">Ahmed Ali Qadir<span class="dot">.</span></a>
+      <nav aria-label="Sections">
+        <ul class="nav-links">
+          <li><a href="../index.html#experience">Experience</a></li>
+          <li><a href="../index.html#projects">Projects</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <div class="container study-header">
+      <p class="study-kicker">Case study · Agentic AI</p>
+      <h1>Tourista</h1>
+      <p class="study-standfirst">Most "AI trip planners" invent itineraries against no inventory at all.
+        Tourista gives the model real, bookable data and lets it do the searching — one plain-English
+        sentence in, one costed trip out, streamed as it assembles.</p>
+
+      <dl class="study-facts">
+        <div>
+          <dt>Type</dt>
+          <dd>End-to-end product — architecture, backend, frontend, AI agent</dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd>Working MVP with a one-command live demo</dd>
+        </div>
+        <div>
+          <dt>Stack</dt>
+          <dd>React 19 · TypeScript · Node/Express · MongoDB · Claude · Duffel · Stripe · MCP</dd>
+        </div>
+        <div>
+          <dt>Source</dt>
+          <dd><a href="https://github.com/AhmedAliQadir/Tourista" target="_blank" rel="noopener noreferrer">github.com/AhmedAliQadir/Tourista</a></dd>
+        </div>
+      </dl>
+    </div>
+
+    <article class="container study-body">
+
+      <p><strong>Note on the name:</strong> this is the Orbixio product. It is not the
+        <a href="../index.html#other-work">2024 tour booking platform</a> I built as my honours project at
+        Glasgow Caledonian University, which shares the name and nothing else.</p>
+
+      <h2>Context</h2>
+      <p>Planning a trip means opening ten tabs — a flights site, two hotel sites, a car-hire comparator, a
+        tours marketplace — and then reconciling dates, budgets and logistics in your head. The obvious use
+        for a language model here is the reconciliation. The non-obvious part is that almost nobody does it
+        properly, because giving a model real inventory is much harder than letting it improvise.</p>
+      <p>The generic AI trip planner produces a beautiful itinerary describing flights that do not exist at
+        prices that were never real. It demos well and it is worthless. Tourista exists to be the other
+        thing.</p>
+
+      <h2>The problem</h2>
+      <p>Three problems, and only the first one is about AI:</p>
+      <ul>
+        <li><strong>Grounding.</strong> The model must search live inventory rather than recall it. That means
+          typed tools, real API calls, and results the model has to work with rather than around.</li>
+        <li><strong>Latency you cannot hide.</strong> Resolving a place, then searching flights, stays, cars
+          and tours, then assembling and costing the result takes tens of seconds. A spinner for that long is
+          an abandoned session.</li>
+        <li><strong>The regulatory line.</strong> Selling a flight and a hotel together as one product in the
+          UK engages ATOL and the Package Travel Regulations. Building the booking flow before understanding
+          that line is how a side project becomes a legal problem.</li>
+      </ul>
+
+      <h2>What I built</h2>
+
+      <h3>A three-package system with real boundaries</h3>
+      <pre>frontend/     React 19 + Vite + TypeScript + Tailwind + Framer Motion (SPA)
+backend/      Node + Express + TypeScript + MongoDB/Mongoose (REST + Socket.io)
+duffel-mcp/   Model Context Protocol server exposing the travel tool layer</pre>
+
+      <h3>Five typed tools, one agent loop</h3>
+      <p>A manual Claude tool-use loop drives five typed tools: <code>resolve_place</code>,
+        <code>search_flights</code>, <code>search_stays</code>, <code>search_cars</code> and
+        <code>search_tourista_tours</code>. The first four hit the Duffel API; the fifth queries Tourista's
+        own curated products in MongoDB, so the platform's own inventory competes on equal footing with
+        third-party supply. The loop is bounded — a tool-calling agent without a call ceiling is an
+        unbounded bill.</p>
+
+      <h3>Streaming, so the wait becomes the interface</h3>
+      <p>Results stream to the browser as NDJSON over a single response: text deltas plus live tool-progress
+        events. The itinerary types out as it is written, and each tool call surfaces in the UI as it
+        happens — "Searching flights MAN→BCN". The thirty-to-sixty-second blank spinner became a visible
+        process. Nothing about the underlying latency changed; everything about the experience of it did.</p>
+
+      <h3>One tool layer, two consumers</h3>
+      <p>The Duffel integration is written once and consumed twice — by the web backend, and by a standalone
+        MCP server that exposes the same tools to Claude Desktop. The same travel tools work inside the
+        product and inside any MCP client, with no duplicated logic and no drift between them. This is the
+        piece of the architecture I am most confident about: it treats tool logic and transport as separate
+        concerns, which is exactly what MCP is for.</p>
+
+      <h3>The rest of a real product</h3>
+      <p>JWT auth, a tours catalogue, bookings, reviews, Stripe checkout via PaymentIntents, Cloudinary
+        media, Socket.io, Helmet, CORS and rate limiting, Winston logging and central error handling. The AI
+        planner is the interesting part; it is sitting on a product that works without it.</p>
+
+      <h3>A demo anyone can run</h3>
+      <p><code>npm run demo</code> boots an ephemeral in-memory MongoDB, starts the real API, and seeds users
+        and eight rich tours. No Atlas account, no Docker, no cloud keys. A reviewer with Node installed sees
+        the whole stack running in one command.</p>
+
+      <h3>A motion system rather than scattered animation</h3>
+      <p>A shared motion module defines easings and variants, and nine reusable animated components — Aurora,
+        Marquee, TextReveal, MagneticButton, Spotlight, BentoGrid, CountUp, Skeleton, ScrollProgress — keep
+        every page consistent. All of it respects <code>prefers-reduced-motion</code>.</p>
+
+      <h2>Decisions I would defend</h2>
+
+      <h3>A manual tool-use loop instead of an agent framework</h3>
+      <p>Frameworks are excellent until the day the behaviour you need is one the abstraction does not
+        expose — and with a streaming, bounded, tool-progress-emitting loop, that day arrives immediately. I
+        wrote the loop. It is a few hundred lines, I can reason about every branch of it, and the retry,
+        ceiling and error-surfacing behaviour is mine rather than inherited.</p>
+
+      <h3>Streaming NDJSON rather than WebSockets for the planner</h3>
+      <p>The planner is one request producing one growing response. That is what a streaming HTTP response
+        is. Socket.io is already in the stack for other features, so reaching for it here would have been
+        free in effort and wrong in shape — a persistent bidirectional channel for a unidirectional
+        request/response is complexity with no return.</p>
+
+      <h3>Search-and-assemble, not merchant of record</h3>
+      <p>Tourista searches and assembles; it does not sell a packaged holiday. That is a deliberate product
+        boundary drawn around the UK ATOL and Package Travel Regulations line, decided before the booking
+        flow was built rather than after. The affiliate-referral route to revenue exists precisely because
+        it keeps the product on the right side of that line.</p>
+
+      <h3>Giving the model tools rather than context</h3>
+      <p>The alternative design — fetch a pile of options, stuff them into the prompt, ask for an itinerary —
+        is simpler and fails in a specific way: the model can only work with what you guessed it would need.
+        Tools let it ask its own follow-up questions. It costs more round trips and produces a system that
+        holds up when the request is unusual.</p>
+
+      <h2>The result</h2>
+      <ul>
+        <li>A production-shaped MVP: auth, catalogue, bookings, payments and an AI planner working end to end
+          against real travel inventory.</li>
+        <li>Clean TypeScript across all packages and passing production builds.</li>
+        <li>Runnable by anyone in one command, seeded with eight tours and login accounts.</li>
+        <li>A reusable MCP travel tool layer that works in Claude Desktop as well as in the product.</li>
+      </ul>
+
+      <h2>What I would do next</h2>
+      <p>Deploy behind a domain (Vercel, Render, MongoDB Atlas); add an affiliate-link mode via Travelpayouts
+        to monetise referrals without merchant-of-record obligations; and narrow to a defensible niche
+        instead of competing with everyone at once.</p>
+
+      <h2>My role and stack</h2>
+      <p><strong>Role:</strong> Solo full-stack engineer and systems designer — architecture, backend,
+        frontend, AI agent, developer experience. Built under Orbixio Ltd, where I am Founder.</p>
+      <p><strong>Frontend:</strong> React 19, TypeScript, Vite, Tailwind CSS, Framer Motion, Zustand, React
+        Router, Stripe Elements.<br>
+        <strong>Backend:</strong> Node.js, Express, TypeScript, MongoDB, Mongoose, JWT, Socket.io, Stripe,
+        Cloudinary, Helmet, Winston.<br>
+        <strong>AI and integrations:</strong> Anthropic Claude (tool-use and streaming), Duffel
+        flights/stays/cars, Model Context Protocol.<br>
+        <strong>Tooling:</strong> mongodb-memory-server, ESLint, tsx.</p>
+
+      <nav class="study-nav" aria-label="More">
+        <a href="../index.html#projects">← Back to projects</a>
+        <a href="orbixio-studio.html">Next case study: Orbixio Studio →</a>
+      </nav>
+
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Ahmed Ali Qadir</p>
+      <p><a href="../index.html">ahmedaliqadir.github.io</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
