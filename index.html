@@ -47,6 +47,216 @@
     <!-- Hero -->
     <section class="hero">
       <div class="aperture" aria-hidden="true"></div>
+
+      <!-- Decorative. The monitors are the light source: this is the aperture
+           made diegetic, not a second one competing with it. -->
+      <div class="scene" aria-hidden="true">
+        <div class="scene-stage">
+
+          <div class="scene-layer layer-shell">
+            <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="wBack" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#1A1729"/><stop offset="1" stop-color="#0D0B15"/>
+                </linearGradient>
+                <linearGradient id="wLeft" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#08070E"/><stop offset="1" stop-color="#14111F"/>
+                </linearGradient>
+                <linearGradient id="flr" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#141120"/><stop offset="1" stop-color="#08070E"/>
+                </linearGradient>
+              </defs>
+              <rect width="800" height="600" fill="#0B0A12"/>
+              <polygon points="200,60 800,60 800,470 200,470" fill="url(#wBack)"/>
+              <polygon points="0,-40 200,60 200,470 0,600" fill="url(#wLeft)"/>
+              <polygon points="0,600 200,470 800,470 800,600" fill="url(#flr)"/>
+              <polygon points="200,462 800,462 800,470 200,470" fill="#08070E"/>
+            </svg>
+          </div>
+
+          <div class="scene-layer layer-window">
+            <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <clipPath id="winClip">
+                  <polygon points="14,150 178,196 178,404 14,438"/>
+                </clipPath>
+                <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#0A1430"/><stop offset="0.6" stop-color="#101A38"/>
+                  <stop offset="1" stop-color="#1B2246"/>
+                </linearGradient>
+              </defs>
+              <g clip-path="url(#winClip)">
+                <rect x="0" y="140" width="190" height="310" fill="url(#sky)"/>
+                <g fill="#070B1C">
+                  <rect x="8" y="286" width="26" height="160"/><rect x="36" y="256" width="20" height="190"/>
+                  <rect x="58" y="300" width="24" height="146"/><rect x="84" y="238" width="18" height="208"/>
+                  <rect x="104" y="292" width="26" height="154"/><rect x="132" y="268" width="22" height="178"/>
+                  <rect x="156" y="308" width="28" height="138"/>
+                </g>
+                <g fill="#8FA8E8" opacity="0.85">
+                  <rect x="13" y="296" width="3" height="4"/><rect x="21" y="308" width="3" height="4"/>
+                  <rect x="27" y="296" width="3" height="4"/><rect x="41" y="268" width="3" height="4"/>
+                  <rect x="47" y="286" width="3" height="4"/><rect x="41" y="316" width="3" height="4"/>
+                  <rect x="63" y="312" width="3" height="4"/><rect x="72" y="330" width="3" height="4"/>
+                  <rect x="89" y="252" width="3" height="4"/><rect x="95" y="276" width="3" height="4"/>
+                  <rect x="89" y="306" width="3" height="4"/><rect x="110" y="304" width="3" height="4"/>
+                  <rect x="120" y="322" width="3" height="4"/><rect x="137" y="280" width="3" height="4"/>
+                  <rect x="146" y="300" width="3" height="4"/><rect x="162" y="320" width="3" height="4"/>
+                  <rect x="172" y="340" width="3" height="4"/>
+                </g>
+                <g fill="#E0A458" opacity="0.7">
+                  <rect x="21" y="286" width="3" height="4"/><rect x="47" y="330" width="3" height="4"/>
+                  <rect x="66" y="352" width="3" height="4"/><rect x="95" y="330" width="3" height="4"/>
+                  <rect x="116" y="348" width="3" height="4"/><rect x="141" y="336" width="3" height="4"/>
+                  <rect x="166" y="360" width="3" height="4"/>
+                </g>
+                <g fill="#C24A4A" opacity="0.65">
+                  <rect x="44" y="258" width="3" height="3"/><rect x="92" y="240" width="3" height="3"/>
+                  <rect x="135" y="270" width="3" height="3"/>
+                </g>
+              </g>
+              <g fill="none" stroke="#2A2740" stroke-width="5">
+                <polygon points="14,150 178,196 178,404 14,438"/>
+              </g>
+              <line x1="96" y1="173" x2="96" y2="421" stroke="#2A2740" stroke-width="4"/>
+            </svg>
+          </div>
+
+          <div class="scene-layer layer-shelf">
+            <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="strip" cx="0.5" cy="0.1" r="0.75">
+                  <stop offset="0" stop-color="#E0A458" stop-opacity="0.16"/>
+                  <stop offset="0.55" stop-color="#E0A458" stop-opacity="0.05"/>
+                  <stop offset="1" stop-color="#E0A458" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <ellipse cx="620" cy="196" rx="230" ry="120" fill="url(#strip)"/>
+              <rect x="470" y="168" width="300" height="10" rx="2" fill="#0A0910"/>
+              <rect x="486" y="178" width="268" height="3" fill="#E0A458" opacity="0.75"/>
+              <g fill="#0A0910">
+                <rect x="556" y="128" width="9" height="40"/><rect x="567" y="122" width="8" height="46"/>
+                <rect x="577" y="132" width="10" height="36"/><rect x="589" y="126" width="7" height="42"/>
+                <rect x="598" y="134" width="9" height="34"/>
+              </g>
+              <g fill="#141220">
+                <path d="M498 168 q-6-26 8-38 q16 10 12 38z"/>
+                <path d="M520 168 q-4-20 6-30 q13 8 10 30z"/>
+                <path d="M700 168 q10-30 30-26 q-2 20-16 26z"/>
+                <path d="M724 168 q14-16 28-10 q-6 12-16 10z"/>
+              </g>
+              <g stroke="#141220" stroke-width="3" fill="none" opacity="0.9">
+                <path d="M712 178 q6 34 -4 62"/><path d="M732 178 q10 26 4 48"/>
+                <path d="M504 178 q-8 30 -2 52"/>
+              </g>
+            </svg>
+          </div>
+
+          <div class="scene-layer layer-screens">
+            <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+                  <stop offset="0" stop-color="#B9A8FF" stop-opacity="0.55"/>
+                  <stop offset="0.5" stop-color="#B9A8FF" stop-opacity="0.16"/>
+                  <stop offset="1" stop-color="#B9A8FF" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#232043"/><stop offset="1" stop-color="#14121F"/>
+                </linearGradient>
+              </defs>
+              <ellipse cx="560" cy="320" rx="300" ry="185" fill="url(#glow)"/>
+              <rect x="368" y="238" width="196" height="118" rx="5" fill="#08070E"/>
+              <rect x="373" y="243" width="186" height="108" rx="3" fill="url(#panel)"/>
+              <path d="M373 318 l52-38 l40 28 l44-34 l50 40 v25 h-186z" fill="#4A4386" opacity="0.95"/>
+              <rect x="576" y="244" width="184" height="112" rx="5" fill="#08070E"/>
+              <rect x="581" y="249" width="174" height="102" rx="3" fill="url(#panel)"/>
+              <path d="M581 320 l46-34 l38 26 l42-30 l48 36 v23 h-174z" fill="#4A4386" opacity="0.95"/>
+              <rect x="556" y="220" width="16" height="150" rx="4" fill="#0A0910"/>
+              <rect x="500" y="212" width="130" height="9" rx="4" fill="#0A0910"/>
+              <rect x="508" y="221" width="114" height="3" fill="#F1EFF7" opacity="0.4"/>
+              <rect x="452" y="356" width="26" height="16" fill="#08070E"/>
+              <rect x="418" y="372" width="96" height="6" rx="3" fill="#08070E"/>
+              <rect x="650" y="356" width="26" height="16" fill="#08070E"/>
+              <rect x="616" y="372" width="96" height="6" rx="3" fill="#08070E"/>
+            </svg>
+          </div>
+
+          <div class="scene-layer layer-desk">
+            <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="deskTop" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#452B1C"/><stop offset="0.45" stop-color="#63401F"/>
+                  <stop offset="1" stop-color="#33200F"/>
+                </linearGradient>
+                <linearGradient id="lidG" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#262246"/><stop offset="1" stop-color="#171429"/>
+                </linearGradient>
+              </defs>
+              <polygon points="252,392 800,368 800,392 252,420" fill="url(#deskTop)"/>
+              <polygon points="252,420 800,392 800,404 252,432" fill="#1C1108"/>
+              <rect x="268" y="420" width="10" height="150" fill="#0A0910"/>
+              <rect x="640" y="398" width="150" height="176" fill="#0C0B13"/>
+              <g stroke="#08070E" stroke-width="3">
+                <line x1="652" y1="440" x2="778" y2="436"/><line x1="652" y1="482" x2="778" y2="478"/>
+                <line x1="652" y1="524" x2="778" y2="520"/>
+              </g>
+              <path d="M462 392 l14-88 h134 l6 88z" fill="#0A0910"/>
+              <path d="M470 386 l12-76 h124 l5 76z" fill="url(#lidG)"/>
+              <path d="M470 372 l32-24 l26 16 l30-20 l34 26 v14 h-122z" fill="#4A4386" opacity="0.95"/>
+              <polygon points="452,392 626,392 640,406 442,406" fill="#15121D"/>
+              <rect x="666" y="398" width="72" height="14" rx="2" fill="#0A0910"/>
+              <ellipse cx="702" cy="396" rx="15" ry="7" fill="#12101B"/>
+              <path d="M752 372 h30 v26 h-30z" fill="#0F0D18"/>
+              <path d="M782 378 q10 6 0 12" stroke="#0F0D18" stroke-width="4" fill="none"/>
+              <g fill="#0A0910">
+                <rect x="336" y="356" width="30" height="36" rx="3"/>
+                <rect x="341" y="344" width="3" height="14"/><rect x="348" y="340" width="3" height="18"/>
+                <rect x="355" y="346" width="3" height="12"/>
+              </g>
+              <rect x="300" y="360" width="22" height="32" rx="6" fill="#0C0B13"/>
+              <ellipse cx="311" cy="368" rx="8" ry="9" fill="#E0A458" opacity="0.55"/>
+              <ellipse cx="311" cy="372" rx="34" ry="26" fill="#E0A458" opacity="0.1"/>
+            </svg>
+          </div>
+
+          <div class="scene-layer layer-chair">
+            <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+              <g transform="translate(-34,74) scale(0.84)">
+                <g fill="#08070E">
+                  <path d="M300 286 q64-16 128 0 v112 q-64 16-128 0z"/>
+                  <rect x="336" y="252" width="58" height="40" rx="12"/>
+                  <rect x="356" y="286" width="16" height="18"/>
+                  <path d="M286 396 q78-22 156 0 l6 34 q-84-22-168 0z"/>
+                  <rect x="352" y="426" width="18" height="66"/>
+                  <path d="M282 492 q80-22 160 0 l-6 14 q-74-18-148 0z"/>
+                  <rect x="268" y="376" width="12" height="52" rx="6"/>
+                  <rect x="444" y="376" width="12" height="52" rx="6"/>
+                </g>
+                <g fill="#0C0B13">
+                  <circle cx="286" cy="516" r="11"/><circle cx="436" cy="516" r="11"/><circle cx="360" cy="536" r="11"/>
+                </g>
+                <path d="M300 300 q64-14 128 0" stroke="#211E33" stroke-width="2" fill="none"/>
+                <path d="M300 340 q64-14 128 0" stroke="#211E33" stroke-width="2" fill="none"/>
+              </g>
+            </svg>
+          </div>
+
+          <div class="scene-layer layer-fore">
+            <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+              <g fill="#0A1410">
+                <path d="M742 452 q-36-70 -6-124 q26 44 20 124z"/>
+                <path d="M760 452 q30-78 68-92 q-16 60-46 92z"/>
+                <path d="M752 452 q-52-46 -50-96 q44 30 60 96z"/>
+                <path d="M764 452 q46-46 84-40 q-32 30 -62 40z"/>
+              </g>
+              <path d="M724 452 h84 l-10 108 h-64z" fill="#0C0B13"/>
+              <rect x="720" y="446" width="92" height="12" rx="3" fill="#0F0D18"/>
+            </svg>
+          </div>
+
+        </div>
+      </div>
+
       <div class="container hero-inner">
         <div class="hero-copy">
           <p class="hero-eyebrow">Full-Stack Engineer · Huntingdon, UK</p>
@@ -330,10 +540,12 @@
               <span class="frame-hint">View screen</span>
             </button>
             <h3><a class="stretch-link" href="https://github.com/AhmedAliQadir/hmrc-tax-analyser" target="_blank" rel="noopener noreferrer">HMRC Tax Analyser</a></h3>
-            <p class="card-kicker">Full-stack TypeScript</p>
-            <p>UK income tax, National Insurance and take-home pay calculator under current HMRC rules, with
-              a clean client/server split.</p>
-            <ul class="tags"><li>TypeScript</li><li>Node.js</li><li>Finance</li></ul>
+            <p class="card-kicker">Full-stack TypeScript · Claude extraction</p>
+            <p>Upload a payslip, P60 or a screenshot of HMRC's payments page and get income tax and National
+              Insurance broken down across five tax years. Claude reads the documents; the tax arithmetic is
+              deterministic TypeScript against an official rates table, because a model should not be
+              deciding what you owe HMRC.</p>
+            <ul class="tags"><li>TypeScript</li><li>React</li><li>Express</li><li>Claude API</li><li>PDF/Excel/CSV</li></ul>
             <p class="links"><a href="https://github.com/AhmedAliQadir/hmrc-tax-analyser" target="_blank" rel="noopener noreferrer">GitHub →</a></p>
           </article>
 
@@ -741,24 +953,42 @@
 
       var hero = document.querySelector('.hero');
       var aperture = document.querySelector('.aperture');
-      if (hero && aperture) {
+      var stage = document.querySelector('.scene-stage');
+      if (hero && (aperture || stage)) {
         var apFrame = null;
         hero.addEventListener('pointermove', function (e) {
           if (apFrame) { return; }
           apFrame = window.requestAnimationFrame(function () {
             apFrame = null;
             var r = hero.getBoundingClientRect();
-            /* +/-3% of the hero, so the core never travels far enough to
-               reach the type sitting in columns 1-6 */
-            var x = 62 + (((e.clientX - r.left) / r.width) - 0.5) * 6;
-            var y = 45 + (((e.clientY - r.top) / r.height) - 0.5) * 6;
-            aperture.style.setProperty('--aperture-x', x.toFixed(2) + '%');
-            aperture.style.setProperty('--aperture-y', y.toFixed(2) + '%');
+            var nx = ((e.clientX - r.left) / r.width) - 0.5;   /* -0.5 .. 0.5 */
+            var ny = ((e.clientY - r.top) / r.height) - 0.5;
+
+            if (aperture) {
+              /* +/-3% of the hero, so the core never travels far enough to
+                 reach the type sitting in columns 1-6 */
+              aperture.style.setProperty('--aperture-x', (62 + nx * 6).toFixed(2) + '%');
+              aperture.style.setProperty('--aperture-y', (45 + ny * 6).toFixed(2) + '%');
+            }
+            if (stage) {
+              /* Camera, not object: moving right turns the room to show its
+                 left side, so the parallax reads as looking into the corner.
+                 7 degrees is enough to separate the layers and not so much
+                 that the flat SVG planes betray themselves. */
+              stage.style.setProperty('--scene-ry', (nx * 7).toFixed(2) + 'deg');
+              stage.style.setProperty('--scene-rx', (-ny * 4).toFixed(2) + 'deg');
+            }
           });
         }, { passive: true });
         hero.addEventListener('pointerleave', function () {
-          aperture.style.setProperty('--aperture-x', '62%');
-          aperture.style.setProperty('--aperture-y', '45%');
+          if (aperture) {
+            aperture.style.setProperty('--aperture-x', '62%');
+            aperture.style.setProperty('--aperture-y', '45%');
+          }
+          if (stage) {
+            stage.style.setProperty('--scene-ry', '0deg');
+            stage.style.setProperty('--scene-rx', '0deg');
+          }
         });
       }
 
