@@ -214,17 +214,27 @@ code { font-family: var(--font-mono); font-size: 0.9em; }
   padding-block: var(--space-24) var(--space-16);
 }
 
-/* The aperture: a single source of light, centre-right. Pure CSS, zero bytes. */
+/* Registering the two makes them animatable, so the light eases rather than
+   snaps. Unsupported browsers still get the gradient, just without the ease. */
+@property --aperture-x { syntax: "<percentage>"; inherits: true; initial-value: 62%; }
+@property --aperture-y { syntax: "<percentage>"; inherits: true; initial-value: 45%; }
+
+/* The aperture: a single source of light, centre-right. Pure CSS, zero bytes.
+   It drifts a few percent towards the pointer — the light acknowledges you,
+   it does not follow you. Type stays left, always clear of the bright core. */
 .aperture {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  --aperture-x: 62%;
+  --aperture-y: 45%;
+  transition: --aperture-x 400ms var(--easing), --aperture-y 400ms var(--easing);
   background:
-    radial-gradient(ellipse 60% 50% at 62% 45%,
+    radial-gradient(ellipse 60% 50% at var(--aperture-x) var(--aperture-y),
       rgba(185, 168, 255, 0.28),
       rgba(185, 168, 255, 0.08) 45%,
       transparent 70%),
-    radial-gradient(ellipse 22% 18% at 62% 45%,
+    radial-gradient(ellipse 22% 18% at var(--aperture-x) var(--aperture-y),
       rgba(224, 164, 88, 0.08),
       transparent 70%);
 }
@@ -274,6 +284,13 @@ code { font-family: var(--font-mono); font-size: 0.9em; }
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--colour-text-muted);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-cue { animation: cue-bob 2.4s ease-in-out infinite; }
+}
+@keyframes cue-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(4px); }
 }
 
 /* --------------------------------------------------------------------------
@@ -531,10 +548,23 @@ button.frame:focus-visible .frame-hint { opacity: 1; }
   border-radius: var(--radius-card);
   padding: var(--space-6);
   overflow: hidden;
+  /* One stack, three contributors: the scroll reveal, the hover lift and the
+     pointer tilt. Declared once as a variable so the reveal rule in S16 can
+     reuse it verbatim instead of overwriting transform and killing the rest. */
+  --transform-stack:
+    perspective(900px)
+    translateY(var(--reveal-shift, 0px))
+    translateY(var(--lift, 0px))
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg));
+  transform: var(--transform-stack);
   transition: border-color var(--duration-base) var(--easing),
               transform var(--duration-base) var(--easing);
 }
-.card:hover { border-color: var(--colour-accent); transform: translateY(-2px); }
+/* 3 degrees, not the 1.05 scale a tilt library defaults to — moodboard ref 2
+   asks for restrained micro-animation, and the card must not read as a toy. */
+.card:hover { border-color: var(--colour-accent); --lift: -2px; }
+.card.is-tilting { transition: border-color var(--duration-base) var(--easing); }
 .card h3 {
   font-family: var(--font-display);
   font-weight: 400;
@@ -833,6 +863,12 @@ body.paper .site-footer {
    and nothing is load-bearing: with JS disabled the page renders complete.
    -------------------------------------------------------------------------- */
 
+/* The reveal moves elements through a registered custom property rather than
+   by setting `transform` directly. Cards compose tilt, lift and reveal into
+   one transform; if the reveal owned that property outright it would cancel
+   the other two. Without @property the slide degrades to a plain fade. */
+@property --reveal-shift { syntax: "<length>"; inherits: false; initial-value: 0px; }
+
 /* Hidden-before-reveal is declared on the real selectors rather than on a
    class JS adds later, so there is no flash of content before it hides.
    Scoped to .js so a JS-off visitor simply sees everything. */
@@ -846,12 +882,28 @@ body.paper .site-footer {
 .js .cert,
 .js .credentials-list li {
   opacity: 0;
-  transform: translateY(14px);
+  --reveal-shift: 14px;
+  transform: translateY(var(--reveal-shift));
   transition: opacity var(--duration-slow) var(--easing),
-              transform var(--duration-slow) var(--easing);
+              --reveal-shift var(--duration-slow) var(--easing);
   transition-delay: var(--reveal-delay, 0ms);
 }
-.js .is-visible { opacity: 1 !important; transform: none !important; }
+.js .is-visible { opacity: 1 !important; --reveal-shift: 0px !important; }
+
+/* The reveal rule's `transition` shorthand would otherwise replace the hover
+   transitions these two already carry, making border and lift snap. */
+.js .card {
+  transform: var(--transform-stack);
+  transition: opacity var(--duration-slow) var(--easing),
+              --reveal-shift var(--duration-slow) var(--easing),
+              border-color var(--duration-base) var(--easing),
+              transform var(--duration-base) var(--easing);
+}
+.js .feature-row {
+  transition: opacity var(--duration-slow) var(--easing),
+              --reveal-shift var(--duration-slow) var(--easing),
+              border-color var(--duration-base) var(--easing);
+}
 
 /* Hero: a short staggered settle on load. */
 .js .hero-copy > * {

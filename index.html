@@ -731,6 +731,60 @@
       }
     })();
 
+    /* Pointer response: the aperture drifts towards the cursor, and project
+       cards tilt a few degrees. Both are fine-pointer only — a touch device
+       gets neither, because there is no hover state to respond to. */
+    (function () {
+      var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!fine || reduce) { return; }
+
+      var hero = document.querySelector('.hero');
+      var aperture = document.querySelector('.aperture');
+      if (hero && aperture) {
+        var apFrame = null;
+        hero.addEventListener('pointermove', function (e) {
+          if (apFrame) { return; }
+          apFrame = window.requestAnimationFrame(function () {
+            apFrame = null;
+            var r = hero.getBoundingClientRect();
+            /* +/-3% of the hero, so the core never travels far enough to
+               reach the type sitting in columns 1-6 */
+            var x = 62 + (((e.clientX - r.left) / r.width) - 0.5) * 6;
+            var y = 45 + (((e.clientY - r.top) / r.height) - 0.5) * 6;
+            aperture.style.setProperty('--aperture-x', x.toFixed(2) + '%');
+            aperture.style.setProperty('--aperture-y', y.toFixed(2) + '%');
+          });
+        }, { passive: true });
+        hero.addEventListener('pointerleave', function () {
+          aperture.style.setProperty('--aperture-x', '62%');
+          aperture.style.setProperty('--aperture-y', '45%');
+        });
+      }
+
+      var MAX_TILT = 3;
+      [].slice.call(document.querySelectorAll('.card')).forEach(function (card) {
+        var frame = null;
+        card.addEventListener('pointermove', function (e) {
+          if (frame) { return; }
+          frame = window.requestAnimationFrame(function () {
+            frame = null;
+            var r = card.getBoundingClientRect();
+            var px = ((e.clientX - r.left) / r.width) - 0.5;
+            var py = ((e.clientY - r.top) / r.height) - 0.5;
+            card.classList.add('is-tilting');
+            card.style.setProperty('--tilt-x', (-py * MAX_TILT).toFixed(2) + 'deg');
+            card.style.setProperty('--tilt-y', (px * MAX_TILT).toFixed(2) + 'deg');
+          });
+        }, { passive: true });
+        card.addEventListener('pointerleave', function () {
+          card.classList.remove('is-tilting');
+          card.style.removeProperty('--tilt-x');
+          card.style.removeProperty('--tilt-y');
+        });
+      });
+    })();
+
     /* Active-section indicator in the nav — colour AND underline, never colour alone. */
     (function () {
       var links = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
