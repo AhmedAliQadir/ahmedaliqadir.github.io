@@ -385,6 +385,67 @@ h3, .h3 {
 .marquee-item::after { content: "◆"; color: var(--brand); font-size: 0.5rem; }
 
 /* --------------------------------------------------------------------------
+   8b. Story interlude
+   Full-bleed plate between Experience and Work. Text sits above the media,
+   never over it — a scrim over moving video is a contrast ratio you cannot
+   actually measure, so the problem is designed out rather than mitigated.
+   -------------------------------------------------------------------------- */
+.story-stage {
+  position: relative;
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  aspect-ratio: 21 / 9;
+  overflow: hidden;
+  background: var(--dark-deep);
+}
+.story-stage video,
+.story-stage img { width: 100%; height: 100%; object-fit: cover; }
+.story-stage video { position: absolute; inset: 0; }
+/* fade the plate into the section on all four edges */
+.story-stage::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom, var(--dark) 0%, rgba(20, 18, 31, 0) 16%,
+                    rgba(20, 18, 31, 0) 84%, var(--dark) 100%),
+    linear-gradient(to right, var(--dark) 0%, rgba(20, 18, 31, 0) 12%,
+                    rgba(20, 18, 31, 0) 88%, var(--dark) 100%);
+}
+
+.story-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s6);
+  margin-top: var(--s12);
+}
+.story-strip figure { margin: 0; }
+.story-strip .frame {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--hairline);
+  background: var(--dark-deep);
+}
+.story-strip img { width: 100%; height: 100%; object-fit: cover; }
+.story-strip figcaption {
+  margin-top: var(--s3);
+  font-family: var(--font-mono);
+  font-size: var(--label);
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  color: var(--fg-muted);
+}
+.story-note {
+  margin-top: var(--s8);
+  font-family: var(--font-mono);
+  font-size: var(--label);
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  color: var(--fg-muted);
+  opacity: 0.7;
+}
+
+/* --------------------------------------------------------------------------
    9. Experience
    -------------------------------------------------------------------------- */
 .exp-row {
