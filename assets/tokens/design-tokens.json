@@ -1,0 +1,91 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "$description": "Night Aperture — design tokens for ahmedaliqadir.github.io. W3C DTCG format. The CSS custom properties in assets/site.css are the runtime source; this file is the portable definition.",
+  "colour": {
+    "$type": "color",
+    "night": {
+      "bg": { "$value": "#0B0A12", "$description": "Page background. Near-black with a violet undertone." },
+      "surface": { "$value": "#14121F", "$description": "Cards, nav bar, code blocks." },
+      "text-primary": { "$value": "#F1EFF7", "$description": "Headings and body. 17.28:1 on bg — AAA." },
+      "text-muted": { "$value": "#A6A0BA", "$description": "Captions, meta, dates, tech tags. 7.84:1 on bg — AAA." },
+      "accent": { "$value": "#B9A8FF", "$description": "The aperture, links, CTAs, focus ring. 9.48:1 on bg — AAA." },
+      "accent-hover": { "$value": "#C9BCFF", "$description": "Primary button hover." },
+      "accent-credential": { "$value": "#E0A458", "$description": "Brass. Credentials strip only — clearance, certifications, degree. 9.02:1 on bg — AAA." },
+      "border-interactive": { "$value": "#625C8C", "$description": "Card and input borders, focus outline base. 3.22:1 on bg — passes 3:1 for UI." },
+      "divider": { "$value": "#221F33", "$description": "Decorative hairlines. 1.23:1 — never carries meaning." },
+      "on-accent": { "$value": "#0B0A12", "$description": "Text on filled violet or brass. 9.48:1 and 9.02:1." }
+    },
+    "paper": {
+      "bg": { "$value": "#F5F2EC", "$description": "Case-study reading surface. Warm off-white, never pure white." },
+      "text-primary": { "$value": "#16141F", "$description": "16.29:1 on paper bg — AAA." },
+      "text-muted": { "$value": "#56506A", "$description": "6.83:1 on paper bg — AA." },
+      "accent": { "$value": "#5B44C4", "$description": "The violet darkened to hold on light. 6.12:1 on paper bg — AA." }
+    }
+  },
+  "font": {
+    "$type": "fontFamily",
+    "display": { "$value": ["Instrument Serif", "Georgia", "Times New Roman", "serif"] },
+    "body": { "$value": ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"] },
+    "mono": { "$value": ["ui-monospace", "SFMono-Regular", "SF Mono", "Menlo", "Consolas", "monospace"], "$description": "System stack. Zero network cost — the system stays at two loaded families." }
+  },
+  "text": {
+    "$type": "dimension",
+    "$description": "1.25 major third.",
+    "xs": { "$value": { "value": 0.8, "unit": "rem" } },
+    "sm": { "$value": { "value": 1, "unit": "rem" } },
+    "base": { "$value": { "value": 1, "unit": "rem" }, "$extensions": { "css": "clamp(1rem, 0.95rem + 0.25vw, 1.125rem)" } },
+    "lg": { "$value": { "value": 1.25, "unit": "rem" } },
+    "xl": { "$value": { "value": 1.5625, "unit": "rem" } },
+    "2xl": { "$value": { "value": 1.953, "unit": "rem" } },
+    "3xl": { "$value": { "value": 2.441, "unit": "rem" } },
+    "4xl": { "$value": { "value": 3.052, "unit": "rem" } },
+    "display": { "$value": { "value": 5, "unit": "rem" }, "$extensions": { "css": "clamp(2.75rem, 1.8rem + 4.5vw, 5rem)" } }
+  },
+  "leading": {
+    "$type": "number",
+    "display": { "$value": 1.05 },
+    "heading": { "$value": 1.15 },
+    "body": { "$value": 1.6 },
+    "prose": { "$value": 1.7, "$description": "Long-form case-study prose." }
+  },
+  "measure": {
+    "$type": "dimension",
+    "prose": { "$value": { "value": 65, "unit": "ch" }, "$description": "Non-negotiable on the paper pages." }
+  },
+  "space": {
+    "$type": "dimension",
+    "$description": "4px base.",
+    "1": { "$value": { "value": 0.25, "unit": "rem" } },
+    "2": { "$value": { "value": 0.5, "unit": "rem" } },
+    "3": { "$value": { "value": 0.75, "unit": "rem" } },
+    "4": { "$value": { "value": 1, "unit": "rem" } },
+    "6": { "$value": { "value": 1.5, "unit": "rem" } },
+    "8": { "$value": { "value": 2, "unit": "rem" } },
+    "12": { "$value": { "value": 3, "unit": "rem" } },
+    "16": { "$value": { "value": 4, "unit": "rem" } },
+    "24": { "$value": { "value": 6, "unit": "rem" } },
+    "30": { "$value": { "value": 7.5, "unit": "rem" } }
+  },
+  "radius": {
+    "$type": "dimension",
+    "$description": "Two only.",
+    "control": { "$value": { "value": 8, "unit": "px" }, "$description": "Buttons, inputs, small tiles." },
+    "card": { "$value": { "value": 20, "unit": "px" }, "$description": "Cards, feature rows, screenshot frames." }
+  },
+  "duration": {
+    "$type": "duration",
+    "fast": { "$value": { "value": 150, "unit": "ms" } },
+    "base": { "$value": { "value": 200, "unit": "ms" } },
+    "slow": { "$value": { "value": 300, "unit": "ms" } }
+  },
+  "easing": {
+    "$type": "cubicBezier",
+    "brand": { "$value": [0.22, 1, 0.36, 1] }
+  },
+  "layout": {
+    "$type": "dimension",
+    "container-max": { "$value": { "value": 1200, "unit": "px" } },
+    "gutter": { "$value": { "value": 1.5, "unit": "rem" }, "$description": "24px desktop, 20px at 640px and below." },
+    "section-rhythm": { "$value": { "value": 7.5, "unit": "rem" }, "$extensions": { "css": "clamp(4.5rem, 3rem + 6vw, 7.5rem)" }, "$description": "120px desktop, 72px mobile." }
+  }
+}

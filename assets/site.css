@@ -493,7 +493,9 @@ code { font-family: var(--font-mono); font-size: 0.9em; }
   overflow-x: auto;
 }
 .frame-code .c-accent { color: var(--colour-accent); }
-.frame-code .c-gate { color: var(--colour-accent-credential); }
+/* brass is reserved for the credentials strip, so the gate marker separates
+   itself by weight of colour rather than by introducing a second accent */
+.frame-code .c-gate { color: var(--colour-text-primary); }
 
 button.frame {
   display: block; width: 100%; padding: 0; cursor: pointer; position: relative;
@@ -515,10 +517,10 @@ button.frame:hover { border-color: var(--colour-accent); }
 button.frame:hover .frame-hint,
 button.frame:focus-visible .frame-hint { opacity: 1; }
 
-/* compact cards */
+/* compact cards — 3-up, per the brief; never a uniform wall of four */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-6);
 }
 .card {
@@ -553,6 +555,22 @@ button.frame:focus-visible .frame-hint { opacity: 1; }
 .card .tags { margin-top: auto; padding-top: var(--space-4); }
 .card .links { margin-top: var(--space-4); }
 
+/* The whole card is the link. The title carries the accessible name; the
+   pseudo-element covers the card. Genuinely interactive children (the
+   screenshot button, the explicit repo link) sit above it and still work. */
+.stretch-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+.card button.frame,
+.card .links a,
+.feature-row button.frame,
+.feature-row .links a,
+.feature-row .toolstrip { position: relative; z-index: 2; }
+
 .note {
   color: var(--colour-text-muted);
   font-size: var(--text-xs);
@@ -576,6 +594,9 @@ button.frame:focus-visible .frame-hint { opacity: 1; }
   position: relative;
   overflow: hidden;
 }
+.design-item-wide { grid-column: 1 / -1; }
+.design-item-wide p { max-width: var(--measure); }
+.design-item-wide .links { margin-top: var(--space-6); }
 .design-item h3 {
   font-family: var(--font-display);
   font-weight: 400;
@@ -886,7 +907,7 @@ body.paper .site-footer {
   gap: var(--space-2);
   padding: var(--space-1) var(--space-3);
   border: 1px solid var(--colour-divider);
-  border-radius: 999px;
+  border-radius: var(--radius-control);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   color: var(--colour-text-muted);
@@ -926,6 +947,7 @@ body.paper .site-footer {
    17. Responsive
    -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
+  .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .about-grid { grid-template-columns: 1fr; gap: var(--space-8); }
   .feature-row { grid-template-columns: 1fr; gap: var(--space-6); padding: var(--space-6); }
   .feature-row:nth-child(even) .feature-media { order: 0; }
@@ -933,6 +955,7 @@ body.paper .site-footer {
 
 @media (max-width: 640px) {
   :root { --gutter: 1.25rem; }
+  .card-grid { grid-template-columns: 1fr; }
   .nav-inner { flex-direction: column; align-items: flex-start; gap: var(--space-1); padding-block: var(--space-2); min-height: 0; }
   /* one scrollable row rather than a two-line sticky bar eating the viewport */
   .nav-links {
