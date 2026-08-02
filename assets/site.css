@@ -807,7 +807,123 @@ body.paper .site-footer {
 }
 
 /* --------------------------------------------------------------------------
-   16. Responsive
+   16. Motion — scroll reveal, agent trace, tool strip
+   Transforms and opacity only. Everything here is off under reduced motion,
+   and nothing is load-bearing: with JS disabled the page renders complete.
+   -------------------------------------------------------------------------- */
+
+/* Hidden-before-reveal is declared on the real selectors rather than on a
+   class JS adds later, so there is no flash of content before it hides.
+   Scoped to .js so a JS-off visitor simply sees everything. */
+.js .section > .container > .section-label,
+.js .section > .container > .section-title,
+.js .section > .container > .section-intro,
+.js .exp-item,
+.js .feature-row,
+.js .card,
+.js .design-item,
+.js .cert,
+.js .credentials-list li {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity var(--duration-slow) var(--easing),
+              transform var(--duration-slow) var(--easing);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js .is-visible { opacity: 1 !important; transform: none !important; }
+
+/* Hero: a short staggered settle on load. */
+.js .hero-copy > * {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: settle var(--duration-slow) var(--easing) forwards;
+}
+.js .hero-copy > *:nth-child(1) { animation-delay: 60ms; }
+.js .hero-copy > *:nth-child(2) { animation-delay: 140ms; }
+.js .hero-copy > *:nth-child(3) { animation-delay: 220ms; }
+.js .hero-copy > *:nth-child(4) { animation-delay: 300ms; }
+@keyframes settle { to { opacity: 1; transform: none; } }
+
+/* Orbixio Studio: the tool list writes itself out like an stdio trace. */
+.frame-code pre span.trace-line { display: block; }
+.js .frame-code[data-trace] pre span.trace-line { opacity: 0; }
+.js .frame-code[data-trace].is-running pre span.trace-line {
+  animation: trace-in var(--duration-base) var(--easing) forwards;
+}
+.js .frame-code[data-trace].is-running pre span.trace-line:nth-child(1) { animation-delay: 0ms; }
+.js .frame-code[data-trace].is-running pre span.trace-line:nth-child(2) { animation-delay: 160ms; }
+.js .frame-code[data-trace].is-running pre span.trace-line:nth-child(3) { animation-delay: 320ms; }
+.js .frame-code[data-trace].is-running pre span.trace-line:nth-child(4) { animation-delay: 480ms; }
+.js .frame-code[data-trace].is-running pre span.trace-line:nth-child(5) { animation-delay: 640ms; }
+.js .frame-code[data-trace].is-running pre span.trace-line:nth-child(6) { animation-delay: 800ms; }
+.js .frame-code[data-trace].is-running pre span.trace-line:nth-child(7) { animation-delay: 960ms; }
+@keyframes trace-in { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: none; } }
+
+.trace-caret {
+  display: inline-block;
+  width: 7px; height: 1em;
+  vertical-align: -0.15em;
+  background: var(--colour-accent);
+  opacity: 0;
+}
+.js .frame-code[data-trace].is-running .trace-caret {
+  animation: caret-appear 1ms linear 1120ms forwards, caret-blink 1.1s steps(1) 1120ms infinite;
+}
+@keyframes caret-appear { to { opacity: 1; } }
+@keyframes caret-blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+/* Tourista: the five tools the agent actually calls, lighting up in sequence. */
+.toolstrip {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+.toolstrip li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--colour-divider);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--colour-text-muted);
+  transition: border-color var(--duration-base) var(--easing),
+              color var(--duration-base) var(--easing);
+}
+.toolstrip li::before {
+  content: "";
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--colour-border-interactive);
+  transition: background-color var(--duration-base) var(--easing);
+}
+.js .toolstrip.is-running li {
+  animation: tool-call 6s var(--easing) infinite;
+}
+.js .toolstrip.is-running li:nth-child(1) { animation-delay: 0ms; }
+.js .toolstrip.is-running li:nth-child(2) { animation-delay: 400ms; }
+.js .toolstrip.is-running li:nth-child(3) { animation-delay: 800ms; }
+.js .toolstrip.is-running li:nth-child(4) { animation-delay: 1200ms; }
+.js .toolstrip.is-running li:nth-child(5) { animation-delay: 1600ms; }
+@keyframes tool-call {
+  0%, 100%   { border-color: var(--colour-divider); color: var(--colour-text-muted); }
+  4%, 30%    { border-color: var(--colour-accent); color: var(--colour-text-primary); }
+}
+.js .toolstrip.is-running li::before { animation: tool-dot 6s var(--easing) infinite; }
+.js .toolstrip.is-running li:nth-child(1)::before { animation-delay: 0ms; }
+.js .toolstrip.is-running li:nth-child(2)::before { animation-delay: 400ms; }
+.js .toolstrip.is-running li:nth-child(3)::before { animation-delay: 800ms; }
+.js .toolstrip.is-running li:nth-child(4)::before { animation-delay: 1200ms; }
+.js .toolstrip.is-running li:nth-child(5)::before { animation-delay: 1600ms; }
+@keyframes tool-dot {
+  0%, 100%   { background: var(--colour-border-interactive); }
+  4%, 30%    { background: var(--colour-accent); }
+}
+
+/* --------------------------------------------------------------------------
+   17. Responsive
    -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
   .about-grid { grid-template-columns: 1fr; gap: var(--space-8); }
@@ -852,7 +968,9 @@ body.paper .site-footer {
 }
 
 /* --------------------------------------------------------------------------
-   17. Reduced motion
+   18. Reduced motion
+   Nothing above is load-bearing, so switching it all off leaves a complete,
+   readable page rather than a page with holes in it.
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -860,4 +978,19 @@ body.paper .site-footer {
     animation: none !important;
     transition-duration: 0.01ms !important;
   }
+  .js .section > .container > .section-label,
+  .js .section > .container > .section-title,
+  .js .section > .container > .section-intro,
+  .js .exp-item,
+  .js .feature-row,
+  .js .card,
+  .js .design-item,
+  .js .cert,
+  .js .credentials-list li,
+  .js .hero-copy > *,
+  .js .frame-code[data-trace] pre span.trace-line {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .trace-caret { display: none; }
 }

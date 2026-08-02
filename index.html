@@ -19,6 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
@@ -199,7 +200,7 @@
             <div>
               <p class="feature-kicker">Flagship · Multi-tenant SaaS</p>
               <h3><a href="case-studies/accompro.html">AccomPro</a></h3>
-              <p class="feature-meta"><span>2024 — Present</span><span>Solo build</span><span>In demonstration discussions</span></p>
+              <p class="feature-meta"><span>2025 — Present</span><span>Solo build</span><span>In demonstration discussions</span></p>
               <p>A multi-tenant compliance platform for UK supported housing and social care — residents,
                 properties, incidents, encrypted documents and CQC compliance tracking inside isolated
                 per-organisation workspaces. Built solo, end to end.</p>
@@ -229,11 +230,15 @@
             <div>
               <p class="feature-kicker">Flagship · Agentic AI</p>
               <h3><a href="case-studies/tourista.html">Tourista</a></h3>
-              <p class="feature-meta"><span>2025 — 2026</span><span>Orbixio Ltd</span><span>Working MVP</span></p>
+              <p class="feature-meta"><span>2026</span><span>Orbixio Ltd</span><span>Working MVP</span></p>
               <p>A travel platform where one plain-English sentence becomes a costed itinerary. A Claude
                 tool-calling agent searches live flights, stays and hire cars through the Duffel API plus
                 Tourista's own tours, and streams the assembled trip back as it works. The Duffel tool layer
                 is written once and consumed twice — by the web backend and by a standalone MCP server.</p>
+              <!-- the five tools the agent actually calls, in call order -->
+              <ul class="toolstrip" aria-hidden="true">
+                <li>resolve_place</li><li>search_flights</li><li>search_stays</li><li>search_cars</li><li>search_tourista_tours</li>
+              </ul>
               <ul class="tags">
                 <li>React 19</li><li>TypeScript</li><li>Node.js</li><li>MongoDB</li><li>Stripe</li><li>Duffel API</li><li>Claude API</li><li>MCP</li>
               </ul>
@@ -271,14 +276,8 @@
               </p>
             </div>
             <div class="feature-media">
-              <div class="frame frame-code">
-                <pre><span class="c-accent">// MCP tools exposed over stdio</span>
-list_channels
-get_channel
-generate_script
-review_script
-approve_script   <span class="c-gate">← human gate</span>
-reject_script    <span class="c-gate">← human gate</span></pre>
+              <div class="frame frame-code" data-trace>
+                <pre><span class="trace-line c-accent">// MCP tools exposed over stdio</span><span class="trace-line">list_channels</span><span class="trace-line">get_channel</span><span class="trace-line">generate_script</span><span class="trace-line">review_script</span><span class="trace-line">approve_script   <span class="c-gate">← human gate</span></span><span class="trace-line">reject_script    <span class="c-gate">← human gate</span><span class="trace-caret" aria-hidden="true"></span></span></pre>
               </div>
             </div>
           </article>
@@ -615,6 +614,90 @@ reject_script    <span class="c-gate">← human gate</span></pre>
           else if (focusable.indexOf(document.activeElement) === -1) { e.preventDefault(); first.focus(); }
         }
       });
+    })();
+
+    /* Scroll reveal, the MCP trace and the agent tool strip.
+       All decorative: if any of this fails, the page is still complete. */
+    (function () {
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var REVEAL = [
+        '.section > .container > .section-label',
+        '.section > .container > .section-title',
+        '.section > .container > .section-intro',
+        '.exp-item', '.feature-row', '.card', '.design-item', '.cert',
+        '.credentials-list li'
+      ].join(',');
+      var targets = [].slice.call(document.querySelectorAll(REVEAL));
+
+      function showAll() {
+        targets.forEach(function (el) { el.classList.add('is-visible'); });
+        [].slice.call(document.querySelectorAll('[data-trace]')).forEach(function (el) { el.classList.add('is-running'); });
+        [].slice.call(document.querySelectorAll('.toolstrip')).forEach(function (el) { el.classList.add('is-running'); });
+      }
+
+      if (reduce || !('IntersectionObserver' in window)) { showAll(); return; }
+
+      /* stagger siblings within the same grid or list */
+      targets.forEach(function (el) {
+        var siblings = [].slice.call(el.parentNode.children).filter(function (n) { return targets.indexOf(n) !== -1; });
+        var i = siblings.indexOf(el);
+        if (i > 0) { el.style.setProperty('--reveal-delay', Math.min(i, 6) * 60 + 'ms'); }
+      });
+
+      /* Position check rather than IntersectionObserver events: a fast scroll,
+         an anchor jump or a load at #hash can skip past a short element between
+         observer samples and leave it invisible forever. Anything at or above
+         the fold line is revealed, so nothing can be stranded. */
+      var pending = targets.slice();
+      var queued = false;
+
+      function sweep() {
+        queued = false;
+        var line = window.innerHeight * 0.92;
+        for (var i = pending.length - 1; i >= 0; i--) {
+          if (pending[i].getBoundingClientRect().top < line) {
+            pending[i].classList.add('is-visible');
+            pending.splice(i, 1);
+          }
+        }
+        if (!pending.length) {
+          window.removeEventListener('scroll', onChange);
+          window.removeEventListener('resize', onChange);
+        }
+      }
+      function onChange() {
+        if (queued) { return; }
+        queued = true;
+        window.requestAnimationFrame(sweep);
+      }
+
+      window.addEventListener('scroll', onChange, { passive: true });
+      window.addEventListener('resize', onChange);
+      window.addEventListener('load', onChange);
+      sweep();
+
+      /* the trace writes itself once; the tool strip only runs while on screen */
+      var trace = document.querySelector('[data-trace]');
+      if (trace) {
+        var traceObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) { return; }
+            entry.target.classList.add('is-running');
+            traceObserver.unobserve(entry.target);
+          });
+        }, { threshold: 0.4 });
+        traceObserver.observe(trace);
+      }
+
+      var strip = document.querySelector('.toolstrip');
+      if (strip) {
+        var stripObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            entry.target.classList.toggle('is-running', entry.isIntersecting);
+          });
+        }, { threshold: 0.3 });
+        stripObserver.observe(strip);
+      }
     })();
 
     /* Active-section indicator in the nav — colour AND underline, never colour alone. */
