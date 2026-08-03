@@ -318,28 +318,15 @@ h3, .h3 {
 .hero-meta { display: flex; flex-direction: column; gap: var(--s6); }
 .hero-actions { display: flex; gap: var(--s3); flex-wrap: wrap; }
 
-/* Slot for a real photograph. Until one exists it holds its own space and
-   says so, rather than being filled with something invented. */
 .portrait {
   position: relative;
   aspect-ratio: 4 / 5;
   border-radius: var(--radius);
   overflow: hidden;
   background: var(--paper-raised);
-  border: 1px dashed var(--rule);
-  display: grid;
-  place-items: center;
+  border: 1px solid var(--rule);
 }
 .portrait img { width: 100%; height: 100%; object-fit: cover; }
-.portrait-note {
-  font-family: var(--font-mono);
-  font-size: var(--label);
-  text-transform: uppercase;
-  letter-spacing: var(--track-label);
-  color: var(--ink-muted);
-  text-align: center;
-  padding: var(--s4);
-}
 
 .scroll-hint {
   position: absolute; left: var(--gutter); bottom: var(--s6);
