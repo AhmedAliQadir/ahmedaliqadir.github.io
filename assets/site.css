@@ -315,6 +315,16 @@ h3, .h3 {
   margin-bottom: var(--s4);
 }
 .hero-h1 .display { display: block; }
+/* States the target roles plainly, rather than leaving a recruiter to infer
+   them from the project mix. Muted body copy with the role names picked out
+   — not accent-coloured, which is already spent on the eyebrow line above. */
+.hero-roles {
+  margin-top: var(--s4);
+  font-size: var(--small);
+  color: var(--ink-muted);
+}
+.hero-roles strong { color: var(--ink); font-weight: 500; }
+
 .hero-meta { display: flex; flex-direction: column; gap: var(--s6); }
 .hero-actions { display: flex; gap: var(--s3); flex-wrap: wrap; }
 
@@ -498,7 +508,21 @@ h3, .h3 {
 /* --------------------------------------------------------------------------
    11. Capability list
    -------------------------------------------------------------------------- */
-.cap-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--s16); }
+/* Four groups (Full Stack / AI / Cloud & DevOps / Service Management) rather
+   than one flat list — the count of sixteen was never the point, being able
+   to scan by category is. Numbering restarts per group: it now encodes
+   position within a category, not an arbitrary total. */
+.cap-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s12) var(--s16); }
+.cap-group-title {
+  font-family: var(--font-mono);
+  font-size: var(--label);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  color: var(--brand);
+  margin-bottom: var(--s3);
+}
+.cap-list { display: flex; flex-direction: column; }
 .cap {
   display: flex; align-items: baseline; gap: var(--s4);
   padding-block: var(--s3);
@@ -725,7 +749,7 @@ h3, .h3 {
   .nav-links::-webkit-scrollbar { display: none; }
   .exp-row { grid-template-columns: 1fr; gap: var(--s4); }
   .work-row { grid-template-columns: 1fr; gap: var(--s4); }
-  .cap-grid { grid-template-columns: 1fr; gap: 0; }
+  .cap-groups { grid-template-columns: 1fr; gap: var(--s8); }
   .card-grid, .minor-grid, .cert-grid { grid-template-columns: 1fr; }
   .lead { max-width: none; }
   .hero { min-height: auto; padding-block: 8rem var(--s12); }
