@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing — Ahmed Ali Qadir</title>
+  <meta name="description" content="Essays on agentic AI, the Model Context Protocol, and building software for regulated environments — by Ahmed Ali Qadir, founder of Orbixio Ltd.">
+  <meta property="og:title" content="Writing — Ahmed Ali Qadir">
+  <meta property="og:description" content="Essays on agentic AI, MCP, and building software for regulated environments.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ahmedaliqadir.github.io/blog/">
+  <link rel="canonical" href="https://ahmedaliqadir.github.io/blog/">
+  <meta name="theme-color" content="#F2F0EA">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+
+  <style>
+    /* Post list — built on the site's own design tokens so it stays native. */
+    .writing-list { max-width: var(--measure); margin-top: var(--s8); border-top: 1px solid var(--rule); }
+    .post {
+      display: block;
+      padding-block: var(--s6);
+      border-bottom: 1px solid var(--rule);
+      color: inherit;
+      text-decoration: none;
+    }
+    .post-meta {
+      font-family: var(--font-mono);
+      font-size: var(--label);
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      gap: var(--s4);
+      flex-wrap: wrap;
+      margin-bottom: var(--s2);
+    }
+    .post h2 {
+      font-family: var(--font-display);
+      font-size: var(--h3);
+      line-height: var(--leading-h2);
+      letter-spacing: var(--track-h3);
+      color: var(--ink);
+      margin: 0 0 var(--s2);
+      transition: color var(--dur) var(--ease);
+    }
+    .post p { color: var(--ink-muted); line-height: var(--leading-prose); margin: 0; }
+    .post-more {
+      display: inline-block;
+      margin-top: var(--s3);
+      font-family: var(--font-mono);
+      font-size: var(--label);
+      text-transform: uppercase;
+      letter-spacing: var(--track-label);
+      color: var(--accent);
+    }
+    .post:hover h2 { color: var(--accent); }
+    .post:hover .post-more { text-decoration: underline; text-underline-offset: 4px; }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <a class="nav-name" href="../index.html">Ahmed Ali Qadir<span>.</span></a>
+    <nav aria-label="Sections">
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="index.html" aria-current="page">Writing</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-pill-sm" href="../index.html#contact">Let's talk</a>
+  </header>
+
+  <main id="main">
+
+    <div class="container study-header">
+      <p class="study-kicker">Writing</p>
+      <h1>Notes from the build</h1>
+      <p class="study-standfirst">Essays on agentic AI, the Model Context Protocol, and building software
+        for environments where being correct matters as much as being clever.</p>
+    </div>
+
+    <section class="container">
+      <div class="writing-list">
+
+        <a class="post" href="the-agent-can-look-but-it-cannot-book.html">
+          <div class="post-meta">
+            <span>Aug 2026</span>
+            <span>Agentic AI</span>
+            <span>6 min</span>
+          </div>
+          <h2>The agent can look, but it cannot book</h2>
+          <p>Five design decisions from building a production Model Context Protocol server — and why the
+            most important one is deciding what the agent must never be able to do.</p>
+          <span class="post-more">Read →</span>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Ahmed Ali Qadir</p>
+      <p><a href="../index.html">ahmedaliqadir.github.io</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>

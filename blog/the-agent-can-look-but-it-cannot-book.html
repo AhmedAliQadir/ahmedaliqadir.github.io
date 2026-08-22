@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The agent can look, but it cannot book — Ahmed Ali Qadir</title>
+  <meta name="description" content="Building an MCP server that gives an AI agent live travel data — and is structurally incapable of booking anything. Five design decisions, with the code.">
+  <meta property="og:title" content="The agent can look, but it cannot book">
+  <meta property="og:description" content="Five design decisions from building a production Model Context Protocol server.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ahmedaliqadir.github.io/blog/the-agent-can-look-but-it-cannot-book.html">
+  <link rel="canonical" href="https://ahmedaliqadir.github.io/blog/the-agent-can-look-but-it-cannot-book.html">
+  <meta name="theme-color" content="#F2F0EA">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <a class="nav-name" href="../index.html">Ahmed Ali Qadir<span>.</span></a>
+    <nav aria-label="Sections">
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="index.html">Writing</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-pill-sm" href="../index.html#contact">Let's talk</a>
+  </header>
+
+  <main id="main">
+
+    <div class="container study-header">
+      <p class="study-kicker">Essay · Agentic AI</p>
+      <h1>The agent can look, but it cannot book</h1>
+      <p class="study-standfirst">Five design decisions from building a production Model Context Protocol
+        server — and why the most important one is deciding what the agent must never be able to do.</p>
+
+      <dl class="study-facts">
+        <div>
+          <dt>Published</dt>
+          <dd>August 2026</dd>
+        </div>
+        <div>
+          <dt>Topic</dt>
+          <dd>MCP · agent safety · TypeScript</dd>
+        </div>
+        <div>
+          <dt>Source</dt>
+          <dd><a href="https://github.com/AhmedAliQadir/duffel-mcp" target="_blank" rel="noopener noreferrer">github.com/AhmedAliQadir/duffel-mcp</a></dd>
+        </div>
+        <div>
+          <dt>Read</dt>
+          <dd>About 6 minutes</dd>
+        </div>
+      </dl>
+    </div>
+
+    <article class="container study-body">
+
+      <p>There is a question I keep coming back to when I build tools for AI agents, and it is not <em>what
+        can this agent do?</em></p>
+      <p>It is <em>what have I made it structurally incapable of doing?</em></p>
+      <p>Those are different questions, and the difference matters. The first is answered by a prompt. The
+        second is answered by architecture — and only one of them survives contact with a model that has
+        misread the situation.</p>
+      <p>I recently published <a href="https://github.com/AhmedAliQadir/duffel-mcp" target="_blank" rel="noopener noreferrer"><code>duffel-mcp</code></a>,
+        a Model Context Protocol server that gives an AI assistant access to live travel inventory: flights,
+        hotels and hire cars, through the <a href="https://duffel.com" target="_blank" rel="noopener noreferrer">Duffel</a>
+        API. Real availability, real prices, real airlines.</p>
+      <p>It cannot book anything. Not because I told it not to. Because the capability does not exist in the
+        server.</p>
+      <p>Here are five decisions that went into it, and why I would make the same ones again.</p>
+
+      <h2>1. Make it incapable, not instructed</h2>
+      <p>Duffel is a booking API. It can create orders, take payment, issue tickets. Wiring all of that into
+        an MCP server would have been the obvious move — full coverage, maximum capability.</p>
+      <p>I exposed four tools: <code>resolve_place</code> (name to IATA code and coordinates),
+        <code>search_flights</code>, <code>search_stays</code> and <code>search_cars</code>. Every one of
+        them reads. None of them writes. There is no <code>create_order</code>, no <code>confirm_payment</code>,
+        no <code>issue_ticket</code> — not disabled, not permission-gated, not hidden behind a flag. Absent.</p>
+      <p>This matters because "the model was instructed not to book" is not a security control. It is a hope.
+        A tool that does not exist cannot be called by a confused model, a badly worded user request, or a
+        prompt injection buried in a web page the agent happened to read.</p>
+      <p>The blast radius of this server is bounded by what I chose to build, not by what the model chooses to
+        do.</p>
+      <p>There is a second reason, and it is the one I would flag to anyone building agent tooling in a
+        regulated market. The moment that server can issue a ticket, it is not a coding project any more. In
+        UK travel it is potentially an ATOL matter, with payment handling and consumer-protection obligations
+        attached. I left a note in the source to that effect:</p>
+      <pre><code>/**
+ * Single Duffel client for the whole tool layer.
+ * Use a TEST token (duffel_test_...) — real API shape, no money,
+ * no booking/compliance surface. Swap to a live token only if you ever move
+ * past the demo (which pulls in ATOL / payment obligations — out of scope here).
+ */</code></pre>
+      <p>Capability boundaries are compliance boundaries. Draw them deliberately, and write down why.</p>
+
+      <h2>2. The tool description is an API — for the model</h2>
+      <p>The consumer of an MCP tool description is not a developer reading docs. It is a language model
+        deciding, right now, which tool to call and in what order.</p>
+      <p>Travel search has a dependency that is invisible unless you say so: flights need IATA codes, but
+        hotels and cars need latitude and longitude. Ask a model to find a hotel in Lisbon and it will
+        happily invent a plausible coordinate. So <code>resolve_place</code> says this:</p>
+      <pre><code>description:
+  "Resolve a city or airport name to IATA code(s) and geographic coordinates. " +
+  "Call this FIRST: flights need the IATA code, while stays and cars need the " +
+  "latitude/longitude. Picking an airport result usually gives you both."</code></pre>
+      <p>"Call this FIRST" is not documentation. It is control flow, expressed in the only language the caller
+        reads. That one line is the difference between a chained, grounded search and a model guessing that
+        Lisbon is at 38.7, -9.1 and being roughly right in a way you will not notice until it is wrong.</p>
+      <p>Write descriptions for the model that will read them, not for the human who will review them.</p>
+
+      <h2>3. The schema is a guardrail, not a formality</h2>
+      <p>Every input is a <a href="https://zod.dev" target="_blank" rel="noopener noreferrer">zod</a> schema,
+        and I use it to make invalid calls unrepresentable rather than merely detectable:</p>
+      <pre><code>inputSchema: {
+  origin: z.string().length(3).describe("Origin IATA code, e.g. MAN"),
+  destination: z.string().length(3).describe("Destination IATA code, e.g. BCN"),
+  departure_date: z.string().describe("YYYY-MM-DD"),
+  return_date: z.string().optional().describe("YYYY-MM-DD; omit for one-way"),
+  adults: z.number().int().min(1).default(1),
+  cabin_class: z
+    .enum(["economy", "premium_economy", "business", "first"])
+    .default("economy"),
+}</code></pre>
+      <p><code>.length(3)</code> rejects "Manchester" where MAN belongs — the most common failure I saw in
+        testing. The enum means the model cannot invent a cabin class. The defaults mean an under-specified
+        call still succeeds rather than erroring back into a retry loop that burns context.</p>
+      <p>A schema that merely validates catches mistakes. A schema that constrains prevents them.</p>
+
+      <h2>4. Fail at startup, not at the first tool call</h2>
+      <pre><code>if (!process.env.DUFFEL_API_KEY) {
+  // stdout is reserved for the MCP protocol — log only to stderr.
+  console.error(
+    "[orbixio-duffel-mcp] DUFFEL_API_KEY is not set. Add your Duffel TEST token to the environment.",
+  );
+  process.exit(1);
+}</code></pre>
+      <p>Without this, a missing token produces a server that starts cleanly, connects, advertises four
+        tools, and then fails on the first search with whatever the SDK happens to throw — surfaced to the
+        user as a model apologising vaguely for a problem it cannot see.</p>
+      <p>I spend my working days in a network operations centre, where I own live incidents on enterprise
+        infrastructure. That job teaches one lesson relentlessly: <strong>the cost of a failure is set by how
+        far it travels before someone notices.</strong> A process that refuses to start is a thirty-second
+        fix. The same fault discovered three layers up, through an agent's polite confusion, is an
+        afternoon.</p>
+      <p>Fail early, fail loudly, and put the fix in the error message.</p>
+
+      <h2>5. stdout belongs to the protocol</h2>
+      <p>Note the comment above that <code>console.error</code>. On a stdio transport, MCP speaks JSON-RPC
+        over stdout. Anything else written there — a stray <code>console.log</code>, a debug line, a
+        dependency's startup banner — is injected directly into the protocol stream and corrupts it.</p>
+      <p>The failure mode is genuinely unpleasant: the server appears to run, the client cannot parse it, and
+        nothing in the error points at the <code>console.log</code> you added while debugging something
+        unrelated. All logging goes to stderr. All of it, permanently, no exceptions.</p>
+      <p>I enforce the same discipline in testing. The smoke test refuses to run against anything but a test
+        token:</p>
+      <pre><code>const key = process.env.DUFFEL_API_KEY ?? '';
+if (!key.startsWith('duffel_test_')) {
+  console.error('FAIL: DUFFEL_API_KEY missing or not a TEST token (must start with duffel_test_).');
+  process.exit(1);
+}</code></pre>
+      <p>You cannot accidentally point the test suite at production. The check costs three lines.</p>
+
+      <h2>One more: give the model less</h2>
+      <p>Duffel's flight responses are large — deeply nested offers, segments, fare conditions, baggage
+        allowances. I return five:</p>
+      <pre><code>.sort((a, b) =&gt; parseFloat(a.total_amount) - parseFloat(b.total_amount))
+.slice(0, 5)
+.map((o) =&gt; ({ /* price, airline, times, stops */ }))</code></pre>
+      <p>Sorted by price, trimmed to the fields a traveller actually weighs. This is partly context economics
+        — raw payloads are enormous and the window is finite. But mostly it is that <strong>models reason
+        better over small, predictable shapes than over complete ones.</strong> Twenty fields of nested truth
+        produce worse answers than six fields of relevant truth.</p>
+      <p>Normalising responses is not a convenience layer. It is part of the reasoning surface you are
+        designing.</p>
+
+      <h2>What I would take to the next one</h2>
+      <p>The framing that has been most useful to me is this: an MCP server is not an API wrapper. It is
+        <strong>an interface between a probabilistic caller and a deterministic system</strong>, and every
+        design decision either narrows or widens the gap where the probability leaks through.</p>
+      <p>Tool descriptions steer the caller. Schemas constrain it. Absent capabilities bound it. Startup
+        checks catch operator error before the model ever inherits it. Trimmed responses give it less room to
+        reason badly. None of that is exotic. It is ordinary engineering discipline, applied at a boundary
+        that is new enough that we are all still deciding what the conventions should be.</p>
+      <blockquote>The one I would argue hardest for is the first. Before you build an agent tool, decide what
+        it must never be able to do — and then make that true in the architecture, not in the prompt. An
+        instruction is a preference. An absent code path is a guarantee.</blockquote>
+      <p>The server is open source under MIT, in TypeScript on the official Anthropic MCP SDK:
+        <a href="https://github.com/AhmedAliQadir/duffel-mcp" target="_blank" rel="noopener noreferrer">github.com/AhmedAliQadir/duffel-mcp</a>.
+        I build AI systems for regulated and compliance-sensitive UK sectors through Orbixio Ltd. If you are
+        working on agent safety or MCP tooling, I would be glad to compare notes.</p>
+
+      <nav class="study-nav" aria-label="More">
+        <a href="index.html">← All writing</a>
+        <a href="../index.html#work">See the work →</a>
+        <a href="../index.html#contact">Get in touch →</a>
+      </nav>
+
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Ahmed Ali Qadir</p>
+      <p><a href="../index.html">ahmedaliqadir.github.io</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
