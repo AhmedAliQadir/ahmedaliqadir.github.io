@@ -262,7 +262,7 @@
       var down = false, moved = false, startX = 0, startLeft = 0;
       track.addEventListener('pointerdown', function (e) {
         if (e.pointerType !== 'mouse' || e.button !== 0) { return; }
-        if (e.target.closest('a, button, video[controls]')) { return; }
+        if (e.target.closest('a, button')) { return; }
         down = true; moved = false; startX = e.clientX; startLeft = track.scrollLeft;
       });
       window.addEventListener('pointermove', function (e) {
@@ -283,78 +283,8 @@
       track.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
     })();
 
-    /* Videos in slides: fetched only when their slide is on screen, played
-       muted while visible, paused otherwise. Reduced motion: never autoplay —
-       the poster stays and native controls appear instead. */
-    var vids = $$('video.lazy-video', track);
-    var load = function (v) { if (!v.getAttribute('src')) { v.src = v.getAttribute('data-src'); } };
-    if (reduce || !('IntersectionObserver' in window)) {
-      vids.forEach(function (v) { v.controls = true; v.preload = 'none'; v.addEventListener('play', function () { load(v); }, { once: true }); load(v); });
-    } else {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          var v = en.target;
-          if (en.isIntersecting && en.intersectionRatio >= 0.55) {
-            load(v);
-            var p = v.play(); if (p && p.catch) { p.catch(function () {}); }
-          } else { v.pause(); }
-        });
-      }, { threshold: [0, 0.55, 1] });
-      vids.forEach(function (v) { io.observe(v); });
-    }
-
     buildTicks();
     measure();
-  })();
-
-  /* ------------------------------------------------------------------
-     7. Reel player
-     ------------------------------------------------------------------ */
-  (function () {
-    var video = $('.reel-video');
-    if (!video) { return; }
-    var frame = $('.reel-frame');
-    var title = $('.reel-title'), meta = $('.reel-meta'), desc = $('.reel-desc');
-    var picks = $$('.pick');
-    var started = false;
-
-    function startMuted() {
-      if (started) { return; }
-      started = true;
-      video.src = video.getAttribute('data-autoload');
-      if (!reduce) { var p = video.play(); if (p && p.catch) { p.catch(function () {}); } }
-    }
-
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (en.isIntersecting) {
-            if (!started) { startMuted(); }
-            else if (video.muted && !reduce) { video.play().catch(function () {}); }
-          } else if (started) { video.pause(); }
-        });
-      }, { threshold: 0.35 }).observe(frame);
-    } else { video.src = video.getAttribute('data-autoload'); started = true; }
-
-    picks.forEach(function (b) {
-      b.addEventListener('click', function () {
-        picks.forEach(function (o) { o.classList.toggle('is-on', o === b); o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
-        started = true;
-        video.pause();
-        video.poster = b.getAttribute('data-poster');
-        frame.style.setProperty('--poster', 'url("' + new URL(b.getAttribute('data-poster'), document.baseURI).href + '")');
-        video.src = b.getAttribute('data-src');
-        frame.classList.toggle('is-tall', b.getAttribute('data-shape') === 'tall');
-        frame.classList.toggle('is-wide', b.getAttribute('data-shape') !== 'tall');
-        title.textContent = b.getAttribute('data-title');
-        meta.textContent = b.getAttribute('data-meta');
-        desc.textContent = b.getAttribute('data-desc');
-        /* A click is a user gesture, so this one plays with sound. */
-        video.muted = false;
-        var p = video.play(); if (p && p.catch) { p.catch(function () { video.muted = true; video.play().catch(function () {}); }); }
-        if (mq('(max-width: 1000px)')) { frame.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); }
-      });
-    });
   })();
 
   /* ------------------------------------------------------------------
