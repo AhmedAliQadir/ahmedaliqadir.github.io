@@ -15,6 +15,9 @@ module.exports = {
         ink: { DEFAULT: '#14121B', muted: '#56506A' },
         accent: { DEFAULT: '#5B44C4', hover: '#4733A8' },
         dark: { DEFAULT: '#14121F', deep: '#0B0A12', ink: '#F1EFF7', muted: '#A6A0BA', accent: '#B9A8FF' },
+        pop: '#FFD84A',
+        tint: { violet: '#E6E1FA', yellow: '#FBF0C6', mint: '#D9F0E4', coral: '#FADAD3', sky: '#D8E8F7' },
+        card: '#FBFAF6',
       },
       fontFamily: {
         display: ['"Space Grotesk"', '"Segoe UI"', 'system-ui', 'sans-serif'],
