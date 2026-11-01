@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automation strategy, end to end — Ahmed Ali Qadir</title>
+  <meta name="description" content="Worked engagement: taking a SaaS company's 1,900 bottom-up Zaps to a governed, measured automation programme — discovery, use-case scoring, three orchestrations, ROI model and governance.">
+  <meta property="og:title" content="Automation strategy, end to end — Ahmed Ali Qadir">
+  <meta property="og:description" content="Worked engagement: discovery, use-case scoring, three Zapier orchestrations, an ROI model and a governance playbook for a fictional 450-person SaaS company.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ahmedaliqadir.github.io/case-studies/automation-strategy.html">
+  <meta property="og:image" content="https://ahmedaliqadir.github.io/assets/og-image.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="627">
+  <meta property="og:image:alt" content="Ahmed Ali Qadir — AI Automation Consultant. Less manual work. Outcomes, engineered.">
+  <meta property="og:site_name" content="Ahmed Ali Qadir">
+  <meta property="og:locale" content="en_GB">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://ahmedaliqadir.github.io/case-studies/automation-strategy.html">
+  <meta name="theme-color" content="#F2F0EA">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+  <style>
+    /* Page-specific components. Everything uses the site tokens from site.css. */
+    .study-body > .wide { max-width: none; }
+    .notice {
+      margin-top: var(--s8); padding: var(--s4) var(--s6);
+      border-left: 3px solid var(--accent); background: var(--paper-raised);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .notice p { color: var(--ink); font-size: var(--small); }
+    .eyebrow {
+      font-family: var(--font-mono); font-size: var(--label); letter-spacing: var(--track-label);
+      text-transform: uppercase; color: var(--accent);
+    }
+
+    /* Metric strip */
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px;
+      background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; margin-top: var(--s6); }
+    .metric { background: var(--paper); padding: var(--s4) var(--s6); }
+    .metric b { display: block; font-size: 1.75rem; letter-spacing: var(--track-h3); color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+    .metric span { font-size: var(--small); color: var(--ink-muted); line-height: 1.45; display: block; margin-top: var(--s1); }
+
+    /* Tables */
+    .tbl-wrap { overflow-x: auto; margin-top: var(--s6); border: 1px solid var(--rule); border-radius: var(--radius); }
+    table.tbl { width: 100%; border-collapse: collapse; font-size: var(--small); min-width: 560px; }
+    .tbl th, .tbl td { text-align: left; padding: var(--s3) var(--s4); border-bottom: 1px solid var(--rule); vertical-align: top; }
+    .tbl th { font-family: var(--font-mono); font-size: var(--label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-muted); font-weight: 400; background: var(--paper-raised); }
+    .tbl td { color: var(--ink-muted); line-height: 1.5; }
+    .tbl td:first-child { color: var(--ink); }
+    .tbl tr:last-child td { border-bottom: 0; }
+    .tbl .n { font-variant-numeric: tabular-nums; text-align: right; }
+    .tbl tbody tr.is-hl td { background: rgba(91, 68, 196, 0.07); }
+
+    /* Prioritisation matrix */
+    .matrix-tools { display: flex; flex-wrap: wrap; gap: var(--s6); align-items: end; margin-top: var(--s6); }
+    .matrix-tools label { display: grid; gap: var(--s1); font-size: var(--small); color: var(--ink-muted); }
+    .matrix-tools input[type=range] { width: 150px; accent-color: var(--accent); }
+    .matrix-tools output { font-family: var(--font-mono); color: var(--ink); }
+    .chips { display: flex; flex-wrap: wrap; gap: var(--s2); }
+    .chip-btn { font: inherit; font-size: var(--small); padding: 0.35rem 0.85rem; border-radius: var(--radius-pill);
+      border: 1px solid var(--rule); background: transparent; color: var(--ink); cursor: pointer; }
+    .chip-btn[aria-pressed=true] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .matrix-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--s8); margin-top: var(--s6); align-items: start; }
+    .matrix-svg { width: 100%; height: auto; display: block; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--paper); }
+    .matrix-svg text { font-family: var(--font-mono); }
+    .matrix-svg .dot { cursor: pointer; transition: opacity var(--dur-fast) var(--ease); }
+    .matrix-svg .dot:focus { outline: none; }
+    .matrix-svg .dot:focus circle.core, .matrix-svg .dot.is-sel circle.core { stroke: var(--ink); stroke-width: 2.5; }
+    .detail { border: 1px solid var(--rule); border-radius: var(--radius); padding: var(--s6); min-height: 220px; }
+    .detail h4 { font-size: 1.125rem; letter-spacing: var(--track-h3); font-weight: 500; margin-top: var(--s2); }
+    .detail p { font-size: var(--small); margin-top: var(--s3); }
+    .scores { display: flex; gap: var(--s4); margin-top: var(--s4); font-family: var(--font-mono); font-size: var(--small); color: var(--ink); }
+    .rank-list { margin-top: var(--s6); list-style: none; padding: 0 !important; counter-reset: r; }
+    .rank-list li { display: grid; grid-template-columns: 2rem 1fr auto; gap: var(--s3); align-items: baseline; padding: var(--s2) 0; border-bottom: 1px solid var(--rule); margin: 0 !important; font-size: var(--small); }
+    .rank-list li::before { counter-increment: r; content: counter(r, decimal-leading-zero); font-family: var(--font-mono); color: var(--ink-muted); }
+    .rank-list .sc { font-family: var(--font-mono); color: var(--ink); }
+    .rank-list .tag { font-family: var(--font-mono); font-size: var(--label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--accent); margin-left: var(--s2); }
+
+    /* Orchestration rails */
+    .flow { margin-top: var(--s6); border: 1px solid var(--rule); border-radius: var(--radius); padding: var(--s6); }
+    .flow-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s3); align-items: baseline; }
+    .flow-head h3 { margin-top: 0 !important; }
+    .flow-kpi { font-family: var(--font-mono); font-size: var(--small); color: var(--accent); }
+    .rail { list-style: none; padding: 0 !important; margin-top: var(--s6) !important; position: relative; }
+    .rail::before { content: ""; position: absolute; left: 0.95rem; top: 0.5rem; bottom: 0.5rem; width: 1px; background: var(--rule); }
+    .rail li { position: relative; padding-left: 3rem; margin: 0 0 var(--s4) !important; }
+    .rail li:last-child { margin-bottom: 0 !important; }
+    .rail .k { position: absolute; left: 0; top: 0; width: 1.9rem; height: 1.9rem; border-radius: 50%; display: grid; place-items: center;
+      font-family: var(--font-mono); font-size: 0.7rem; background: var(--paper); border: 1px solid var(--rule); color: var(--ink); }
+    .rail .k.t { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .rail .k.ai { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .rail .k.h { background: #FFD84A; color: var(--ink); border-color: #E2BB2C; }
+    .rail b { color: var(--ink); font-weight: 500; }
+    .rail .app { font-family: var(--font-mono); font-size: var(--label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-muted); margin-left: var(--s2); }
+    .rail p { font-size: var(--small); margin-top: var(--s1) !important; }
+    .legend { display: flex; flex-wrap: wrap; gap: var(--s4); margin-top: var(--s4); font-size: var(--small); color: var(--ink-muted); }
+    .legend i { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 50%; vertical-align: -1px; margin-right: var(--s1); border: 1px solid var(--rule); }
+    .guard { margin-top: var(--s6); padding-top: var(--s4); border-top: 1px dashed var(--rule); }
+    .guard p { font-size: var(--small); }
+
+    /* ROI calculator */
+    .calc { margin-top: var(--s6); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+    .calc-row { display: grid; grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr)) minmax(0, 0.9fr); gap: var(--s4); padding: var(--s4) var(--s6); border-bottom: 1px solid var(--rule); align-items: end; }
+    .calc-row.head { background: var(--paper-raised); font-family: var(--font-mono); font-size: var(--label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-muted); align-items: center; }
+    .calc-row .name { color: var(--ink); font-size: var(--small); }
+    .calc input[type=number] { width: 100%; font: inherit; font-family: var(--font-mono); font-size: var(--small); padding: 0.45rem 0.6rem; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--paper); color: var(--ink); }
+    .calc input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .calc .out { font-family: var(--font-mono); font-size: var(--small); color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; }
+    .calc-foot { display: flex; flex-wrap: wrap; gap: var(--s6); justify-content: space-between; align-items: end; padding: var(--s6); background: var(--dark); color: var(--dark-ink); }
+    .calc-foot label { display: grid; gap: var(--s1); font-size: var(--small); color: var(--dark-muted); }
+    .calc-foot input { max-width: 140px; background: var(--dark-deep) !important; color: var(--dark-ink) !important; border-color: var(--dark-rule) !important; }
+    .totals { display: flex; flex-wrap: wrap; gap: var(--s8); }
+    .totals div span { display: block; font-family: var(--font-mono); font-size: var(--label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--dark-muted); }
+    .totals div b { font-size: 1.75rem; font-weight: 500; letter-spacing: var(--track-h3); color: var(--dark-ink); font-variant-numeric: tabular-nums; }
+    .calc-label { display: none; }
+
+    /* Governance tiers */
+    .tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s4); margin-top: var(--s6); }
+    .tier { border: 1px solid var(--rule); border-radius: var(--radius); padding: var(--s6); }
+    .tier.t3 { border-color: var(--accent); }
+    .tier h4 { font-size: 1.125rem; font-weight: 500; letter-spacing: var(--track-h3); margin-top: var(--s2); }
+    .tier p, .tier li { font-size: var(--small); }
+    .tier ul { padding-left: var(--s4) !important; }
+
+    /* Exec memo */
+    .memo { margin-top: var(--s6); background: var(--paper-raised); border-radius: var(--radius); padding: var(--s8); }
+    .memo dl { display: grid; grid-template-columns: 6rem 1fr; gap: var(--s1) var(--s4); font-size: var(--small); padding-bottom: var(--s4); border-bottom: 1px solid var(--rule); }
+    .memo dt { font-family: var(--font-mono); color: var(--ink-muted); font-size: var(--label); letter-spacing: var(--track-label); text-transform: uppercase; padding-top: 0.2rem; }
+    .memo dd { color: var(--ink); }
+    .memo p, .memo li { font-size: var(--small); }
+    .memo h4 { font-size: 1rem; font-weight: 500; margin-top: var(--s6); }
+
+    @media (max-width: 900px) {
+      .matrix-grid { grid-template-columns: 1fr; }
+      .tiers { grid-template-columns: 1fr; }
+      .calc-row { grid-template-columns: 1fr 1fr; }
+      .calc-row.head { display: none; }
+      .calc-row .name { grid-column: 1 / -1; font-weight: 500; }
+      .calc-row .out { grid-column: 1 / -1; text-align: left; }
+      .calc-label { display: block; font-size: var(--label); font-family: var(--font-mono); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-muted); margin-bottom: var(--s1); }
+      .memo { padding: var(--s6); }
+      .memo dl { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <a class="nav-name" href="../index.html">Ahmed Ali Qadir<span>.</span></a>
+    <nav aria-label="Sections">
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work">Work</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-pill-sm" href="../index.html#contact">Let's talk</a>
+  </header>
+
+  <main id="main">
+
+    <div class="container study-header">
+      <p class="study-kicker">Case study · Automation strategy · Worked engagement</p>
+      <h1>From 1,900 Zaps to an automation programme</h1>
+      <p class="study-standfirst">A mid-size SaaS company had automation everywhere and a strategy nowhere.
+        This is the engagement I would run end to end: discovery and a measured baseline, a scored portfolio
+        of use cases, three orchestrations designed in Zapier, an ROI model the CFO can argue with, and a
+        governance model that lets citizen developers keep building safely.</p>
+
+      <dl class="study-facts">
+        <div>
+          <dt>Customer</dt>
+          <dd>Corvanta (fictional) — B2B SaaS, ~450 people</dd>
+        </div>
+        <div>
+          <dt>Format</dt>
+          <dd>Worked engagement, 2026</dd>
+        </div>
+        <div>
+          <dt>My role</dt>
+          <dd>Automation strategist — discovery to governance</dd>
+        </div>
+        <div>
+          <dt>Platform</dt>
+          <dd>Zapier: Zaps, Tables, Forms, Agents, AI steps, Canvas, Admin Center</dd>
+        </div>
+      </dl>
+    </div>
+
+    <article class="container study-body">
+
+      <div class="notice">
+        <p><strong>Read this first.</strong> Corvanta is an invented company and the baseline figures are
+          illustrative assumptions, chosen to be realistic for a business of its size and labelled wherever they
+          appear. What is real is the method, the scoring, the orchestration designs and the governance model —
+          the same work I would do with an actual customer, just without their data.</p>
+      </div>
+
+      <!-- ===================================================== 1 -->
+      <h2>1. The situation</h2>
+      <p>Corvanta sells project-analytics software to mid-market and enterprise teams. Three years on Zapier
+        has produced what bottom-up adoption usually produces: a lot of value and no map of it. About 140
+        people build Zaps across Sales, Customer Success, Support, Marketing, Finance and People. Nobody can say
+        which automations the business depends on, who owns them, or what they are worth.</p>
+      <p>The trigger for the engagement was a renewal conversation. The COO's question was not "should we keep
+        Zapier?" but "how do we grow 30% next year without growing headcount at the same rate — and is
+        automation part of that answer or a pile of hidden risk?" That question frames everything below.</p>
+
+      <div class="metrics wide" role="list" aria-label="Baseline at the start of the engagement (illustrative)">
+        <div class="metric" role="listitem"><b>~1,900</b><span>active Zaps, no naming standard</span></div>
+        <div class="metric" role="listitem"><b>27%</b><span>owned by deactivated or personal accounts</span></div>
+        <div class="metric" role="listitem"><b>9.5 h</b><span>median time to first touch on an inbound lead</span></div>
+        <div class="metric" role="listitem"><b>3.5 days</b><span>closed-won to onboarding kickoff, 18 manual steps</span></div>
+        <div class="metric" role="listitem"><b>22%</b><span>of churn signals reach a CSM more than 48 h late</span></div>
+      </div>
+      <p style="margin-top: var(--s3); font-size: var(--small);">Baseline figures are illustrative.</p>
+
+      <!-- ===================================================== 2 -->
+      <h2>2. Discovery: what they said vs. what they need</h2>
+      <p>Discovery ran in two tracks in the first two weeks: executive alignment with the people who own
+        outcomes, and working sessions with the people who build and live inside the workflows. Most of the
+        value came from the gap between the two.</p>
+
+      <div class="tbl-wrap wide">
+        <table class="tbl">
+          <thead>
+            <tr><th>Stakeholder</th><th>What they asked for</th><th>What they actually needed</th><th>Measure they care about</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>COO — exec sponsor</td><td>"Fewer tools, lower cost."</td><td>Cost-to-serve that does not rise with customer count.</td><td>Revenue per employee</td></tr>
+            <tr><td>CRO</td><td>"More pipeline."</td><td>The pipeline they already generate, worked faster. Leads were going cold, not missing.</td><td>Speed to lead, lead-to-meeting rate</td></tr>
+            <tr><td>VP Customer Success</td><td>"A health score."</td><td>Earlier warning on accounts already showing trouble in Support and billing data.</td><td>Gross revenue retention</td></tr>
+            <tr><td>Head of IT &amp; Security</td><td>"Lock Zapier down."</td><td>Visibility and control without killing adoption — the alternative is shadow IT elsewhere.</td><td>Ownerless assets, audit coverage</td></tr>
+            <tr><td>RevOps lead — champion</td><td>"Help."</td><td>A standard to point builders at, and air cover to retire broken Zaps.</td><td>Hours spent fixing automations</td></tr>
+            <tr><td>Citizen developers (×12 interviewed)</td><td>"Don't take it away."</td><td>A clear path from personal automation to supported team process.</td><td>Time saved, recognition</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Two findings shaped the rest of the engagement. First, the CRO's pipeline problem was a speed problem:
+        inbound leads waited in a shared inbox for an SDR manager to route them by hand. Second, the Security
+        team's instinct to lock everything down would have been the most expensive decision in the room —
+        it would have cut off the 140 people producing most of the value. The answer was tiers, not a gate.</p>
+
+      <!-- ===================================================== 3 -->
+      <h2>3. The use-case portfolio</h2>
+      <p>Every candidate automation from discovery went into one portfolio and was scored 1–5 on
+        <strong>value</strong> (hours, revenue or risk it moves), <strong>effort</strong> (build, data and
+        change-management cost) and <strong>risk</strong> (customer-facing exposure, data sensitivity, blast
+        radius if it fails). The weights are a judgement call, so they are adjustable here — the point of the
+        exercise is to make the trade-off explicit, not to hide it in a spreadsheet.</p>
+
+      <div class="wide" id="portfolio">
+        <div class="matrix-tools">
+          <div>
+            <span class="eyebrow">Team</span>
+            <div class="chips" role="group" aria-label="Filter use cases by team" id="teamChips"></div>
+          </div>
+          <label>Effort weight <output id="wEffOut">1.0</output>
+            <input type="range" id="wEff" min="0" max="2" step="0.1" value="1">
+          </label>
+          <label>Risk weight <output id="wRiskOut">0.6</output>
+            <input type="range" id="wRisk" min="0" max="2" step="0.1" value="0.6">
+          </label>
+        </div>
+
+        <div class="matrix-grid">
+          <div>
+            <svg class="matrix-svg" id="matrix" viewBox="0 0 520 440" role="img"
+                 aria-label="Use cases plotted by value (vertical) and effort (horizontal); dot size shows risk">
+            </svg>
+            <div class="legend" aria-hidden="true">
+              <span><i style="background: var(--accent)"></i>Wave 1 flagship</span>
+              <span><i style="background: var(--ink)"></i>Other use cases</span>
+              <span>Larger ring = higher risk</span>
+            </div>
+          </div>
+          <div>
+            <div class="detail" id="detail" aria-live="polite">
+              <span class="eyebrow">Select a use case</span>
+              <h4>Click a dot to see its scoring rationale</h4>
+              <p>Priority score = value − (effort × effort weight) − (risk × risk weight). The ranked list below
+                updates as you change the weights.</p>
+            </div>
+            <ol class="rank-list" id="rank" aria-label="Use cases ranked by priority score"></ol>
+          </div>
+        </div>
+      </div>
+
+      <p>At the default weights, lead routing and the Sales-to-CS handoff are clear quick wins. The at-risk early
+        warning ranks lower because it is harder and riskier — but it moves the metric the VP of Customer
+        Success is measured on, and it is the use case that shows the business what agents can do with proper
+        guardrails. So it went into wave 1 as a deliberate strategic bet, with tighter controls (section 4).
+        Renewal kickoff and dunning alerts are cheap enough that the champion's team built them in parallel.</p>
+
+      <!-- ===================================================== 4 -->
+      <h2>4. Three orchestrations</h2>
+      <p>Each flagship is designed as a system rather than a single Zap: a Zapier Table holds state and the audit
+        trail, Zaps move work between systems, AI steps handle the judgement that used to sit with a person, and a
+        human approves anything that reaches a customer. Each was mapped in Canvas first so stakeholders could
+        challenge the process before anything was built.</p>
+      <div class="legend">
+        <span><i style="background: var(--ink)"></i>Trigger</span>
+        <span><i style="background: var(--accent)"></i>AI step or agent</span>
+        <span><i style="background: #FFD84A"></i>Human in the loop</span>
+        <span><i style="background: var(--paper)"></i>Action</span>
+      </div>
+
+      <!-- Flow 1 -->
+      <section class="flow wide" aria-labelledby="f1">
+        <div class="flow-head">
+          <h3 id="f1">A. Speed-to-lead routing</h3>
+          <span class="flow-kpi">Target: median first touch 9.5 h → under 15 min</span>
+        </div>
+        <ol class="rail">
+          <li><span class="k t">T</span><b>New inbound lead</b><span class="app">HubSpot form / website</span>
+            <p>Fires on every demo request and contact-sales submission.</p></li>
+          <li><span class="k ai">AI</span><b>Enrich and classify</b><span class="app">AI by Zapier</span>
+            <p>Returns structured fields only: company size band, ICP fit (A/B/C), intent (demo, pricing, support,
+              spam) and a one-line reason. Prompt and output schema are versioned.</p></li>
+          <li><span class="k">1</span><b>Write to the Lead Ledger</b><span class="app">Zapier Tables</span>
+            <p>One row per lead with classification, owner, timestamps and SLA status — the system of record for
+              the metric.</p></li>
+          <li><span class="k">2</span><b>Route by Paths</b><span class="app">Paths · Tables lookup</span>
+            <p>Fit A → next AE in the round-robin table. Fit B/C → SDR queue. Support intent → Zendesk ticket and a
+              polite redirect. Spam → archive with reason.</p></li>
+          <li><span class="k">3</span><b>Notify the owner</b><span class="app">Slack DM · Salesforce</span>
+            <p>Lead created or updated in Salesforce with owner set; DM includes the AI summary and a one-click
+              link.</p></li>
+          <li><span class="k">4</span><b>SLA watch</b><span class="app">Delay · Filter</span>
+            <p>After 15 minutes, check the ledger. If untouched, escalate to the team channel and reassign.</p></li>
+        </ol>
+        <div class="guard">
+          <p><strong>Guardrails.</strong> The AI step never sends anything to the prospect. Low-confidence
+            classifications default to the SDR queue rather than guessing. Weekly sample of 20 classifications
+            reviewed by the SDR manager for drift.</p>
+        </div>
+      </section>
+
+      <!-- Flow 2 -->
+      <section class="flow wide" aria-labelledby="f2">
+        <div class="flow-head">
+          <h3 id="f2">B. Sales-to-CS handoff</h3>
+          <span class="flow-kpi">Target: 3.5 days → same day; 18 manual steps → 3</span>
+        </div>
+        <ol class="rail">
+          <li><span class="k t">T</span><b>Opportunity moves to Closed Won</b><span class="app">Salesforce</span>
+            <p>Filtered to new-logo deals; expansions follow a lighter path.</p></li>
+          <li><span class="k">1</span><b>Create the onboarding record</b><span class="app">Zapier Tables</span>
+            <p>Account, ARR band, products, contacts and promised go-live date — the single place CS, Finance and
+              the AE look at.</p></li>
+          <li><span class="k ai">AI</span><b>Draft the handoff brief</b><span class="app">AI by Zapier</span>
+            <p>From opportunity notes and the last call summary: goals in the customer's words, success criteria,
+              risks, stakeholders, anything promised in the sales cycle.</p></li>
+          <li><span class="k h">H</span><b>AE approves the brief</b><span class="app">Human in the loop</span>
+            <p>The AE corrects or approves in one step. Nothing goes to the customer from an unapproved brief.</p></li>
+          <li><span class="k">2</span><b>Assign a CSM</b><span class="app">Tables lookup</span>
+            <p>By segment and current CSM load, not by whoever is free in Slack.</p></li>
+          <li><span class="k">3</span><b>Spin up the workspace</b><span class="app">Asana · Slack · Gmail</span>
+            <p>Project from template, shared Slack channel, kickoff email drafted for the CSM to send.</p></li>
+        </ol>
+        <div class="guard">
+          <p><strong>Guardrails.</strong> Customer-facing email is drafted, never sent automatically. The brief is
+            stored with the approver's name, so the handoff is attributable.</p>
+        </div>
+      </section>
+
+      <!-- Flow 3 -->
+      <section class="flow wide" aria-labelledby="f3">
+        <div class="flow-head">
+          <h3 id="f3">C. At-risk account early warning</h3>
+          <span class="flow-kpi">Target: late churn signals 22% → under 5%</span>
+        </div>
+        <ol class="rail">
+          <li><span class="k t">T</span><b>Daily schedule</b><span class="app">Schedule by Zapier</span>
+            <p>Runs each weekday before the CS stand-up.</p></li>
+          <li><span class="k">1</span><b>Collect signals</b><span class="app">Zendesk · Stripe · warehouse webhook</span>
+            <p>Ticket volume and sentiment spikes, failed payments, and a weekly-active-users drop sent from the
+              data warehouse into a Health Signals table.</p></li>
+          <li><span class="k ai">AG</span><b>Agent assesses each flagged account</b><span class="app">Zapier Agents</span>
+            <p>Reads the signals and the account's Salesforce record, scores risk with a stated reason, and picks a
+              recommended play from the CS playbook stored in Tables.</p></li>
+          <li><span class="k">2</span><b>Post the digest</b><span class="app">Slack</span>
+            <p>One message per CSM: their at-risk accounts, why, and the suggested play.</p></li>
+          <li><span class="k h">H</span><b>CSM decides</b><span class="app">Human in the loop</span>
+            <p>Accept, adjust or dismiss — and the decision is written back so the scoring can be tuned.</p></li>
+        </ol>
+        <div class="guard">
+          <p><strong>Guardrails.</strong> The agent is read-only on Salesforce, enforced with Enterprise action
+            restrictions rather than prompt instructions. It recommends, it does not act. Dismissal reasons feed a
+            monthly review of false positives with the VP of Customer Success.</p>
+        </div>
+      </section>
+
+      <!-- Build evidence slot: uncomment and add screenshots once the Zaps are built.
+      <h3>Built in Zapier</h3>
+      <p>Screenshots of the three orchestrations as built and tested.</p>
+      -->
+
+      <!-- ===================================================== 5 -->
+      <h2>5. The ROI model</h2>
+      <p>The model counts only time returned to people, because that is the number a finance team will accept
+        without a fight. Every input is an assumption, so every input is editable. Revenue upside from faster
+        lead response and retained accounts from earlier warning is real but deliberately left out — it goes in
+        the executive briefing as upside, not in the base case.</p>
+
+      <div class="calc wide" id="calc">
+        <div class="calc-row head" aria-hidden="true">
+          <span>Use case</span><span>Volume / month</span><span>Minutes saved each</span><span>Adoption %</span><span style="text-align:right">Hours / month</span>
+        </div>
+        <div class="calc-row" data-row>
+          <span class="name">A. Lead triage and routing <br><small>per inbound lead</small></span>
+          <label><span class="calc-label">Volume / month</span><input type="number" min="0" step="10" value="1400" aria-label="Lead routing: leads per month"></label>
+          <label><span class="calc-label">Minutes saved each</span><input type="number" min="0" step="1" value="6" aria-label="Lead routing: minutes saved per lead"></label>
+          <label><span class="calc-label">Adoption %</span><input type="number" min="0" max="100" step="5" value="90" aria-label="Lead routing: adoption percent"></label>
+          <span class="out" data-out>—</span>
+        </div>
+        <div class="calc-row" data-row>
+          <span class="name">B. Sales-to-CS handoff <br><small>per new-logo deal</small></span>
+          <label><span class="calc-label">Volume / month</span><input type="number" min="0" step="5" value="85" aria-label="Handoff: deals per month"></label>
+          <label><span class="calc-label">Minutes saved each</span><input type="number" min="0" step="5" value="135" aria-label="Handoff: minutes saved per deal"></label>
+          <label><span class="calc-label">Adoption %</span><input type="number" min="0" max="100" step="5" value="85" aria-label="Handoff: adoption percent"></label>
+          <span class="out" data-out>—</span>
+        </div>
+        <div class="calc-row" data-row>
+          <span class="name">C. Account health review <br><small>per CSM weekly review (40 CSMs)</small></span>
+          <label><span class="calc-label">Volume / month</span><input type="number" min="0" step="10" value="160" aria-label="Health review: reviews per month"></label>
+          <label><span class="calc-label">Minutes saved each</span><input type="number" min="0" step="5" value="72" aria-label="Health review: minutes saved per review"></label>
+          <label><span class="calc-label">Adoption %</span><input type="number" min="0" max="100" step="5" value="80" aria-label="Health review: adoption percent"></label>
+          <span class="out" data-out>—</span>
+        </div>
+        <div class="calc-foot">
+          <label>Loaded cost per hour (USD)
+            <input type="number" id="rate" min="0" step="5" value="55" aria-label="Loaded cost per hour in US dollars">
+          </label>
+          <div class="totals" aria-live="polite">
+            <div><span>Hours / month</span><b id="tH">—</b></div>
+            <div><span>Annual value</span><b id="tV">—</b></div>
+            <div><span>FTE equivalent</span><b id="tF">—</b></div>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top: var(--s3); font-size: var(--small);">Hours = volume × minutes saved × adoption ÷ 60.
+        Annual value = hours × 12 × loaded cost. FTE assumes 1,800 working hours a year. All defaults are
+        illustrative.</p>
+
+      <p>At the defaults, wave 1 returns about 442 hours a month — close to three people's time — worth roughly
+        $292,000 a year before any revenue effect. The more useful output is the sensitivity: halve adoption and
+        the case still clears the bar, which tells the sponsor that change management, not the build, is where
+        the risk sits.</p>
+
+      <!-- ===================================================== 6 -->
+      <h2>6. Governance: tiers, not a gate</h2>
+      <p>The governance model protects the business-critical automations without slowing down the people who
+        create most of the value. Every Zap lives in one of three tiers, and the controls scale with the tier.
+        Each control maps to a feature that Zapier Enterprise already provides, so this is configuration and
+        habit, not new tooling.</p>
+
+      <div class="tiers wide">
+        <div class="tier">
+          <span class="eyebrow">Tier 1</span>
+          <h4>Personal productivity</h4>
+          <p>Anyone, self-serve. Approved apps only.</p>
+          <ul>
+            <li>App access controls define the approved list</li>
+            <li>Domain restrictions block personal accounts on business apps</li>
+            <li>No review needed</li>
+          </ul>
+        </div>
+        <div class="tier">
+          <span class="eyebrow">Tier 2</span>
+          <h4>Team process</h4>
+          <p>A team depends on it. Owner and backup owner required.</p>
+          <ul>
+            <li>Naming standard and shared team folder</li>
+            <li>Shared app connections, not personal ones</li>
+            <li>Error alerts routed to a team channel</li>
+          </ul>
+        </div>
+        <div class="tier t3">
+          <span class="eyebrow">Tier 3</span>
+          <h4>Business-critical</h4>
+          <p>Revenue, customers or regulated data. Reviewed before launch.</p>
+          <ul>
+            <li>Managed app connections owned by IT</li>
+            <li>Action restrictions on what AI and agents can write</li>
+            <li>Audit log streamed to the SIEM; documented runbook</li>
+          </ul>
+        </div>
+      </div>
+
+      <p>Naming standard: <code>TEAM · Process · Trigger → Outcome · Tier</code>, for example
+        <code>CS · Onboarding · ClosedWon → Workspace · T3</code>. A Zap's name should tell an admin who to call
+        and how worried to be.</p>
+      <p>The first governance sprint is remediation, not policy: reassign or retire the 27% of Zaps on
+        deactivated or personal accounts, starting with anything touching Salesforce, billing or customer email.
+        Nothing builds trust in a governance programme like fixing the thing that was quietly about to break.</p>
+
+      <!-- ===================================================== 7 -->
+      <h2>7. Rollout and the signals I would watch</h2>
+      <div class="tbl-wrap wide">
+        <table class="tbl">
+          <thead><tr><th>Window</th><th>Deliver</th><th>Prove</th></tr></thead>
+          <tbody>
+            <tr><td>Days 0–30</td><td>Baseline captured. Lead routing live. Ownerless-Zap remediation. Tiers and naming standard published.</td><td>Median first touch on inbound leads; ownerless Tier 2/3 Zaps at zero.</td></tr>
+            <tr><td>Days 31–60</td><td>Handoff live with AE approval step. Builder office hours and a template library for Tier 2.</td><td>Closed-won to kickoff time; percentage of new Zaps that follow the naming standard.</td></tr>
+            <tr><td>Days 61–90</td><td>Early-warning agent in pilot with one CS pod, then all pods. Quarterly business review with the COO.</td><td>Late-signal rate; CSM accept-or-dismiss ratio; realised hours against the model.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Between reviews I would watch the account signals that predict whether the programme is healthy or
+        stalling: active builders month on month, the share of task usage running through Tier 2 and 3 Zaps,
+        error rates on business-critical Zaps, and how many new use cases arrive through the intake form rather
+        than through a crisis. Rising builders with falling errors means the programme is maturing; rising
+        errors on Tier 3 means stop and fix before expanding.</p>
+
+      <!-- ===================================================== 8 -->
+      <h2>8. The executive briefing</h2>
+      <p>The output for the sponsor is one page, written to be read in two minutes and decided on in five.</p>
+
+      <div class="memo wide">
+        <dl>
+          <dt>To</dt><dd>COO, Corvanta</dd>
+          <dt>Re</dt><dd>Automation programme — 90-day plan and decision needed</dd>
+        </dl>
+        <h4>The short version</h4>
+        <p>Corvanta already runs on automation; it just isn't managed as an asset. Three orchestrations return
+          about 440 hours a month — roughly three people's time — and cut lead response from hours to minutes.
+          A tiered governance model removes the risk sitting in 500 unowned Zaps without slowing the 140 people
+          who build them.</p>
+        <h4>Decisions needed</h4>
+        <ul>
+          <li>Approve the three-tier governance model and the naming standard.</li>
+          <li>Name a Tier 3 reviewer in IT and give RevOps the authority to retire ownerless Zaps.</li>
+          <li>Agree that the base case counts time saved only, with revenue upside tracked separately.</li>
+        </ul>
+        <h4>Upside not in the base case</h4>
+        <p>Faster lead response typically lifts lead-to-meeting conversion, and earlier churn warning protects
+          renewals. Both are tracked from day one, and reported once there is a quarter of data.</p>
+      </div>
+
+      <!-- ===================================================== 9 -->
+      <h2>9. How I used AI on this</h2>
+      <p>I built this with Claude as a collaborator, and I think how that went is as relevant as the output.</p>
+      <ul>
+        <li><strong>Brief and direction — me.</strong> I chose the target (an automation strategist role), the
+          scenario (a mid-size SaaS customer, closest to the businesses that buy Zapier Enterprise) and the rule
+          that the Zaps get built in Zapier by me, not just drawn.</li>
+        <li><strong>Research — Claude, checkable.</strong> Claude gathered Zapier's current product line and
+          Enterprise controls. Every control named in section 6 appears on Zapier's own
+          <a href="https://zapier.com/pricing" target="_blank" rel="noopener noreferrer">pricing</a> and
+          <a href="https://zapier.com/govern" target="_blank" rel="noopener noreferrer">governance</a> pages.</li>
+        <li><strong>First draft — Claude.</strong> The scoring rubric, the three flow designs, the ROI model and
+          this page started as Claude drafts. Claude also proposed labelling the customer as fictional rather
+          than dressing a hypothetical up as a real client, and I kept that: a strategy case study is only worth
+          reading if you can trust what it claims.</li>
+        <li><strong>The bar.</strong> Every number is either labelled as an assumption or recalculated in code,
+          and the ROI base case counts time saved only — the conservative case is the one that survives a
+          finance review.</li>
+      </ul>
+
+      <h2>What this shows</h2>
+      <p>Automation strategy is mostly not about automation. It is discovering what a customer needs underneath
+        what they ask for, making trade-offs visible, measuring the before so the after means something, and
+        designing controls that let more people build rather than fewer. The Zaps are the easy part.</p>
+
+      <nav class="study-nav" aria-label="More">
+        <a href="../index.html#work">← Back to work</a>
+        <a href="salesforce-duplicate-cases.html">Next case study: the duplicate-case defect →</a>
+        <a href="../index.html#contact">Get in touch →</a>
+      </nav>
+
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Ahmed Ali Qadir</p>
+      <p><a href="../index.html">ahmedaliqadir.github.io</a></p>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    /* ---------- Use-case portfolio ---------- */
+    var UC = [
+      { id: 'lead', name: 'Inbound lead triage and routing', team: 'Sales', v: 5, e: 2, r: 2, flag: true,
+        why: 'Leads wait hours in a shared inbox. High volume, clear rules, and the CRO measures speed to lead directly.' },
+      { id: 'handoff', name: 'Sales-to-CS handoff', team: 'CS', v: 5, e: 3, r: 2, flag: true,
+        why: '18 manual steps across three teams; promises made in the sales cycle get lost. Touches every new customer.' },
+      { id: 'health', name: 'At-risk account early warning (agent)', team: 'CS', v: 5, e: 4, r: 3, flag: true,
+        why: 'Moves gross retention, the VP of CS\'s number. Harder and riskier, so it runs read-only with a human decision.' },
+      { id: 'renew', name: 'Renewal 120-day kickoff', team: 'CS', v: 4, e: 2, r: 1,
+        why: 'Renewals start too late. A simple date-based trigger with a task and a brief — built by the champion\'s team.' },
+      { id: 'ticket', name: 'Support ticket AI triage and tagging', team: 'Support', v: 4, e: 3, r: 3,
+        why: 'Real value, but tagging feeds reporting, so accuracy needs a validation period first. Wave 2.' },
+      { id: 'notes', name: 'Meeting notes to CRM update', team: 'Sales', v: 3, e: 2, r: 2,
+        why: 'Saves reps time and improves data quality, but overlaps with the conversation-intelligence tool already in place.' },
+      { id: 'dunning', name: 'Failed payment alerts to account owner', team: 'Finance', v: 3, e: 1, r: 1,
+        why: 'Tiny build, immediate value, and it also feeds the early-warning signals. Quick win.' },
+      { id: 'it', name: 'New-hire IT provisioning', team: 'People', v: 4, e: 4, r: 4,
+        why: 'Valuable but touches identity and access. Needs IT ownership and SCIM alignment before automation.' },
+      { id: 'content', name: 'Content repurposing pipeline', team: 'Marketing', v: 2, e: 2, r: 1,
+        why: 'Nice to have. Low risk, but it does not move a metric any executive named in discovery.' },
+      { id: 'webinar', name: 'Webinar attendee follow-up', team: 'Marketing', v: 3, e: 1, r: 1,
+        why: 'Template-level build. Good first project for a Tier 2 builder in Marketing.' },
+      { id: 'feature', name: 'Feature requests to product board', team: 'CS', v: 3, e: 2, r: 1,
+        why: 'Gives Product a structured feed instead of Slack screenshots. Useful insight loop.' },
+      { id: 'legal', name: 'Contract redline routing', team: 'Legal', v: 3, e: 4, r: 4,
+        why: 'Sensitive documents and low volume. Deprioritised until Tier 3 review is running smoothly.' }
+    ];
+
+    var svg = document.getElementById('matrix');
+    var rank = document.getElementById('rank');
+    var detail = document.getElementById('detail');
+    var chipsEl = document.getElementById('teamChips');
+    var wEff = document.getElementById('wEff'), wRisk = document.getElementById('wRisk');
+    var team = 'All', selected = null;
+    var NS = 'http://www.w3.org/2000/svg';
+
+    function score(u) { return u.v - u.e * parseFloat(wEff.value) - u.r * parseFloat(wRisk.value); }
+    function visible(u) { return team === 'All' || u.team === team; }
+    function el(tag, attrs, text) {
+      var n = document.createElementNS(NS, tag);
+      for (var k in attrs) n.setAttribute(k, attrs[k]);
+      if (text != null) n.textContent = text;
+      return n;
+    }
+
+    // Plot area: effort 1..5 on x, value 1..5 on y.
+    var L = 56, R = 500, T = 24, B = 384;
+    function x(e) { return L + (e - 0.5) / 5 * (R - L); }
+    function y(v) { return B - (v - 0.5) / 5 * (B - T); }
+
+    function drawFrame() {
+      svg.innerHTML = '';
+      var midX = x(3), midY = y(3);
+      svg.appendChild(el('rect', { x: L, y: T, width: midX - L, height: midY - T, fill: 'rgba(91,68,196,0.06)' }));
+      var labels = [
+        [L + 8, T + 18, 'QUICK WINS'], [midX + 8, T + 18, 'STRATEGIC BETS'],
+        [L + 8, B - 10, 'FILL-INS'], [midX + 8, B - 10, 'DEPRIORITISE']
+      ];
+      labels.forEach(function (l) { svg.appendChild(el('text', { x: l[0], y: l[1], 'font-size': 10, fill: '#56506A', 'letter-spacing': '1' }, l[2])); });
+      svg.appendChild(el('line', { x1: midX, y1: T, x2: midX, y2: B, stroke: 'rgba(20,18,27,0.18)', 'stroke-dasharray': '4 4' }));
+      svg.appendChild(el('line', { x1: L, y1: midY, x2: R, y2: midY, stroke: 'rgba(20,18,27,0.18)', 'stroke-dasharray': '4 4' }));
+      svg.appendChild(el('rect', { x: L, y: T, width: R - L, height: B - T, fill: 'none', stroke: 'rgba(20,18,27,0.22)' }));
+      for (var i = 1; i <= 5; i++) {
+        svg.appendChild(el('text', { x: x(i), y: B + 18, 'font-size': 11, 'text-anchor': 'middle', fill: '#56506A' }, i));
+        svg.appendChild(el('text', { x: L - 12, y: y(i) + 4, 'font-size': 11, 'text-anchor': 'end', fill: '#56506A' }, i));
+      }
+      svg.appendChild(el('text', { x: (L + R) / 2, y: B + 44, 'font-size': 11, 'text-anchor': 'middle', fill: '#14121B', 'letter-spacing': '1' }, 'EFFORT →'));
+      var yl = el('text', { x: 16, y: (T + B) / 2, 'font-size': 11, 'text-anchor': 'middle', fill: '#14121B', 'letter-spacing': '1', transform: 'rotate(-90 16 ' + (T + B) / 2 + ')' }, 'VALUE →');
+      svg.appendChild(yl);
+    }
+
+    function render() {
+      drawFrame();
+      // Spread dots that share a cell so they do not overlap.
+      var cells = {};
+      UC.forEach(function (u) { var k = u.e + ',' + u.v; (cells[k] = cells[k] || []).push(u); });
+      Object.keys(cells).forEach(function (k) {
+        var group = cells[k], n = group.length;
+        group.forEach(function (u, i) {
+          var off = n > 1 ? (i - (n - 1) / 2) * 22 : 0;
+          var cx = x(u.e) + off, cy = y(u.v);
+          var g = el('g', { class: 'dot' + (selected === u.id ? ' is-sel' : ''), tabindex: visible(u) ? 0 : -1, role: 'button',
+            'aria-label': u.name + ': value ' + u.v + ', effort ' + u.e + ', risk ' + u.r });
+          g.style.opacity = visible(u) ? 1 : 0.15;
+          g.appendChild(el('circle', { cx: cx, cy: cy, r: 7 + u.r * 2.4, fill: 'none', stroke: u.flag ? '#5B44C4' : '#14121B', 'stroke-opacity': 0.35 }));
+          g.appendChild(el('circle', { class: 'core', cx: cx, cy: cy, r: 7, fill: u.flag ? '#5B44C4' : '#14121B' }));
+          g.addEventListener('click', function () { select(u.id); });
+          g.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); select(u.id); } });
+          svg.appendChild(g);
+        });
+      });
+
+      var list = UC.filter(visible).slice().sort(function (a, b) { return score(b) - score(a); });
+      rank.innerHTML = '';
+      list.forEach(function (u) {
+        var li = document.createElement('li');
+        var name = document.createElement('span');
+        name.textContent = u.name;
+        if (u.flag) { var t = document.createElement('span'); t.className = 'tag'; t.textContent = 'Wave 1'; name.appendChild(t); }
+        var sc = document.createElement('span'); sc.className = 'sc'; sc.textContent = score(u).toFixed(1);
+        li.appendChild(name); li.appendChild(sc);
+        rank.appendChild(li);
+      });
+      if (selected) showDetail(UC.filter(function (u) { return u.id === selected; })[0]);
+    }
+
+    function showDetail(u) {
+      detail.innerHTML = '';
+      var eb = document.createElement('span'); eb.className = 'eyebrow'; eb.textContent = u.team + (u.flag ? ' · Wave 1 flagship' : '');
+      var h = document.createElement('h4'); h.textContent = u.name;
+      var s = document.createElement('div'); s.className = 'scores';
+      s.textContent = 'Value ' + u.v + '  ·  Effort ' + u.e + '  ·  Risk ' + u.r + '  ·  Score ' + score(u).toFixed(1);
+      var p = document.createElement('p'); p.textContent = u.why;
+      detail.appendChild(eb); detail.appendChild(h); detail.appendChild(s); detail.appendChild(p);
+    }
+    function select(id) { selected = id; render(); }
+
+    var teams = ['All'].concat(UC.map(function (u) { return u.team; }).filter(function (t, i, a) { return a.indexOf(t) === i; }));
+    teams.forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip-btn'; b.textContent = t;
+      b.setAttribute('aria-pressed', t === team ? 'true' : 'false');
+      b.addEventListener('click', function () {
+        team = t;
+        Array.prototype.forEach.call(chipsEl.children, function (c) { c.setAttribute('aria-pressed', c.textContent === t ? 'true' : 'false'); });
+        render();
+      });
+      chipsEl.appendChild(b);
+    });
+    function syncW() {
+      document.getElementById('wEffOut').textContent = parseFloat(wEff.value).toFixed(1);
+      document.getElementById('wRiskOut').textContent = parseFloat(wRisk.value).toFixed(1);
+      render();
+    }
+    wEff.addEventListener('input', syncW); wRisk.addEventListener('input', syncW);
+    render();
+
+    /* ---------- ROI calculator ---------- */
+    var rows = document.querySelectorAll('[data-row]');
+    var rate = document.getElementById('rate');
+    var fmt0 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+    var money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+    function num(i) { var n = parseFloat(i.value); return isFinite(n) && n > 0 ? n : 0; }
+    function calc() {
+      var total = 0;
+      Array.prototype.forEach.call(rows, function (row) {
+        var ins = row.querySelectorAll('input');
+        var h = num(ins[0]) * num(ins[1]) * Math.min(num(ins[2]), 100) / 100 / 60;
+        total += h;
+        row.querySelector('[data-out]').textContent = fmt0.format(h) + ' h';
+      });
+      document.getElementById('tH').textContent = fmt0.format(total);
+      document.getElementById('tV').textContent = money.format(total * 12 * num(rate));
+      document.getElementById('tF').textContent = (total * 12 / 1800).toFixed(1);
+    }
+    document.getElementById('calc').addEventListener('input', calc);
+    calc();
+  })();
+  </script>
+
+</body>
+</html>
